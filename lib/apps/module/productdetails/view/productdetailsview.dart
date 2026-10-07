@@ -706,8 +706,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                       SizedBox(width: 12.w),
                                       Expanded(
                                         child: AnimatedButton(
-                                          onTap: () {
-                                          },
+                                          onTap:controller.addToCart,
                                           child: Container(
                                             height: 40.h,
                                             decoration: BoxDecoration(

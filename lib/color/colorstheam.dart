@@ -17,6 +17,7 @@ class Colorstheam {
   static const Color platinium = Color(0xFFEBEBEB);
   static const Color alabastergrey = Color(0xFFD9D9D9);
   static const Color red  = Color(0xFFFF0000);
+  static const Color seagreen = Color(0xFF0C8548);
   //sucess
   static const Color green = Color(0xFF24887C);
   // Error

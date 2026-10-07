@@ -16,6 +16,11 @@ import 'package:maliaextention/apps/module/Authentication/prostylistreg/bindings
 import 'package:maliaextention/apps/module/Authentication/prostylistreg/view/prostyleregview.dart';
 import 'package:maliaextention/apps/module/Authentication/resetpassword/bindings/resetpasswordbinding.dart';
 import 'package:maliaextention/apps/module/Authentication/resetpassword/view/resetpasswordview.dart';
+import 'package:maliaextention/apps/module/CustomerAddress/addresslist/bindings/addresslistbinding.dart';
+import 'package:maliaextention/apps/module/CustomerAddress/addresslist/controller/addresslistcontroller.dart';
+import 'package:maliaextention/apps/module/CustomerAddress/addresslist/view/addresslistview.dart';
+import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/bindings/saveaddressbinding.dart';
+import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/view/saveaddressview.dart';
 import 'package:maliaextention/apps/module/InPerson/bindings/inpersonbinding.dart';
 import 'package:maliaextention/apps/module/InPerson/view/inpersonview.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/bindings/bottomnavigationbinding.dart';
@@ -36,6 +41,11 @@ import 'package:maliaextention/apps/module/onlinetraining/bindings/onlinetrainin
 import 'package:maliaextention/apps/module/onlinetraining/view/onlinetrainingview.dart';
 import 'package:maliaextention/apps/module/onlinetrainingviewclass/bindings/onlinetrainingviewclassbinding.dart';
 import 'package:maliaextention/apps/module/onlinetrainingviewclass/view/onlinetrainingviewclass.dart';
+import 'package:maliaextention/apps/module/orderhistory/bindings/orderhistorybinding.dart';
+import 'package:maliaextention/apps/module/orderhistory/view/orderhistoryview.dart';
+import 'package:maliaextention/apps/module/orderplace/bindings/orderplacebinding.dart';
+import 'package:maliaextention/apps/module/orderplace/controller/orderplacecontroller.dart';
+import 'package:maliaextention/apps/module/orderplace/view/orderplaceview.dart';
 import 'package:maliaextention/apps/module/productdetails/bindings/productdetailsbinding.dart';
 import 'package:maliaextention/apps/module/productdetails/view/productdetailsview.dart';
 import 'package:maliaextention/apps/module/profile/bindings/profilebinding.dart';
@@ -48,6 +58,8 @@ import 'package:maliaextention/apps/module/viewcart/bindings/viewcartbinding.dar
 import 'package:maliaextention/apps/module/viewcart/view/viewcart.dart';
 import 'package:maliaextention/apps/module/viewclass/bindings/viewclassbinding.dart';
 import 'package:maliaextention/apps/module/viewclass/view/viewclass.dart';
+import 'package:maliaextention/apps/module/vieworder/bindings/vieworderbinding.dart';
+import 'package:maliaextention/apps/module/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/wishlist/bindings/wishlistbinding.dart';
 import 'package:maliaextention/apps/module/wishlist/view/wishlistview.dart';
 part 'app_routes.dart';
@@ -228,6 +240,41 @@ class AppPages {
         name: _Paths.VIEWCART,
         page: () => Viewcart(),
         binding: Viewcartbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.ADDRESSLIST,
+        page: () => Addresslistview(),
+        binding: Addresslistbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.SAVEADDRESS,
+        page: () => Saveaddressview(),
+        binding: Saveaddressbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.ORDERPLACE,
+        page: () => Orderplaceview(),
+        binding: Orderplacebinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.ORDERHISTORY,
+        page: () => Orderhistoryview(),
+        binding: Orderhistorybinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.VIEWORDER,
+        page: () => Vieworder(),
+        binding: Vieworderbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),

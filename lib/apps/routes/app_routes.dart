@@ -31,7 +31,11 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const WISHLIST = _Paths.WISHLIST;
   static const VIEWCART = _Paths.VIEWCART;
-
+  static const ADDRESSLIST = _Paths.ADDRESSLIST;
+  static const SAVEADDRESS = _Paths.SAVEADDRESS;
+  static const ORDERPLACE = _Paths.ORDERPLACE;
+  static const ORDERHISTORY = _Paths.ORDERHISTORY;
+  static const VIEWORDER = _Paths.VIEWORDER;
 }
 
 abstract class _Paths {
@@ -62,5 +66,10 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const WISHLIST = '/wishlist';
   static const VIEWCART = '/viewcart';
+  static const ADDRESSLIST = '/addresslist';
+  static const SAVEADDRESS = '/saveaddress';
+  static const ORDERPLACE = '/orderplace';
+  static const ORDERHISTORY = '/orderhistory';
+  static const VIEWORDER = '/vieworder';
 
 }

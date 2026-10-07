@@ -75,5 +75,17 @@ class Apptext {
   static const wishlisttitle ="Wishlist";
   static const wishlistemptytitle = "Your wishlist is empty!";
   static const wishlistemptysubtitle = "Explore more and shortlist some items";
-
+  //Users/thevisiontech/AndroidStudioProjects/maliaextention/lib/apps/module/viewcart/view/viewcart.dart
+  static const viewcarttitle = "View Cart";
+  static const deliveryto = "Deliver to:";
+  static const btn = "Change";
+  static const addnewaddress = "Add a New Address";
+  ///Users/thevisiontech/AndroidStudioProjects/maliaextention/lib/apps/module/CustomerAddress/addresslist/view/addresslistview.dart
+  static const addresstitle = "Address";
+  static const selectanaddress = "Select an address";
+  static const addnewaddress1 = "Add New Address";
+  //lib/apps/module/orderplace/view/orderplaceview.dart
+  static const orderplacedtitle = "Order Placed";
+  //lib/apps/module/orderhistory/view/orderhistoryview.dart
+  static const orderhistorytitle = "Order History";
 }

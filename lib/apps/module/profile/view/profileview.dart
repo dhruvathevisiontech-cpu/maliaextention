@@ -234,35 +234,42 @@ class Profileview extends GetView<Profilecontroller> {
                           color: Colorstheam.clusterwhite,
                         ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 20.h,
-                              width: 20.w,
-                              child: SvgPicture.asset(
-                                "asset/svg/orders.svg",
-                                height:  16.h,
-                                width: 16.w,
-                                color: Colorstheam.nobelblack,
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.orderhistory;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/orders.svg",
+                                  height:  16.h,
+                                  width: 16.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              "Orders",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontFamily: "DMSans",
-                                color: Colorstheam.black,
-                                fontWeight: FontWeight.w600,
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Orders",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -271,35 +278,42 @@ class Profileview extends GetView<Profilecontroller> {
                           color: Colorstheam.clusterwhite,
                         ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 20.h,
-                              width: 20.w,
-                              child: SvgPicture.asset(
-                                "asset/svg/address.svg",
-                                height: 16.h,
-                                width: 16.w,
-                                color: Colorstheam.nobelblack,
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.addresslist;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/address.svg",
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              "Address",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontFamily: "DMSans",
-                                color: Colorstheam.black,
-                                fontWeight: FontWeight.w600,
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Address",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
