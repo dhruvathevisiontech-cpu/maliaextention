@@ -1,40 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/addresslist/controller/addresslistcontroller.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/addresslist/view/addresslistview.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/controller/saveaddresscontroller.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/view/saveaddressview.dart';
-import 'package:maliaextention/apps/module/InPerson/controller/inpersoncontroller.dart';
-import 'package:maliaextention/apps/module/InPerson/view/inpersonview.dart';
-import 'package:maliaextention/apps/module/collection/controller/collectioncontroller.dart';
-import 'package:maliaextention/apps/module/collection/view/collectionview.dart';
-import 'package:maliaextention/apps/module/collectionlist/controller/collectionlistcontroller.dart';
-import 'package:maliaextention/apps/module/collectionlist/view/collectionlistview.dart';
-import 'package:maliaextention/apps/module/education/controller/educationcontroller.dart';
-import 'package:maliaextention/apps/module/education/view/educationview.dart';
-import 'package:maliaextention/apps/module/homescreen/view/homeview.dart';
-import 'package:maliaextention/apps/module/hostclass/controller/hostclasscontroller.dart';
-import 'package:maliaextention/apps/module/hostclass/view/hostclassview.dart';
-import 'package:maliaextention/apps/module/onlinetraining/controller/onlinetrainingcontroller.dart';
-import 'package:maliaextention/apps/module/onlinetraining/view/onlinetrainingview.dart';
-import 'package:maliaextention/apps/module/onlinetrainingviewclass/controller/onlinetrainingviewclasscontroller.dart';
-import 'package:maliaextention/apps/module/onlinetrainingviewclass/view/onlinetrainingviewclass.dart';
-import 'package:maliaextention/apps/module/orderhistory/controller/orderhistorycontroller.dart';
-import 'package:maliaextention/apps/module/orderhistory/view/orderhistoryview.dart';
-import 'package:maliaextention/apps/module/orderplace/controller/orderplacecontroller.dart';
-import 'package:maliaextention/apps/module/orderplace/view/orderplaceview.dart';
-import 'package:maliaextention/apps/module/productdetails/controller/productdetailscontroller.dart';
-import 'package:maliaextention/apps/module/productdetails/view/productdetailsview.dart';
-import 'package:maliaextention/apps/module/profile/controller/profilecontroller.dart';
-import 'package:maliaextention/apps/module/profile/view/profileview.dart';
-import 'package:maliaextention/apps/module/search/view/searchview.dart';
-import 'package:maliaextention/apps/module/viewcart/controller/viewcartcontroller.dart';
-import 'package:maliaextention/apps/module/viewcart/view/viewcart.dart';
-import 'package:maliaextention/apps/module/viewclass/controller/viewclasscontroller.dart';
-import 'package:maliaextention/apps/module/viewclass/view/viewclass.dart';
-import 'package:maliaextention/apps/module/wishlist/view/wishlistview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collection/controller/collectioncontroller.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collection/view/collectionview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/controller/collectionlistcontroller.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/view/collectionlistview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/filter/controller/filtercontroller.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/filter/view/filterview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/productdetails/controller/productdetailscontroller.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/productdetails/view/productdetailsview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/InPerson/controller/inpersoncontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/InPerson/view/inpersonview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/education/controller/educationcontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/education/view/educationview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/hostclass/controller/hostclasscontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/hostclass/view/hostclassview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetraining/controller/onlinetrainingcontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetraining/view/onlinetrainingview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetrainingviewclass/controller/onlinetrainingviewclasscontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetrainingviewclass/view/onlinetrainingviewclass.dart';
+import 'package:maliaextention/apps/module/EducationScreen/viewclass/controller/viewclasscontroller.dart';
+import 'package:maliaextention/apps/module/EducationScreen/viewclass/view/viewclass.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/homescreen/view/homeview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/orderplace/controller/orderplacecontroller.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/orderplace/view/orderplaceview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/viewcartcontroller.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/addresslist/controller/addresslistcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/contactus/controller/contactuscontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/controller/orderhistorycontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profile/controller/profilecontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profile/view/profileview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/controller/salonlocatorcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/view/salonlocatorview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/controller/saveaddresscontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/view/saveaddressview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/viewordercontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
+import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus}
 enum NavigationSource {
   productList,
   settings,
@@ -93,6 +101,13 @@ class Bottomnavigationcontroller extends GetxController {
         }
 
         return Productdetailsview();
+
+      case PageType.filter:
+        if (!Get.isRegistered<Filtercontroller>()) {
+          Get.put(Filtercontroller());
+        }
+
+        return Filterview();
 
       case PageType.collection:
       default:
@@ -162,6 +177,24 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Orderhistorycontroller());
         }
         return Orderhistoryview();
+
+      case PageType.salonlocator:
+        if (!Get.isRegistered<Salonlocatorcontroller>()) {
+          Get.put(Salonlocatorcontroller());
+        }
+        return Salonlocatorview();
+
+      case PageType.contactus:
+        if (!Get.isRegistered<Contactuscontroller>()) {
+          Get.put(Contactuscontroller());
+        }
+        return Contactusview();
+
+      case PageType.vieworder:
+        if (!Get.isRegistered<Viewordercontroller>()) {
+          Get.put(Viewordercontroller());
+        }
+        return Vieworder();
 
       case PageType.profile:
       default:

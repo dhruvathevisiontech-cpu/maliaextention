@@ -46,11 +46,9 @@ class Logincontroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("LoginController Init");
   }
   @override
   void onClose() {
-    print("LoginController Close");
     _debounce?.cancel();
     inputController.dispose();
     super.onClose();

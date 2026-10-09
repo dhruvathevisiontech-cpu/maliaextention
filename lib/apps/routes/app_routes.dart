@@ -36,6 +36,9 @@ abstract class Routes {
   static const ORDERPLACE = _Paths.ORDERPLACE;
   static const ORDERHISTORY = _Paths.ORDERHISTORY;
   static const VIEWORDER = _Paths.VIEWORDER;
+  static const SALONLOCTOR = _Paths.SALONLOCTOR;
+  static const FILTER = _Paths.FILTER;
+  static const CONTACTUS = _Paths.CONTACTUS;
 }
 
 abstract class _Paths {
@@ -71,5 +74,8 @@ abstract class _Paths {
   static const ORDERPLACE = '/orderplace';
   static const ORDERHISTORY = '/orderhistory';
   static const VIEWORDER = '/vieworder';
+  static const SALONLOCTOR = '/salonlocator';
+  static const FILTER = '/filter';
+  static const CONTACTUS = '/contactus';
 
 }

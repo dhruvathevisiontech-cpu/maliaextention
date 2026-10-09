@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:maliaextention/apps/module/wishlist/controller/wishlistcontroller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
 
 Future<void> main() async {

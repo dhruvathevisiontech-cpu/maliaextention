@@ -1081,7 +1081,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                   onChanged: (value) {
                                     controller.selectedState.value = value;
                                   },
-
+                                  selectionControls: Textselect(),
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
@@ -1746,7 +1746,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                   onChanged: (value) {
                                     controller.selectedState.value = value;
                                   },
-
+                                  selectionControls: Textselect(),
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,

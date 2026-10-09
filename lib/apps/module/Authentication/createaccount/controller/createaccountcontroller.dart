@@ -247,12 +247,6 @@ class Createaccountcontroller extends GetxController {
       // --------------------------------------------------------
 
       await Future.delayed(const Duration(seconds: 1));
-
-      debugPrint("First Name: ${firstNameController.text.trim()}");
-      debugPrint("Last Name: ${lastNameController.text.trim()}");
-      debugPrint("Email: ${emailController.text.trim()}");
-      debugPrint("Phone: ${getFullPhoneNumber()}");
-
       Get.snackbar(
         "Success",
         "Account information is valid",

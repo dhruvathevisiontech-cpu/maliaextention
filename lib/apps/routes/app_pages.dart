@@ -16,52 +16,56 @@ import 'package:maliaextention/apps/module/Authentication/prostylistreg/bindings
 import 'package:maliaextention/apps/module/Authentication/prostylistreg/view/prostyleregview.dart';
 import 'package:maliaextention/apps/module/Authentication/resetpassword/bindings/resetpasswordbinding.dart';
 import 'package:maliaextention/apps/module/Authentication/resetpassword/view/resetpasswordview.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/addresslist/bindings/addresslistbinding.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/addresslist/controller/addresslistcontroller.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/addresslist/view/addresslistview.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/bindings/saveaddressbinding.dart';
-import 'package:maliaextention/apps/module/CustomerAddress/saveaddress/view/saveaddressview.dart';
-import 'package:maliaextention/apps/module/InPerson/bindings/inpersonbinding.dart';
-import 'package:maliaextention/apps/module/InPerson/view/inpersonview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collection/bindings/collectionbinidng.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collection/view/collectionview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/bindings/collectionlistbinding.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/view/collectionlistview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/filter/bindings/filterbinding.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/filter/view/filterview.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/productdetails/bindings/productdetailsbinding.dart' show Productdetailsbinding;
+import 'package:maliaextention/apps/module/CollectionScreen/productdetails/view/productdetailsview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/InPerson/bindings/inpersonbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/InPerson/view/inpersonview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/education/bindings/educationbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/education/view/educationview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/hostclass/bindings/hostclassbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/hostclass/view/hostclassview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetraining/bindings/onlinetrainingbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetraining/view/onlinetrainingview.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetrainingviewclass/bindings/onlinetrainingviewclassbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/onlinetrainingviewclass/view/onlinetrainingviewclass.dart';
+import 'package:maliaextention/apps/module/EducationScreen/viewclass/bindings/viewclassbinding.dart';
+import 'package:maliaextention/apps/module/EducationScreen/viewclass/view/viewclass.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/homescreen/bindings/homebinding.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/homescreen/view/homeview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/orderplace/bindings/orderplacebinding.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/orderplace/view/orderplaceview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/search/bindings/searchbinding.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/viewcart/bindings/viewcartbinding.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/addresslist/bindings/addresslistbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/contactus/bindings/contactusbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/bindings/orderhistorybinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profile/bindings/profilebinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profile/view/profileview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/bindings/salonlocatorbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/view/salonlocatorview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/bindings/saveaddressbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/view/saveaddressview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/vieworder/bindings/vieworderbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
+import 'package:maliaextention/apps/module/Splash/onboarding/bindings/onboardingbinding.dart';
+import 'package:maliaextention/apps/module/Splash/onboarding/view/onboardingview.dart';
+import 'package:maliaextention/apps/module/Splash/splashscreen/bindings/splashscreenbinding.dart';
+import 'package:maliaextention/apps/module/Splash/splashscreen/view/splashscreenview.dart';
+import 'package:maliaextention/apps/module/WishlistScreen/wishlist/bindings/wishlistbinding.dart';
+import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/bindings/bottomnavigationbinding.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/view/bottomnavigationview.dart';
-import 'package:maliaextention/apps/module/collection/bindings/collectionbinidng.dart';
-import 'package:maliaextention/apps/module/collection/view/collectionview.dart';
-import 'package:maliaextention/apps/module/collectionlist/bindings/collectionlistbinding.dart';
-import 'package:maliaextention/apps/module/collectionlist/view/collectionlistview.dart';
-import 'package:maliaextention/apps/module/education/bindings/educationbinding.dart';
-import 'package:maliaextention/apps/module/education/view/educationview.dart';
-import 'package:maliaextention/apps/module/homescreen/bindings/homebinding.dart';
-import 'package:maliaextention/apps/module/homescreen/view/homeview.dart';
-import 'package:maliaextention/apps/module/hostclass/bindings/hostclassbinding.dart';
-import 'package:maliaextention/apps/module/hostclass/view/hostclassview.dart';
-import 'package:maliaextention/apps/module/onboarding/bindings/onboardingbinding.dart';
-import 'package:maliaextention/apps/module/onboarding/view/onboardingview.dart';
-import 'package:maliaextention/apps/module/onlinetraining/bindings/onlinetrainingbinding.dart';
-import 'package:maliaextention/apps/module/onlinetraining/view/onlinetrainingview.dart';
-import 'package:maliaextention/apps/module/onlinetrainingviewclass/bindings/onlinetrainingviewclassbinding.dart';
-import 'package:maliaextention/apps/module/onlinetrainingviewclass/view/onlinetrainingviewclass.dart';
-import 'package:maliaextention/apps/module/orderhistory/bindings/orderhistorybinding.dart';
-import 'package:maliaextention/apps/module/orderhistory/view/orderhistoryview.dart';
-import 'package:maliaextention/apps/module/orderplace/bindings/orderplacebinding.dart';
-import 'package:maliaextention/apps/module/orderplace/controller/orderplacecontroller.dart';
-import 'package:maliaextention/apps/module/orderplace/view/orderplaceview.dart';
-import 'package:maliaextention/apps/module/productdetails/bindings/productdetailsbinding.dart';
-import 'package:maliaextention/apps/module/productdetails/view/productdetailsview.dart';
-import 'package:maliaextention/apps/module/profile/bindings/profilebinding.dart';
-import 'package:maliaextention/apps/module/profile/view/profileview.dart';
-import 'package:maliaextention/apps/module/search/bindings/searchbinding.dart';
-import 'package:maliaextention/apps/module/search/view/searchview.dart';
-import 'package:maliaextention/apps/module/splashscreen/bindings/splashscreenbinding.dart';
-import 'package:maliaextention/apps/module/splashscreen/view/splashscreenview.dart';
-import 'package:maliaextention/apps/module/viewcart/bindings/viewcartbinding.dart';
-import 'package:maliaextention/apps/module/viewcart/view/viewcart.dart';
-import 'package:maliaextention/apps/module/viewclass/bindings/viewclassbinding.dart';
-import 'package:maliaextention/apps/module/viewclass/view/viewclass.dart';
-import 'package:maliaextention/apps/module/vieworder/bindings/vieworderbinding.dart';
-import 'package:maliaextention/apps/module/vieworder/view/vieworder.dart';
-import 'package:maliaextention/apps/module/wishlist/bindings/wishlistbinding.dart';
-import 'package:maliaextention/apps/module/wishlist/view/wishlistview.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -275,6 +279,27 @@ class AppPages {
         name: _Paths.VIEWORDER,
         page: () => Vieworder(),
         binding: Vieworderbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.SALONLOCTOR,
+        page: () => Salonlocatorview(),
+        binding: Salonlocatorbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.FILTER,
+        page: () => Filterview(),
+        binding: Filterbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.CONTACTUS,
+        page: () => Contactusview(),
+        binding: Contactusbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),

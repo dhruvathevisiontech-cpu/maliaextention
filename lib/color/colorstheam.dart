@@ -18,6 +18,16 @@ class Colorstheam {
   static const Color alabastergrey = Color(0xFFD9D9D9);
   static const Color red  = Color(0xFFFF0000);
   static const Color seagreen = Color(0xFF0C8548);
+  static const Color alabastergrey1 = Color(0xFFE8E8E8) ;
+  static const Color parchment = Color(0xFFF5F3F0);
+  static const Color charcol = Color(0xFF555555);
+  static const Color dimgrey1 = Color(0xFF666666);
+  static const Color brightsnow = Color(0xFFF8F8F8);
+  static const Color alabastergrey2 = Color(0xFFE5E5E5);
+  static const Color grey1 = Color(0xFF777777);
+  static const Color greyolive = Color(0xFF888888);
+  static const Color alabastegrey3 = Color(0xFFE7E7E7);
+  static const Color parchment1 = Color(0xFFF3F0EC);
   //sucess
   static const Color green = Color(0xFF24887C);
   // Error

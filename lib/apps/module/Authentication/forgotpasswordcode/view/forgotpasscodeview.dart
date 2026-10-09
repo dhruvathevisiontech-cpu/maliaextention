@@ -217,7 +217,6 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                                       alignment: PlaceholderAlignment.middle,
                                       child: GestureDetector(
                                         onTap: () {
-                                          print("Email clicked: ${controller.email}");
                                         },
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,

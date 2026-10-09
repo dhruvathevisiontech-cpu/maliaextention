@@ -79,11 +79,9 @@ flutter:
     - asset/svg/
     - asset/image/
     - asset/svg/bottomnavigation/
-    - asset/svg/CaretLeft.svg
     - asset/svg/arrowleft.svg
     - asset/svg/google.svg
     - asset/svg/heart.svg
-    - asset/image/Collection1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -106,16 +104,6 @@ flutter:
         - asset: asset/fonts/urbanist/Urbanist-Medium.ttf
         - asset: asset/fonts/urbanist/Urbanist-Regular.ttf
         - asset: asset/fonts/urbanist/Urbanist-SemiBold.ttf
-
-    - family: Roboto
-      fonts:
-        - asset: asset/fonts/roboto/Roboto-Black.ttf
-        - asset: asset/fonts/roboto/Roboto-Bold.ttf
-        - asset: asset/fonts/roboto/Roboto-ExtraBold.ttf
-        - asset: asset/fonts/roboto/Roboto-ExtraLight.ttf
-        - asset: asset/fonts/roboto/Roboto-Medium.ttf
-        - asset: asset/fonts/roboto/Roboto-Regular.ttf
-        - asset: asset/fonts/roboto/Roboto-SemiBold.ttf
 
     - family: DMSans
       fonts:

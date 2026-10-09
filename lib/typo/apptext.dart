@@ -88,4 +88,14 @@ class Apptext {
   static const orderplacedtitle = "Order Placed";
   //lib/apps/module/orderhistory/view/orderhistoryview.dart
   static const orderhistorytitle = "Order History";
+  //lib/apps/module/salonlocator/view/salonlocatorview.dart
+  static const salonlocatortitle = "Salon Locators";
+  //lib/apps/module/filter/view/filterview.dart
+  static const filtertitle = "Filter";
+  //lib/apps/module/vieworder/view/vieworder.dart
+  static const viewordertitle = "View Order";
+  static const viewordersubtitle = "Placed 26 Aug 2026";
+  //lib/apps/module/ProfileScreen/contactus/view/contactusview.dart
+  static const contactustitle = "Contact US";
+
 }

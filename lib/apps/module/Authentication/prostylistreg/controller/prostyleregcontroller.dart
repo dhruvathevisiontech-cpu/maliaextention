@@ -336,21 +336,13 @@ class Prostyleregcontroller extends GetxController {
       }
 
       licenseFile.value = file;
-
-      debugPrint('License: ${file.name}');
-      debugPrint('Path: ${file.path}');
-      debugPrint('Size: $fileSize bytes');
     } catch (e) {
       licenseError.value =
       'Unable to select the license. Please try again.';
-
-      debugPrint('License picker error: $e');
     }
   }
   Future<void> pickCosmetologyLicense() async {
     try {
-      debugPrint("LICENSE PICKER CALLED");
-
       final PlatformFile? file = await FilePicker.pickFile(
         type: FileType.custom,
         allowedExtensions: [
@@ -362,11 +354,8 @@ class Prostyleregcontroller extends GetxController {
       );
 
       if (file == null) {
-        debugPrint("LICENSE PICKER: USER CANCELLED");
         return;
       }
-
-      debugPrint("LICENSE NAME: ${file.name}");
 
       // --------------------------------
       // Get extension from file name
@@ -401,14 +390,7 @@ class Prostyleregcontroller extends GetxController {
 
       cosmetologyLicenseError.value = '';
 
-      debugPrint(
-        "LICENSE PICKED SUCCESSFULLY: ${file.name}",
-      );
-
     } catch (e, stackTrace) {
-      debugPrint("LICENSE PICKER ERROR: $e");
-      debugPrint(stackTrace.toString());
-
       cosmetologyLicenseError.value =
       "Unable to select license file. Please try again.";
     }

@@ -18,7 +18,6 @@ class Forgotpasswordcontroller extends GetxController {
   RxBool isLoading = false.obs;
   @override
   void onClose() {
-    print("LoginController Close");
     _debounce?.cancel();
     inputController.dispose();
     super.onClose();

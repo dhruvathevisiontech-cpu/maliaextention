@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/homescreen/controller/homecontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/apps/module/homescreen/controller/homecontroller.dart';
 
 class Bottomnavigationbinding extends Bindings {
   @override
