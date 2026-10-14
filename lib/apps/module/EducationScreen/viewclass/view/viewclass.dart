@@ -61,6 +61,11 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),

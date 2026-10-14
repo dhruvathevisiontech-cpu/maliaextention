@@ -39,6 +39,15 @@ abstract class Routes {
   static const SALONLOCTOR = _Paths.SALONLOCTOR;
   static const FILTER = _Paths.FILTER;
   static const CONTACTUS = _Paths.CONTACTUS;
+  static const FAQLIST = _Paths.FAQLIST;
+  static const EDUCATIONFAQ = _Paths.EDUCATIONFAQ;
+  static const POLICY = _Paths.POLICY;
+  static const PRIVACYPOLICY = _Paths.PRIVACYPOLICY;
+  static const SHIPPINGPOLICY = _Paths.SHIPPINGPOLICY;
+  static const RETURNANDREFUND = _Paths.RETURNANDREFUND;
+  static const TERMSNDSERVIC = _Paths.TERMSNDSERVIC;
+  static const EDUCATIONBUNDLE = _Paths.EDUCATIONBUNDLE;
+  static const PROFILEDETAILS = _Paths.PROFILEDETAILS;
 }
 
 abstract class _Paths {
@@ -77,5 +86,13 @@ abstract class _Paths {
   static const SALONLOCTOR = '/salonlocator';
   static const FILTER = '/filter';
   static const CONTACTUS = '/contactus';
-
+  static const FAQLIST = '/faqlist';
+  static const EDUCATIONFAQ = '/educationfaq';
+  static const POLICY = '/policy';
+  static const PRIVACYPOLICY = '/privacypolicy';
+  static const SHIPPINGPOLICY = '/shippingpolicy';
+  static const RETURNANDREFUND = '/returnandrefund';
+  static const TERMSNDSERVIC = '/termsndservice';
+  static const EDUCATIONBUNDLE = '/educationbundle';
+  static const PROFILEDETAILS = '/profiledetails';
 }

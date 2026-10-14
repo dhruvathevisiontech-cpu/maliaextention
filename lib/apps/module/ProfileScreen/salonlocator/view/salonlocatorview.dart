@@ -9,7 +9,7 @@ import 'package:maliaextention/color/colorstheam.dart';
 import 'package:maliaextention/typo/apptext.dart';
 
 class Salonlocatorview extends GetView<Salonlocatorcontroller> {
-  const Salonlocatorview({Key? key}) : super(key: key);
+  const Salonlocatorview({super.key});
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;

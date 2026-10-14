@@ -145,7 +145,7 @@ class Filterview extends GetView<Filtercontroller> {
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? Colorstheam.nobelblack
-                                      .withOpacity(0.04)
+                                      .withValues(alpha: 0.04)
                                       : Colors.transparent,
 
                                   border: Border(
@@ -173,7 +173,7 @@ class Filterview extends GetView<Filtercontroller> {
                                     color: isSelected
                                         ? Colorstheam.nobelblack
                                         : Colorstheam.nobelblack
-                                        .withOpacity(0.5),
+                                        .withValues(alpha: 0.5),
                                   ),
 
                                   child: Text(
@@ -288,7 +288,7 @@ class Filterview extends GetView<Filtercontroller> {
                                             BoxShadow(
                                               color: Colorstheam
                                                   .nobelblack
-                                                  .withOpacity(
+                                                  .withValues(alpha:
                                                 0.15,
                                               ),
                                               blurRadius: 8,
@@ -500,7 +500,7 @@ class Filterview extends GetView<Filtercontroller> {
                                   ? [
                                 BoxShadow(
                                   color: Colors.black
-                                      .withOpacity(
+                                      .withValues(alpha:
                                     0.12,
                                   ),
                                   blurRadius: 12,
@@ -598,7 +598,7 @@ class Filterview extends GetView<Filtercontroller> {
                                   ? [
                                 BoxShadow(
                                   color: Colors.black
-                                      .withOpacity(
+                                      .withValues(alpha:
                                     0.12,
                                   ),
                                   blurRadius: 12,

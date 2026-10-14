@@ -30,19 +30,35 @@ import 'package:maliaextention/apps/module/ProfileScreen/addresslist/controller/
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/controller/contactuscontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/controller/educationfaqcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/faqlist/controller/faqlistcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/faqlist/view/faqlistview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/controller/orderhistorycontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/policy/controller/policycontoller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/policy/view/policyview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/controller/privacypolicycontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/view/privacypolicyview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profile/controller/profilecontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profile/view/profileview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profiledetails/controller/profiledetailscontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profiledetails/view/profiledetailsview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/returnandrefund/controller/returnandrefundcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/returnandrefund/view/returnandrefundview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/controller/salonlocatorcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/view/salonlocatorview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/controller/saveaddresscontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/view/saveaddressview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/shippingpolicy/controller/shippingpolicycontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/shippingpolicy/view/shippingpolicyview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/termsandservice/controller/termsandservicecontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/termsandservice/view/termsandserviceview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/viewordercontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails}
 enum NavigationSource {
   productList,
   settings,
@@ -184,6 +200,12 @@ class Bottomnavigationcontroller extends GetxController {
         }
         return Salonlocatorview();
 
+      case PageType.faqlist:
+        if (!Get.isRegistered<Faqlistcontroller>()) {
+          Get.put(Faqlistcontroller());
+        }
+        return Faqlistview();
+
       case PageType.contactus:
         if (!Get.isRegistered<Contactuscontroller>()) {
           Get.put(Contactuscontroller());
@@ -195,6 +217,48 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Viewordercontroller());
         }
         return Vieworder();
+
+      case PageType.educationfaq:
+        if (!Get.isRegistered<Educationfaqcontroller>()) {
+          Get.put(Educationfaqcontroller());
+        }
+        return Educationfaqview();
+
+      case PageType.policy:
+        if (!Get.isRegistered<Policycontoller>()) {
+          Get.put(Policycontoller());
+        }
+        return Policyview();
+
+      case PageType.privacypolicy:
+        if (!Get.isRegistered<Privacypolicycontroller>()) {
+          Get.put(Privacypolicycontroller());
+        }
+        return Privacypolicyview();
+
+      case PageType.shippingpolicy:
+        if (!Get.isRegistered<Shippingpolicycontroller>()) {
+          Get.put(Shippingpolicycontroller());
+        }
+        return Shippingpolicyview();
+
+      case PageType.returnandrefundpolicy:
+        if (!Get.isRegistered<Returnandrefundcontroller>()) {
+          Get.put(Returnandrefundcontroller());
+        }
+        return Returnandrefundview();
+
+      case PageType.termsandservice:
+        if (!Get.isRegistered<Termsandservicecontroller>()) {
+          Get.put(Termsandservicecontroller());
+        }
+        return Termsandserviceview();
+
+      case PageType.profiledetails:
+        if (!Get.isRegistered<Profiledetailscontroller>()) {
+          Get.put(Profiledetailscontroller());
+        }
+        return Profiledetailsview();
 
       case PageType.profile:
       default:

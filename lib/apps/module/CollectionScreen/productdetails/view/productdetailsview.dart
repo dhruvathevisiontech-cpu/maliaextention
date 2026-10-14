@@ -12,6 +12,7 @@ import 'package:maliaextention/color/colorstheam.dart';
 
 class Productdetailsview extends GetView<Productdetailscontroller> {
   Productdetailsview({super.key});
+
   final List<Map<String, String>> products = [
     {
       "image": "asset/image/product1.png",
@@ -110,6 +111,11 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                   right: screensize.width * 0.04,
                 ),
                 child: _headerIcon(
+                  onTap: (){
+                    final bottomNav = Get.find<Bottomnavigationcontroller>();
+                    bottomNav.selectedIndex.value = 0;
+                    bottomNav.currentPage.value = PageType.viewcart;
+                  },
                   icon: "asset/svg/cart.svg",
                 ),
               ),

@@ -73,6 +73,11 @@ class Educationview extends GetView<Educationcontroller> {
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),
@@ -83,88 +88,61 @@ class Educationview extends GetView<Educationcontroller> {
           physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // =====================================================
-              // HERO IMAGE
-              // =====================================================
-
+            children: <Widget>[
               Image.asset(
                 "asset/image/education.png",
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
-
-              // =====================================================
-              // THE BUTTERFLY METHOD
-              // =====================================================
-
               _sectionTitle(
                 "The Butterfly Method",
                 screensize,
               ),
-
               _bodyText(
                 "We don’t just teach the Butterfly Method, we created it.",
                 screensize,
                 maxLines: 1,
               ),
-
               _bodyText(
                 "The Butterfly Method is a modern hair extension method designed to prioritize your time, protect your body, and deliver results your clients can't stop looking at.",
                 screensize,
                 maxLines: 4,
               ),
-
               _bodyText(
                 "No unnecessary steps. No outdated techniques. Just a smarter hair extension training system that works as hard as you do.",
                 screensize,
                 maxLines: 3,
               ),
-
               SizedBox(height: 8.h),
-
               _divider(screensize),
-
-              // =====================================================
-              // BENEFITS
-              // =====================================================
-
               _benefitItem(
                 number: "01",
                 text:
                 "Certificate of Completion from Malia EDU, complete with full brand kit",
                 screensize: screensize,
               ),
-
               _divider(screensize),
-
               _benefitItem(
                 number: "02",
                 text:
                 "Get more time back in your day with rows installed in as little as 15 minutes",
                 screensize: screensize,
               ),
-
               _divider(screensize),
-
               _benefitItem(
                 number: "03",
                 text:
                 "A hair extension method that protects natural hair",
                 screensize: screensize,
               ),
-
               _divider(screensize),
-
               _benefitItem(
                 number: "04",
                 text:
                 "Pro pricing on Butterfly Wefts & exclusive access to product drops",
                 screensize: screensize,
               ),
-
               _divider(screensize),
-
               _benefitItem(
                 number: "05",
                 text:
@@ -172,25 +150,16 @@ class Educationview extends GetView<Educationcontroller> {
                 screensize: screensize,
               ),
               SizedBox(height: 12.h),
-              // =====================================================
-              // UNLOCK METHOD BUTTON
-              // =====================================================
               _primaryButton(
                 title: "Unlock The Method",
                 screensize: screensize,
                 onTap: () {},
               ),
-              // =====================================================
-              // HAIR EXTENSION TRAINING
-              // =====================================================
               _sectionTitle(
                 "Hair Extension Training",
                 screensize,
               ),
               SizedBox(height: 8.h),
-              // =====================================================
-              // IN-PERSON EDUCATION
-              // =====================================================
               _educationCard(
                 image: "asset/image/image01.png",
                 title: "In-Person Education",
@@ -204,9 +173,6 @@ class Educationview extends GetView<Educationcontroller> {
                 screensize: screensize,
               ),
               SizedBox(height: 16.h),
-              // =====================================================
-              // ONLINE EDUCATION
-              // =====================================================
               _educationCard1(
                 image: "asset/image/image02.png",
                 title: "Online Education",
@@ -219,9 +185,6 @@ class Educationview extends GetView<Educationcontroller> {
                 screensize: screensize,
               ),
               SizedBox(height: 20.h),
-              // =====================================================
-              // BECOME A MALIA PRO
-              // =====================================================
               Container(
                 width: double.infinity,
                 color: Colorstheam.nobelblack,
@@ -593,11 +556,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // SECTION TITLE
-  // ============================================================
-
   Widget _sectionTitle(
       String title,
       Size screensize,
@@ -619,10 +577,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // BODY TEXT
-  // ============================================================
   Widget _bodyText(
       String text,
       Size screensize, {
@@ -651,9 +605,6 @@ class Educationview extends GetView<Educationcontroller> {
     );
   }
 
-  // ============================================================
-  // DIVIDER
-  // ============================================================
   Widget _divider(Size screensize) {
     return Padding(
       padding: EdgeInsets.only(
@@ -667,10 +618,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-  // ============================================================
-  // BENEFIT ITEM
-  // ============================================================
-
   Widget _benefitItem({
     required String number,
     required String text,
@@ -713,11 +660,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // EDUCATION CARD
-  // ============================================================
-
   Widget _educationCard({
     required String image,
     required String title,
@@ -905,10 +847,6 @@ class Educationview extends GetView<Educationcontroller> {
     );
   }
 
-  // ============================================================
-  // PRIMARY BUTTON
-  // ============================================================
-
   Widget _primaryButton({
     required String title,
     required Size screensize,
@@ -945,9 +883,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-  // ============================================================
-  // BACK BUTTON
-  // ============================================================
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -973,10 +908,6 @@ class Educationview extends GetView<Educationcontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // HEADER ICON
-  // ============================================================
 
   Widget _headerIcon({
     required String icon,

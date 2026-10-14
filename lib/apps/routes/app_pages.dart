@@ -48,14 +48,30 @@ import 'package:maliaextention/apps/module/ProfileScreen/addresslist/bindings/ad
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/bindings/contactusbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/bindings/educayionfaqbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/faqlist/bindings/faqlistbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/faqlist/view/faqlistview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/bindings/orderhistorybinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/policy/bindings/policybinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/policy/view/policyview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/bindings/privacypolicybinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/view/privacypolicyview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profile/bindings/profilebinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profile/view/profileview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profiledetails/bindings/profiledetailsbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/profiledetails/view/profiledetailsview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/returnandrefund/bindings/returnandrefundbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/returnandrefund/view/returnandrefundview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/bindings/salonlocatorbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/salonlocator/view/salonlocatorview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/bindings/saveaddressbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/view/saveaddressview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/shippingpolicy/bindings/shippingpolicybinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/shippingpolicy/view/shippingpolicyview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/termsandservice/bindings/termsandservicebinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/termsandservice/view/termsandserviceview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/bindings/vieworderbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/Splash/onboarding/bindings/onboardingbinding.dart';
@@ -300,6 +316,62 @@ class AppPages {
         name: _Paths.CONTACTUS,
         page: () => Contactusview(),
         binding: Contactusbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.FAQLIST,
+        page: () => Faqlistview(),
+        binding: Faqlistbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.EDUCATIONFAQ,
+        page: () => Educationfaqview(),
+        binding: Educationfaqbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.POLICY,
+        page: () => Policyview(),
+        binding: Policybinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.PRIVACYPOLICY,
+        page: () => Privacypolicyview(),
+        binding: Privacypolicybinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.SHIPPINGPOLICY,
+        page: () => Shippingpolicyview(),
+        binding: Shippingpolicybinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.RETURNANDREFUND,
+        page: () => Returnandrefundview(),
+        binding: Returnandrefundbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.TERMSNDSERVIC,
+        page: () => Termsandserviceview(),
+        binding: Termsandservicebinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.PROFILEDETAILS,
+        page: () => Profiledetailsview(),
+        binding: Profiledetailsbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),

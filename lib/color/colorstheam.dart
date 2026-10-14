@@ -28,6 +28,8 @@ class Colorstheam {
   static const Color greyolive = Color(0xFF888888);
   static const Color alabastegrey3 = Color(0xFFE7E7E7);
   static const Color parchment1 = Color(0xFFF3F0EC);
+  static const Color green1 = Color(0xFF008000);
+  static const Color vanilacusturd = Color(0xFFFFF2A8);
   //sucess
   static const Color green = Color(0xFF24887C);
   // Error

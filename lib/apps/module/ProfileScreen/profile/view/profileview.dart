@@ -74,6 +74,11 @@ class Profileview extends GetView<Profilecontroller> {
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),
@@ -158,35 +163,42 @@ class Profileview extends GetView<Profilecontroller> {
                   ),
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 20.h,
-                              width: 20.w,
-                              child: SvgPicture.asset(
-                                "asset/svg/profile.svg",
-                                height:   13.33.h,
-                                width: 13.33.w,
-                                color: Colorstheam.nobelblack,
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.profiledetails;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/profile.svg",
+                                  height:   13.33.h,
+                                  width: 13.33.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              "Profile Details",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontFamily: "DMSans",
-                                color: Colorstheam.black,
-                                fontWeight: FontWeight.w600,
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Profile Details",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -203,7 +215,7 @@ class Profileview extends GetView<Profilecontroller> {
                         ),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 20.h,
                               width: 20.w,
                               child: SvgPicture.asset(
@@ -246,7 +258,7 @@ class Profileview extends GetView<Profilecontroller> {
                           ),
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 20.h,
                                 width: 20.w,
                                 child: SvgPicture.asset(
@@ -290,7 +302,7 @@ class Profileview extends GetView<Profilecontroller> {
                           ),
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 20.h,
                                 width: 20.w,
                                 child: SvgPicture.asset(
@@ -334,7 +346,7 @@ class Profileview extends GetView<Profilecontroller> {
                           ),
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 20.h,
                                 width: 20.w,
                                 child: SvgPicture.asset(
@@ -381,7 +393,7 @@ class Profileview extends GetView<Profilecontroller> {
                                 ),
                                 child: Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 20.h,
                                       width: 20.w,
                                       child: SvgPicture.asset(
@@ -431,11 +443,29 @@ class Profileview extends GetView<Profilecontroller> {
                                   padding: EdgeInsets.only(left: screensize.width * 0.08,right: screensize.width * 0.08),
                                   child: Column(
                                     children: <Widget>[
-                                      Container(
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          "About Us",
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontFamily: "DMSans",
+                                            color: Colorstheam.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: screensize.height * 0.01),
+                                      GestureDetector(
+                                        onTap: (){
+                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                                          bottomNav.selectedIndex.value = 4;
+                                          bottomNav.currentPage.value = PageType.faqlist;
+                                        },
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            "About Us",
+                                            "FAQ’s",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               fontFamily: "DMSans",
@@ -443,37 +473,47 @@ class Profileview extends GetView<Profilecontroller> {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ),
                                       SizedBox(height: screensize.height * 0.01),
-                                      Container(
-                                          child: Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              "FAQ’s",
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontFamily: "DMSans",
-                                                color: Colorstheam.black,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                      GestureDetector(
+                                        onTap: (){
+                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                                          bottomNav.selectedIndex.value = 4;
+                                          bottomNav.currentPage.value = PageType.educationfaq;
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Education FAQ’s",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              color: Colorstheam.black,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                          )
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: screensize.height * 0.01),
-                                      Container(
-                                          child: Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              "Policies",
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontFamily: "DMSans",
-                                                color: Colorstheam.black,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                      GestureDetector(
+                                        onTap: (){
+                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                                          bottomNav.selectedIndex.value = 4;
+                                          bottomNav.currentPage.value = PageType.policy;
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Policies",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              color: Colorstheam.black,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                          )
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
@@ -482,19 +522,17 @@ class Profileview extends GetView<Profilecontroller> {
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.contactus;
                                         },
-                                        child: Container(
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                "Contact us",
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontFamily: "DMSans",
-                                                  color: Colorstheam.black,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            )
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Contact us",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              color: Colorstheam.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
                                         ),
                                       )
                                     ],

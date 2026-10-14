@@ -216,8 +216,8 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         final bottomNav = Get.find<Bottomnavigationcontroller>();
-        bottomNav.selectedIndex.value = 0;
-        bottomNav.currentPage.value = PageType.viewcart;
+        bottomNav.selectedIndex.value = 4;
+        bottomNav.currentPage.value = PageType.profile;
       },
       child: Container(
         width: 32.w,

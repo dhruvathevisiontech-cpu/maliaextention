@@ -9,6 +9,8 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
+  const Onlinetrainingview({super.key});
+
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
@@ -59,6 +61,11 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),
@@ -131,7 +138,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                           fontSize: 14.sp,
                           fontFamily: "DMSans",
                           fontWeight: FontWeight.bold,
-                          color: Colorstheam.nobelblack.withOpacity(0.6)
+                          color: Colorstheam.nobelblack.withValues(alpha: 0.6)
                       ),
                     )
                   ],

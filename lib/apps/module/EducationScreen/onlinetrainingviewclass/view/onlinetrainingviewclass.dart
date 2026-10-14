@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/EducationScreen/onlinetrainingviewclass/controller/onlinetrainingviewclasscontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
@@ -37,6 +36,8 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
       "rating": "4.9",
     },
   ];
+
+  Onlinetrainingviewclass({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -88,6 +89,11 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),

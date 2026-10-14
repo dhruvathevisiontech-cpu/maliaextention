@@ -65,6 +65,11 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
+                onTap: (){
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                  bottomNav.selectedIndex.value = 0;
+                  bottomNav.currentPage.value = PageType.viewcart;
+                },
                 icon: "asset/svg/cart.svg",
               ),
             ),
@@ -143,10 +148,10 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                         flex: 3,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colorstheam.nobelblack.withOpacity(0.4),
+                            color: Colorstheam.nobelblack.withValues(alpha: 0.4),
                             border: Border.all(
                               width: 0.6,
-                              color: Colorstheam.nobelblack.withOpacity(0.4),
+                              color: Colorstheam.nobelblack.withValues(alpha: 0.4),
                             )
                           ),
                           child: Align(
@@ -180,7 +185,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                                       fontSize: 22.sp,
                                       fontFamily: "Urbanist",
                                       fontWeight: FontWeight.bold,
-                                      color: Colorstheam.nobelblack.withOpacity(0.4)
+                                      color: Colorstheam.nobelblack.withValues(alpha: 0.4)
                                   ),
                                 ),
                               ),
@@ -193,7 +198,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                                       fontSize: 14.sp,
                                       fontFamily: "DMSans",
                                       fontWeight: FontWeight.w500,
-                                      color: Colorstheam.nobelblack.withOpacity(0.4)
+                                      color: Colorstheam.nobelblack.withValues(alpha: 0.4)
                                   ),
                                 ),
                               ),

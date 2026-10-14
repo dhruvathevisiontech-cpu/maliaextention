@@ -75,12 +75,12 @@ class Apptext {
   static const wishlisttitle ="Wishlist";
   static const wishlistemptytitle = "Your wishlist is empty!";
   static const wishlistemptysubtitle = "Explore more and shortlist some items";
-  //Users/thevisiontech/AndroidStudioProjects/maliaextention/lib/apps/module/viewcart/view/viewcart.dart
+  //lib/apps/module/viewcart/view/viewcart.dart
   static const viewcarttitle = "View Cart";
   static const deliveryto = "Deliver to:";
   static const btn = "Change";
   static const addnewaddress = "Add a New Address";
-  ///Users/thevisiontech/AndroidStudioProjects/maliaextention/lib/apps/module/CustomerAddress/addresslist/view/addresslistview.dart
+  //lib/apps/module/CustomerAddress/addresslist/view/addresslistview.dart
   static const addresstitle = "Address";
   static const selectanaddress = "Select an address";
   static const addnewaddress1 = "Add New Address";
@@ -97,5 +97,23 @@ class Apptext {
   static const viewordersubtitle = "Placed 26 Aug 2026";
   //lib/apps/module/ProfileScreen/contactus/view/contactusview.dart
   static const contactustitle = "Contact US";
+  //lib/apps/module/ProfileScreen/faqlist/view/faqlistview.dart
+  static const faqlisttitle = "FAQ";
+  //lib/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart
+  static const educationtitle = "Education FAQ";
+  //lib/apps/module/ProfileScreen/policy/view/policyview.dart
+  static const policytitle = "Policy";
+  //lib/apps/module/ProfileScreen/privacypolicy/view/privacypolicyview.dart
+  static const privacypolicy = "Privacy Policy";
+  //lib/apps/module/ProfileScreen/shippingpolicy/view/shippingpolicyview.dart
+  static const shippingpolicy = "Shipping Policy";
+  //lib/apps/module/ProfileScreen/returnandrefund/view/returnandrefundview.dart
+  static const returnpolicy = "Return Policy";
+  //lib/apps/module/ProfileScreen/termsandservice/view/termsandserviceview.dart
+  static const Termsandservice = "Terms of Service";
+  //lib/apps/module/ProfileScreen/profiledetails/view/profiledetailsview.dart
+  static const profiledetails = "Profile Details";
+
+
 
 }
