@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/termsandservice/controller/termsandservicecontroller.dart';
 
-
 class Termsandserviceview extends GetView<Termsandservicecontroller> {
   Termsandserviceview({super.key});
   final List<Map<String, String>> _termsSections = [
