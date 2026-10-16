@@ -34,6 +34,8 @@ import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/controller
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/faqlist/controller/faqlistcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/faqlist/view/faqlistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/gallary/controller/gallarycontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/gallary/view/gallaryview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/controller/orderhistorycontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/policy/controller/policycontoller.dart';
@@ -58,7 +60,7 @@ import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/vi
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary}
 enum NavigationSource {
   productList,
   settings,
@@ -75,13 +77,10 @@ class Bottomnavigationcontroller extends GetxController {
   final Rxn<Map<String, String>> selectedProduct = Rxn<Map<String, String>>();
   void openProductDetails(Map<String, String> product) {
     selectedProduct.value = product;
-
     if (!Get.isRegistered<Productdetailscontroller>()) {
       Get.put(Productdetailscontroller());
     }
-
-    final productDetailsController =
-    Get.find<Productdetailscontroller>();
+    final productDetailsController = Get.find<Productdetailscontroller>();
 
     productDetailsController.setProduct(product);
 
@@ -253,6 +252,12 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Termsandservicecontroller());
         }
         return Termsandserviceview();
+
+      case PageType.gallary:
+        if (!Get.isRegistered<Gallarycontroller>()) {
+          Get.put(Gallarycontroller());
+        }
+        return Gallaryview();
 
       case PageType.profiledetails:
         if (!Get.isRegistered<Profiledetailscontroller>()) {

@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/Splash/onboarding/controller/onboardingcontroller.dart';
-import 'package:maliaextention/apps/routes/app_pages.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/typo/apptext.dart';
 
 class Onboardingview extends GetView<Onboardingcontroller> {
   Onboardingview({super.key});

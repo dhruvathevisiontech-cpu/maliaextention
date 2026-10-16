@@ -52,6 +52,8 @@ import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/bindings/e
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/faqlist/bindings/faqlistbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/faqlist/view/faqlistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/gallary/bindings/gallarybinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/gallary/view/gallaryview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/bindings/orderhistorybinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/view/orderhistoryview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/policy/bindings/policybinding.dart';
@@ -372,6 +374,13 @@ class AppPages {
         name: _Paths.PROFILEDETAILS,
         page: () => Profiledetailsview(),
         binding: Profiledetailsbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.GALLARY,
+        page: () => Gallaryview(),
+        binding: Gallarybinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),

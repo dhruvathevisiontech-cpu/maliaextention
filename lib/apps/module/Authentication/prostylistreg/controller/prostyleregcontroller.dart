@@ -1,11 +1,9 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:maliaextention/apps/model/addressmodel.dart';
 import 'dart:io';
+import 'dart:async';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-
-
+import 'package:maliaextention/apps/model/addressmodel.dart';
 class Prostyleregcontroller extends GetxController {
   final List<String> countryList = [
     "United States",

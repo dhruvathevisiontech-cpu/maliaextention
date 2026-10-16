@@ -5,17 +5,17 @@
 /// - Build This screen
 /// ------------------------------------------------------------
 
+import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/Authentication/forgotpassword/controller/forgotpasswordcontroller.dart';
 import 'package:maliaextention/apps/module/Authentication/forgotpasswordcode/controller/forgotpasscodecontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/typo/apptext.dart';
-import 'package:pinput/pinput.dart';
 
 class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
   Forgotpasscodeview({super.key});

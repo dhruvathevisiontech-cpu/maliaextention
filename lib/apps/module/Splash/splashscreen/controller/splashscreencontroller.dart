@@ -1,9 +1,9 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
+
 
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {

@@ -336,6 +336,50 @@ class Profileview extends GetView<Profilecontroller> {
                         onTap: (){
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.gallary;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/gallery.svg",
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Gallery",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                        child: Divider(
+                          color: Colorstheam.clusterwhite,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.salonlocator;
                         },
                         child: Container(
@@ -575,19 +619,22 @@ class Profileview extends GetView<Profilecontroller> {
                           color: Colorstheam.clusterwhite,
                         ),
                       ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: "DMSans",
-                            color: Colorstheam.red,
-                            fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: controller.showLogoutBottomSheet,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontFamily: "DMSans",
+                              color: Colorstheam.red,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -601,6 +648,7 @@ class Profileview extends GetView<Profilecontroller> {
       ),
     );
   }
+
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

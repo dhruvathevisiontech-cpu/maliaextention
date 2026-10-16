@@ -113,6 +113,8 @@ class Apptext {
   static const Termsandservice = "Terms of Service";
   //lib/apps/module/ProfileScreen/profiledetails/view/profiledetailsview.dart
   static const profiledetails = "Profile Details";
+  //lib/apps/module/ProfileScreen/gallary/view/gallaryview.dart
+  static const gallerytitle = "Gallery";
 
 
 

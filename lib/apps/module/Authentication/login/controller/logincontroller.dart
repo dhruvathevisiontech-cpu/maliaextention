@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maliaextention/apps/module/Authentication/authrepository.dart';
-import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:flutter/material.dart';
 import 'package:maliaextention/typo/appsnackbar.dart';
-
+import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:maliaextention/apps/module/Authentication/authrepository.dart';
 class Logincontroller extends GetxController {
   final formKey = GlobalKey<FormState>();
   var emailError = "".obs;

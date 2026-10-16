@@ -48,6 +48,7 @@ abstract class Routes {
   static const TERMSNDSERVIC = _Paths.TERMSNDSERVIC;
   static const EDUCATIONBUNDLE = _Paths.EDUCATIONBUNDLE;
   static const PROFILEDETAILS = _Paths.PROFILEDETAILS;
+  static const GALLARY = _Paths.GALLARY;
 }
 
 abstract class _Paths {
@@ -95,4 +96,5 @@ abstract class _Paths {
   static const TERMSNDSERVIC = '/termsndservice';
   static const EDUCATIONBUNDLE = '/educationbundle';
   static const PROFILEDETAILS = '/profiledetails';
+  static const GALLARY = '/gallary';
 }

@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/homescreen/controller/homecontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
+import 'package:video_player/video_player.dart';
 
 class Homeview extends GetView<Homecontroller> {
   final List<Map<String, String>> products = [
@@ -298,9 +300,7 @@ class Homeview extends GetView<Homecontroller> {
                                     top: 10.h,
                                     right: 10.w,
                                     child: Obx(() {
-                                      final bool isWishlisted =
-                                      controller.isWishlisted(index);
-
+                                      final bool isWishlisted = controller.isWishlisted(index);
                                       return GestureDetector(
                                         onTap: () {
                                           controller.toggleWishlist(index);
@@ -598,6 +598,7 @@ class Homeview extends GetView<Homecontroller> {
                         ),
                       ),
                     ),
+
                     SizedBox(height: screensize.height * 0.02),
                   ],
                 )
