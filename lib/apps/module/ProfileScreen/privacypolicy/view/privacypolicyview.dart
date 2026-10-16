@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/controller/privacypolicycontroller.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 
 class Privacypolicyview extends GetView<Privacypolicycontroller> {
   const Privacypolicyview({super.key});

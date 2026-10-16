@@ -1,13 +1,12 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/gallary/controller/gallarycontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/typo/apptext.dart';
-
 class Gallaryview extends GetView<Gallarycontroller> {
   const Gallaryview({Key? key}) : super(key: key);
 

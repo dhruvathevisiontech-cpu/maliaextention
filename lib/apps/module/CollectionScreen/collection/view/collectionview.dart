@@ -88,29 +88,22 @@ class Collectionview extends GetView<Collectioncontroller> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.h),
-
+              SizedBox(height: 10.h),
               Expanded(
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),
-
                   padding: EdgeInsets.only(
                     left: screensize.width * 0.055,
                     right: screensize.width * 0.055,
                     bottom: 40.h,
                   ),
-
                   itemCount: mainCategories.length,
-
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 14.w,
                     mainAxisSpacing: 24.h,
-
-                    // Image + text underneath
                     childAspectRatio: 0.72,
                   ),
-
                   itemBuilder: (context, index) {
                     return _gridCategory(
                       title: mainCategories[index],
@@ -125,9 +118,6 @@ class Collectionview extends GetView<Collectioncontroller> {
       ),
     );
   }
-  // ============================================================
-  // EDITORIAL CATEGORY
-  // ============================================================
   Widget _gridCategory({
     required String title,
     required int index,

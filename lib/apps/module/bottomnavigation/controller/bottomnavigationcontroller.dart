@@ -28,6 +28,8 @@ import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/vi
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/controller/addresslistcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/blog/controller/blogcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/blog/view/blogview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/controller/contactuscontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/controller/educationfaqcontroller.dart';
@@ -60,7 +62,7 @@ import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/vi
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary,blog}
 enum NavigationSource {
   productList,
   settings,
@@ -264,6 +266,12 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Profiledetailscontroller());
         }
         return Profiledetailsview();
+
+      case PageType.blog:
+        if (!Get.isRegistered<Blogcontroller>()) {
+          Get.put(Blogcontroller());
+        }
+        return Blogview();
 
       case PageType.profile:
       default:

@@ -26,14 +26,12 @@ class Educationview extends GetView<Educationcontroller> {
       ),
       child: Scaffold(
         backgroundColor: Colorstheam.white,
-
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colorstheam.white,
           elevation: 0,
           scrolledUnderElevation: 0,
           titleSpacing: 0,
-
           title: Padding(
             padding: EdgeInsets.only(
               left: screensize.width * 0.04,
@@ -41,9 +39,7 @@ class Educationview extends GetView<Educationcontroller> {
             child: Row(
               children: [
                 _backButton(),
-
                 SizedBox(width: 10.w),
-
                 Text(
                   "Education",
                   style: TextStyle(

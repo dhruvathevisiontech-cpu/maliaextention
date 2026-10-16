@@ -49,6 +49,7 @@ abstract class Routes {
   static const EDUCATIONBUNDLE = _Paths.EDUCATIONBUNDLE;
   static const PROFILEDETAILS = _Paths.PROFILEDETAILS;
   static const GALLARY = _Paths.GALLARY;
+  static const BLOG = _Paths.BLOG;
 }
 
 abstract class _Paths {
@@ -97,4 +98,5 @@ abstract class _Paths {
   static const EDUCATIONBUNDLE = '/educationbundle';
   static const PROFILEDETAILS = '/profiledetails';
   static const GALLARY = '/gallary';
+  static const BLOG = '/blog';
 }

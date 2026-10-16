@@ -380,6 +380,50 @@ class Profileview extends GetView<Profilecontroller> {
                         onTap: (){
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.blog;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/blog.svg",
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Blog",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                        child: Divider(
+                          color: Colorstheam.clusterwhite,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.salonlocator;
                         },
                         child: Container(

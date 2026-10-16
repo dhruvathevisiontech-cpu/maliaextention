@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import '../controller/bottomnavigationcontroller.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
   const Bottomnavigationview({super.key});
   @override
@@ -119,9 +119,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
                         color: Colorstheam.clusterwhite,
                       ),
                     ),
-
                     SizedBox(height: 3.h),
-
                     AnimatedContainer(
                       duration: const Duration(
                         milliseconds: 250,

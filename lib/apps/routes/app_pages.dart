@@ -46,6 +46,8 @@ import 'package:maliaextention/apps/module/HomemainScreen/viewcart/bindings/view
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/bindings/addresslistbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/blog/bindings/blogbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/blog/view/blogview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/bindings/contactusbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/bindings/educayionfaqbinding.dart';
@@ -381,6 +383,13 @@ class AppPages {
         name: _Paths.GALLARY,
         page: () => Gallaryview(),
         binding: Gallarybinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.BLOG,
+        page: () => Blogview(),
+        binding: Blogbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),
