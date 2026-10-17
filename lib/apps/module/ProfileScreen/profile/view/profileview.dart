@@ -167,6 +167,50 @@ class Profileview extends GetView<Profilecontroller> {
                         onTap: (){
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.salonlocator;
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 08.h,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 20.h,
+                                width: 20.w,
+                                child: SvgPicture.asset(
+                                  "asset/svg/salonlocator.svg",
+                                  height: 16.67.h,
+                                  width: 13.33.w,
+                                  color: Colorstheam.nobelblack,
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              Text(
+                                "Salon Locators",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                        child: Divider(
+                          color: Colorstheam.clusterwhite,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                          bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.profiledetails;
                         },
                         child: Container(
@@ -248,50 +292,6 @@ class Profileview extends GetView<Profilecontroller> {
                         onTap: (){
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.orderhistory;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/orders.svg",
-                                  height:  16.h,
-                                  width: 16.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Orders",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.addresslist;
                         },
                         child: Container(
@@ -336,7 +336,7 @@ class Profileview extends GetView<Profilecontroller> {
                         onTap: (){
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.gallary;
+                          bottomNav.currentPage.value = PageType.orderhistory;
                         },
                         child: Container(
                           width: double.infinity,
@@ -350,103 +350,15 @@ class Profileview extends GetView<Profilecontroller> {
                                 height: 20.h,
                                 width: 20.w,
                                 child: SvgPicture.asset(
-                                  "asset/svg/gallery.svg",
-                                  height: 16.h,
+                                  "asset/svg/orders.svg",
+                                  height:  16.h,
                                   width: 16.w,
                                   color: Colorstheam.nobelblack,
                                 ),
                               ),
                               SizedBox(width: 12.w),
                               Text(
-                                "Gallery",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.blog;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/blog.svg",
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Blog",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.salonlocator;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/salonlocator.svg",
-                                  height: 16.67.h,
-                                  width: 13.33.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Salon Locators",
+                                "Orders",
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontFamily: "DMSans",
@@ -531,29 +443,16 @@ class Profileview extends GetView<Profilecontroller> {
                                   padding: EdgeInsets.only(left: screensize.width * 0.08,right: screensize.width * 0.08),
                                   child: Column(
                                     children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          "About Us",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontFamily: "DMSans",
-                                            color: Colorstheam.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.faqlist;
+                                          bottomNav.currentPage.value = PageType.educationfaq;
                                         },
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            "FAQ’s",
+                                            "Education FAQ’s",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               fontFamily: "DMSans",
@@ -568,12 +467,33 @@ class Profileview extends GetView<Profilecontroller> {
                                         onTap: (){
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.educationfaq;
+                                          bottomNav.currentPage.value = PageType.contactus;
                                         },
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            "Education FAQ’s",
+                                            "Contact us",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              color: Colorstheam.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      SizedBox(height: screensize.height * 0.01),
+                                      GestureDetector(
+                                        onTap: (){
+                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                                          bottomNav.selectedIndex.value = 4;
+                                          bottomNav.currentPage.value = PageType.aboutus;
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "About Us",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               fontFamily: "DMSans",
@@ -608,12 +528,12 @@ class Profileview extends GetView<Profilecontroller> {
                                         onTap: (){
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.contactus;
+                                          bottomNav.currentPage.value = PageType.gallary;
                                         },
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            "Contact us",
+                                            "Gallery",
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               fontFamily: "DMSans",
@@ -622,7 +542,41 @@ class Profileview extends GetView<Profilecontroller> {
                                             ),
                                           ),
                                         ),
-                                      )
+                                      ),
+                                      SizedBox(height: screensize.height * 0.01),
+                                      GestureDetector(
+                                        onTap: (){
+                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
+                                          bottomNav.selectedIndex.value = 4;
+                                          bottomNav.currentPage.value = PageType.faqlist;
+                                        },
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "FAQ’s",
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              color: Colorstheam.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: screensize.height * 0.01),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          "Blog",
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontFamily: "DMSans",
+                                            color: Colorstheam.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: screensize.height * 0.01),
                                     ],
                                   ),
                                 )

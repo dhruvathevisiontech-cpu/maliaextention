@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/privacypolicy/controller/privacypolicycontroller.dart';
 
-
 class Privacypolicyview extends GetView<Privacypolicycontroller> {
   const Privacypolicyview({super.key});
 
@@ -121,11 +120,8 @@ class Privacypolicyview extends GetView<Privacypolicycontroller> {
                 ),
               ),
               SizedBox(height: 24.h),
-              // Policy content
               Container(
                 width: double.infinity,
-                // padding: EdgeInsets.all(18.w),
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

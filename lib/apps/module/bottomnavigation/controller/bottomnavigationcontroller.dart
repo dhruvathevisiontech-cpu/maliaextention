@@ -26,6 +26,8 @@ import 'package:maliaextention/apps/module/HomemainScreen/orderplace/view/orderp
 import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/viewcartcontroller.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/aboutus/controller/aboutuscontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/aboutus/view/aboutusview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/controller/addresslistcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/addresslist/view/addresslistview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/blog/controller/blogcontroller.dart';
@@ -62,7 +64,7 @@ import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/vi
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary,blog}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary,blog,aboutus}
 enum NavigationSource {
   productList,
   settings,
@@ -272,6 +274,12 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Blogcontroller());
         }
         return Blogview();
+
+      case PageType.aboutus:
+        if (!Get.isRegistered<Aboutuscontroller>()) {
+          Get.put(Aboutuscontroller());
+        }
+        return Aboutusview();
 
       case PageType.profile:
       default:

@@ -117,5 +117,7 @@ class Apptext {
   static const gallerytitle = "Gallery";
   //lib/apps/module/ProfileScreen/blog/view/blogview.dart
   static const blogtitle = "Blog";
+  //lib/apps/module/ProfileScreen/aboutus/view/aboutusview.dart
+  static const aboutustitle = "About US";
 
 }
