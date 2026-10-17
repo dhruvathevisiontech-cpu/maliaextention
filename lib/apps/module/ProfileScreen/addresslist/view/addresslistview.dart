@@ -488,37 +488,6 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
-  Widget _continueButton({
-    required bool isEnabled,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: isEnabled ? onTap : null,
-      child: Container(
-        width: double.infinity,
-        height: 54.h,
-        decoration: BoxDecoration(
-          color: isEnabled
-              ? Colorstheam.nobelblack
-              : Colors.grey.shade300,
-        ),
-        child: Center(
-          child: Text(
-            "Continue",
-            style: TextStyle(
-              fontFamily: "Urbanist",
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-              color: isEnabled
-                  ? Colorstheam.white
-                  : Colors.grey.shade600,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
   Widget _emptyAddressView() {
     return Center(
       child: Padding(
@@ -706,11 +675,9 @@ class Addresslistview extends GetView<Addresslistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        final Bottomnavigationcontroller bottomNav =
-        Get.find<Bottomnavigationcontroller>();
-
-        bottomNav.selectedIndex.value = 0;
-        bottomNav.currentPage.value = PageType.home;
+        final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
+        bottomNav.selectedIndex.value = 4;
+        bottomNav.currentPage.value = PageType.profile;
       },
       child: Container(
         width: 32.w,

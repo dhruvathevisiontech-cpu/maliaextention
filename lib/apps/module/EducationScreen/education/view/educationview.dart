@@ -396,60 +396,6 @@ class Educationview extends GetView<Educationcontroller> {
                             ),
                             alignment: Alignment.center,
                             child: SvgPicture.asset(
-                              "asset/svg/lock.svg",
-                              width: 18.w,
-                              height: 18.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Full Access to Malia Extensions",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.2,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  "Unlock full access to Malia Extensions with exclusive features and benefits.",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w300,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: screensize.height * 0.02
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF5F2ED),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
                               "asset/svg/gift.svg",
                               width: 18.w,
                               height: 18.w,

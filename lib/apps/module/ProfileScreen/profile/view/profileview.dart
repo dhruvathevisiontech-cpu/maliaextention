@@ -403,9 +403,7 @@ class Profileview extends GetView<Profilecontroller> {
                                         color: Colorstheam.nobelblack,
                                       ),
                                     ),
-
                                     SizedBox(width: 12.w),
-
                                     Expanded(
                                       child: Text(
                                         "Information",
@@ -417,7 +415,6 @@ class Profileview extends GetView<Profilecontroller> {
                                         ),
                                       ),
                                     ),
-
                                     AnimatedRotation(
                                       turns: controller.isProfileExpanded.value ? 0.5 : 0,
                                       duration: const Duration(milliseconds: 200),

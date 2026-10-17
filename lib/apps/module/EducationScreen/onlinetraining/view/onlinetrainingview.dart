@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/EducationScreen/onlinetraining/controller/onlinetrainingcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
@@ -950,7 +951,9 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                           top: screensize.height * 0.02
                       ),
                       child: AnimatedButton(
-                        onTap: (){},
+                        onTap: (){
+                          Get.offAllNamed(Routes.PROSTYLISTREGISTRATION);
+                        },
                         child: Container(
                           width: 362.w,
                           height: 40.h,

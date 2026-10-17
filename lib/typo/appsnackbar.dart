@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,105 +6,244 @@ import 'package:maliaextention/color/colorstheam.dart';
 
 class AppSnackbar {
   static void success(String message) {
-    _show("Success", message, Colorstheam.black);
+    _show(
+      title: 'ADDED TO YOUR BAG',
+      message: message,
+      icon: Icons.check_rounded,
+    );
   }
 
   static void error(String message) {
-    _show("Error", message, Colorstheam.black);
+    _show(
+      title: 'UNABLE TO COMPLETE',
+      message: message,
+      icon: Icons.priority_high_rounded,
+    );
   }
 
   static void warning(String message) {
-    _show("Warning", message, Colorstheam.black);
+    _show(
+      title: 'A LITTLE REMINDER',
+      message: message,
+      icon: Icons.info_outline_rounded,
+    );
   }
 
   static void info(String message) {
-    _show("Help", message, Colorstheam.black);
+    _show(
+      title: 'JUST SO YOU KNOW',
+      message: message,
+      icon: Icons.auto_awesome_outlined,
+    );
   }
 
-  static void _show(String title, String message, Color color) {
+  static void _show({
+    required String title,
+    required String message,
+    required IconData icon,
+  }) {
     final context = Get.context;
     if (context == null) return;
-    final snackBar = SnackBar(
-      behavior: SnackBarBehavior.floating,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      duration: const Duration(seconds: 3),
-      content: _buildToast(title, message, color),
-    );
 
-    ScaffoldMessenger.of(context)
+    final messenger = ScaffoldMessenger.maybeOf(context);
+    if (messenger == null) return;
+
+    messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+      ..showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.fromLTRB(
+            16.w,
+            0,
+            16.w,
+            20.h,
+          ),
+          duration: const Duration(seconds: 3),
+          dismissDirection: DismissDirection.horizontal,
+          content: _LuxuryToast(
+            title: title,
+            message: message,
+            icon: icon,
+            onClose: messenger.hideCurrentSnackBar,
+          ),
+        ),
+      );
+  }
+}
+
+class _LuxuryToast extends StatefulWidget {
+  final String title;
+  final String message;
+  final IconData icon;
+  final VoidCallback onClose;
+
+  const _LuxuryToast({
+    required this.title,
+    required this.message,
+    required this.icon,
+    required this.onClose,
+  });
+
+  @override
+  State<_LuxuryToast> createState() => _LuxuryToastState();
+}
+
+class _LuxuryToastState extends State<_LuxuryToast>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _progressController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _progressController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..forward();
   }
 
-  static Widget _buildToast(String title, String message, Color color) {
-    final bgColor = Color.lerp(Colors.white, color, 0.12)!;
+  @override
+  void dispose() {
+    _progressController.dispose();
+    super.dispose();
+  }
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        color: bgColor,
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14, right: 40, top: 12, bottom: 12),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: color,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "GoogleSans", ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    message,
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 12.sp,
-                      fontFamily: "GoogleSans",
-                      fontWeight: FontWeight.w400, ),
-                  ),
-                ],
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colorstheam.nobelblack,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: Colorstheam.white.withValues(alpha: 0.13),
+          width: 0.7,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colorstheam.black.withValues(alpha: 0.22),
+            blurRadius: 28.r,
+            offset: Offset(0, 12.h),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              16.w,
+              16.h,
+              10.w,
+              15.h,
             ),
-            Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: 6,
-                color: color,
-              ),
-            ),
-            Positioned(
-              right: 10,
-              top: 18,
-              child: GestureDetector(
-                onTap: () {
-                  ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(6),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 38.w,
+                  height: 38.w,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colorstheam.white.withValues(alpha: 0.22),
+                    ),
+                    shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.close,
-                    size: 16,
-                    color: Colors.black54,
+                  child: Icon(
+                    widget.icon,
+                    color: Colorstheam.white,
+                    size: 18.sp,
                   ),
                 ),
-              ),
+
+                SizedBox(width: 13.w),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'M A L I Á',
+                        style: TextStyle(
+                          color: Colorstheam.Silver,
+                          fontFamily: 'DMSans',
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+
+                      SizedBox(height: 5.h),
+
+                      Text(
+                        widget.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colorstheam.white,
+                          fontFamily: 'DMSans',
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.65,
+                        ),
+                      ),
+
+                      SizedBox(height: 5.h),
+
+                      Text(
+                        widget.message,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colorstheam.Silver,
+                          fontFamily: 'DMSans',
+                          fontSize: 11.5.sp,
+                          fontWeight: FontWeight.w400,
+                          height: 1.45,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(width: 4.w),
+
+                IconButton(
+                  onPressed: widget.onClose,
+                  splashRadius: 18.r,
+                  padding: EdgeInsets.all(8.r),
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: Colorstheam.Silver,
+                    size: 17.sp,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          AnimatedBuilder(
+            animation: _progressController,
+            builder: (context, child) {
+              return Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: 1 - _progressController.value,
+                  child: Container(
+                    height: 2.h,
+                    color: Colorstheam.Silver,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
