@@ -1,47 +1,22 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/controller/collectionlistcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Collectionlistview extends GetView<Collectionlistcontroller> {
-  final List<Map<String, String>> products = [
-    {
-      "id": "product_1",
-      "image": "asset/image/product1.png",
-      "name": "The Classic Butterfly Weft",
-      "rating": "4.9",
-    },
-    {
-      "id": "product_2",
-      "image": "asset/image/product2.png",
-      "name": "The Skinny Butterfly Weft",
-      "rating": "4.9",
-    },
-    {
-      "id": "product_3",
-      "image": "asset/image/product1.png",
-      "name": "The Classic Butterfly Weft",
-      "rating": "4.9",
-    },
-    {
-      "id": "product_4",
-      "image": "asset/image/product2.png",
-      "name": "The Skinny Butterfly Weft",
-      "rating": "4.9",
-    },
-  ];
+  const Collectionlistview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final Size screensize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     final bottomNav = Get.find<Bottomnavigationcontroller>();
-    final collectionIndex = bottomNav.selectedCollectionIndex.value;
-    final collectionName = bottomNav.selectedCollectionName.value;
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -57,20 +32,24 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           scrolledUnderElevation: 0,
           titleSpacing: 0,
           title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
+            padding: EdgeInsets.only(left: screenSize.width * 0.04),
             child: Row(
               children: [
                 _backButton(),
-                SizedBox(width: screensize.width * 0.02),
-                Text(
-                  collectionName,
-                  style: TextStyle(
-                      fontSize: 20.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
+                SizedBox(width: screenSize.width * 0.02),
+                Expanded(
+                  child: Obx(
+                        () => Text(
+                      bottomNav.selectedCollectionName.value,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontFamily: 'Urbanist',
+                        fontWeight: FontWeight.bold,
+                        color: Colorstheam.nobelblack,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -78,188 +57,179 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           ),
           actions: [
             _headerIcon(
-              icon: "asset/svg/Filter.svg",
+              icon: 'asset/svg/Filter.svg',
               onTap: () {
-                final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.filter;
               },
             ),
             SizedBox(width: 20.w),
             _headerIcon(
-              icon: "asset/svg/search.svg",
+              icon: 'asset/svg/search.svg',
               onTap: () {
-                final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
             SizedBox(width: 20.w),
             Padding(
-              padding: EdgeInsets.only(
-                right: screensize.width * 0.04,
-              ),
+              padding: EdgeInsets.only(right: screenSize.width * 0.04),
               child: _headerIcon(
-                onTap: (){
-                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                icon: 'asset/svg/cart.svg',
+                onTap: () {
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
                 },
-                icon: "asset/svg/cart.svg",
               ),
             ),
           ],
         ),
         body: SafeArea(
           top: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 15.h),
-              _subCollectionSelector(
-                collectionIndex: collectionIndex,
-                context: context
-              ),
-              SizedBox(height: 25.h),
-              // --------------------------------------------------------
-              // PRODUCTS
-              // --------------------------------------------------------
-
-              Expanded(
-                child: _productsSection(
-                  collectionIndex: collectionIndex,
+          child: Obx(() {
+            if (controller.isLoadingCollections.value) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colorstheam.nobelblack,
                 ),
-              ),
-            ],
-          ),
+              );
+            }
+
+            if (controller.metaobjectCollections.isEmpty) {
+              return _emptyState(
+                controller.errorMessage.value.isNotEmpty
+                    ? controller.errorMessage.value
+                    : 'No collections available.',
+              );
+            }
+
+            final collectionName =
+                bottomNav.selectedCollectionName.value;
+
+            // This matches the navigation title with the Shopify
+            // metaobject title, ignoring letter case.
+            final matchingParent =
+            controller.metaobjectCollections.firstWhereOrNull(
+                  (item) =>
+              item['title'].toString().toLowerCase() ==
+                  collectionName.toLowerCase(),
+            );
+
+            if (matchingParent == null) {
+              return _emptyState(
+                'No Shopify collection matches "$collectionName".',
+              );
+            }
+
+            // The controller caches the currently loaded parent, so
+            // this does not repeatedly reload the same parent.
+            controller.loadSubCollectionsForParent(collectionName);
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 15.h),
+                _subCollectionSelector(),
+                SizedBox(height: 25.h),
+                Expanded(child: _productsSection()),
+              ],
+            );
+          }),
         ),
       ),
     );
   }
-  Widget _subCollectionSelector({
-    required int collectionIndex,
-    required BuildContext context,
-  }) {
-    final subCollections = controller.getSubCollections(collectionIndex);
-    Size screensize = MediaQuery.of(context).size;
+
+  Widget _subCollectionSelector() {
     return SizedBox(
       height: 44.h,
-      child: Obx(
-            () {
-          final selectedIndex = controller.selectedSubCollection.value;
+      child: Obx(() {
+        if (controller.isLoadingSubCollections.value) {
+          return const SizedBox.shrink();
+        }
 
-          return ListView.separated(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
+        final items = controller.subCollections;
 
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-              right: screensize.width * 0.04,
-            ),
+        if (items.isEmpty) {
+          return const SizedBox.shrink();
+        }
 
-            itemCount: subCollections.length,
+        final selectedIndex =
+            controller.selectedSubCollection.value;
 
-            separatorBuilder: (_, __) {
-              return SizedBox(width: 10.w);
-            },
+        return ListView.separated(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          itemCount: items.length,
+          separatorBuilder: (_, __) => SizedBox(width: 10.w),
+          itemBuilder: (context, index) {
+            final item = items[index];
+            final selected = selectedIndex == index;
 
-            itemBuilder: (context, index) {
-              final bool selected =
-                  selectedIndex == index;
-
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-
-                onTap: () {
-                  controller.selectSubCollection(index);
-                },
-
-                child: AnimatedContainer(
-                  duration: const Duration(
-                    milliseconds: 250,
-                  ),
-
-                  curve: Curves.easeOutCubic,
-
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                  ),
-
-                  alignment: Alignment.center,
-
-                  decoration: BoxDecoration(
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => controller.selectSubCollection(index),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.easeOutCubic,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: selected
+                      ? Colorstheam.nobelblack
+                      : Colorstheam.white,
+                  border: Border.all(
                     color: selected
                         ? Colorstheam.nobelblack
-                        : Colorstheam.white,
-
-                    border: Border.all(
-                      color: selected
-                          ? Colorstheam.nobelblack
-                          : Colorstheam.nobelblack
-                          .withValues(alpha: 0.18),
-                    ),
-                  ),
-
-                  child: AnimatedDefaultTextStyle(
-                    duration: const Duration(
-                      milliseconds: 200,
-                    ),
-
-                    style: TextStyle(
-                      fontFamily: "DMSans",
-                      fontSize: 14.sp,
-                      fontWeight: selected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                      color: selected
-                          ? Colorstheam.white
-                          : Colorstheam.nobelblack,
-                    ),
-
-                    child: Text(
-                      subCollections[index],
-                      maxLines: 1,
-                    ),
+                        : Colorstheam.nobelblack.withValues(alpha: 0.18),
                   ),
                 ),
-              );
-            },
-          );
-        },
-      ),
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 200),
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 14.sp,
+                    fontWeight:
+                    selected ? FontWeight.w600 : FontWeight.w400,
+                    color: selected
+                        ? Colorstheam.white
+                        : Colorstheam.nobelblack,
+                  ),
+                  child: Text(
+                    item['title']?.toString() ?? '',
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
-  Widget _productsSection({
-    required int collectionIndex,
-  }) {
+
+  Widget _productsSection() {
     return Obx(() {
-      final subCollections = controller.getSubCollections(collectionIndex);
-      if (subCollections.isEmpty) {
+      if (controller.isLoadingProducts.value) {
         return Center(
-          child: Text(
-            "No products available",
-            style: TextStyle(
-              fontFamily: "DMSans",
-              fontSize: 14.sp,
-              color: Colorstheam.grey,
-            ),
+          child: CircularProgressIndicator(
+            color: Colorstheam.nobelblack,
           ),
         );
       }
 
-      final selectedIndex =
-          controller.selectedSubCollection.value;
+      if (controller.products.isEmpty) {
+        return _emptyState(
+          controller.errorMessage.value.isNotEmpty
+              ? controller.errorMessage.value
+              : 'No products available in this collection.',
+        );
+      }
 
-      final safeIndex = selectedIndex >= subCollections.length
-          ? 0
-          : selectedIndex;
-
-      final selectedSubCollection =
-      subCollections[safeIndex];
+      final products = controller.products;
 
       return GridView.builder(
-        shrinkWrap: true,
-        // physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -269,56 +239,66 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
-          final product = products[index % products.length];
-          return _productCard(
-            product: product,
-            subCollectionName: selectedSubCollection,
-            index: index,
-            context: context,
-          );
+          return _productCard(products[index], context);
         },
       );
     });
   }
-  Widget _productCard({
-    required Map<String, String> product,
-    required String subCollectionName,
-    required int index,
-    required BuildContext context,
-  }) {
-    Size screensize = MediaQuery.of(context).size;
+
+  Widget _productCard(
+      Map<String, String> product,
+      BuildContext context,
+      ) {
+    final screenSize = MediaQuery.of(context).size;
+    final imageUrl = product['image'] ?? '';
+    final productName = product['name'] ?? '';
+
     return GestureDetector(
       onTap: () {
         final bottomNav = Get.find<Bottomnavigationcontroller>();
-
         bottomNav.selectedIndex.value = 1;
-
         bottomNav.openProductDetails(product);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Stack(
-            children: [
+            children: <Widget>[
               ClipRRect(
-                child: Image.asset(
-                  product["image"]!,
-                  width: 176.w,
+                child: SizedBox(
+                  width: double.infinity,
                   height: 176.h,
-                  fit: BoxFit.cover,
+                  child: imageUrl.isEmpty
+                      ? _imagePlaceholder()
+                      : Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) =>
+                        _imagePlaceholder(),
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+
+                      return Container(
+                        color: Colorstheam.lightgrey,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               Positioned(
                 top: 10.h,
                 right: 10.w,
                 child: Obx(() {
-                  final bool isWishlisted =
+                  final isWishlisted =
                   controller.isWishlisted(product);
 
                   return GestureDetector(
-                    onTap: () {
-                      controller.toggleWishlist(product);
-                    },
+                    onTap: () => controller.toggleWishlist(product),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       height: 34.h,
@@ -330,8 +310,8 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
                       child: Center(
                         child: SvgPicture.asset(
                           isWishlisted
-                              ? "asset/svg/heart_filled.svg"
-                              : "asset/svg/heart.svg",
+                              ? 'asset/svg/heart_filled.svg'
+                              : 'asset/svg/heart.svg',
                           height: 18.h,
                           width: 18.w,
                           color: isWishlisted
@@ -347,30 +327,31 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           ),
           SizedBox(height: 8.h),
           Text(
-            product["name"]!,
+            productName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontFamily: "DMSans",
+              fontFamily: 'DMSans',
               fontSize: 14.sp,
               fontWeight: FontWeight.w600,
               color: Colorstheam.nobelblack,
             ),
           ),
           SizedBox(height: 4.h),
-
           Row(
             children: [
               SvgPicture.asset(
-                "asset/svg/star.svg",
+                'asset/svg/star.svg',
                 height: 11.h,
                 width: 12.w,
               ),
-              SizedBox(width: screensize.width * 0.01),
+              SizedBox(width: screenSize.width * 0.01),
               Text(
-                product["rating"]!,
+                (product['rating']?.isNotEmpty ?? false)
+                    ? product['rating']!
+                    : '—',
                 style: TextStyle(
-                  fontFamily: "DMSans",
+                  fontFamily: 'DMSans',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
                   color: Colorstheam.grey,
@@ -378,17 +359,15 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
               ),
             ],
           ),
-
           SizedBox(height: 4.h),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "LOGIN TO SEE PRICE",
+                'LOGIN TO SEE PRICE',
                 style: TextStyle(
                   fontSize: 12.sp,
-                  fontFamily: "DMSans",
+                  fontFamily: 'DMSans',
                   fontWeight: FontWeight.w600,
                   color: Colorstheam.nobelblack,
                 ),
@@ -405,9 +384,35 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       ),
     );
   }
-  // ============================================================
-  // BACK BUTTON
-  // ============================================================
+
+  Widget _imagePlaceholder() {
+    return Container(
+      color: Colorstheam.lightgrey,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_outlined,
+        size: 32.sp,
+        color: Colorstheam.grey,
+      ),
+    );
+  }
+
+  Widget _emptyState(String message) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(24.w),
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'DMSans',
+            fontSize: 14.sp,
+            color: Colorstheam.grey,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _backButton() {
     return GestureDetector(
@@ -420,15 +425,13 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       child: Container(
         width: 32.w,
         height: 32.w,
-
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colorstheam.nobelblack,
         ),
-
         child: Center(
           child: SvgPicture.asset(
-            "asset/svg/arrowleft.svg",
+            'asset/svg/arrowleft.svg',
             width: 10.w,
             height: 10.h,
           ),
@@ -436,10 +439,6 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // HEADER ICON
-  // ============================================================
 
   Widget _headerIcon({
     required String icon,

@@ -106,48 +106,32 @@ class Filterview extends GetView<Filtercontroller> {
 
                     child: Obx(
                           () {
-                        final int selectedIndex =
-                            controller.selectedCategoryIndex.value;
-
+                        final int selectedIndex = controller.selectedCategoryIndex.value;
                         return ListView.builder(
                           itemCount: controller.categories.length,
-
-                          itemBuilder: (
-                              context,
-                              index,
-                              ) {
-                            final category =
-                            controller.categories[index];
-
-                            final bool isSelected =
-                                selectedIndex == index;
-
+                          itemBuilder: (context, index,) {
+                            final category = controller.categories[index];
+                            final bool isSelected = selectedIndex == index;
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
-
                               onTap: () {
                                 controller
                                     .selectedCategoryIndex
                                     .value = index;
                               },
-
                               child: AnimatedContainer(
                                 duration: const Duration(
                                   milliseconds: 220,
                                 ),
                                 curve: Curves.easeOutCubic,
-
                                 padding: EdgeInsets.symmetric(
                                   vertical: 14.h,
                                   horizontal: 16.w,
                                 ),
-
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? Colorstheam.nobelblack
-                                      .withValues(alpha: 0.04)
+                                      ? Colorstheam.nobelblack.withValues(alpha: 0.04)
                                       : Colors.transparent,
-
                                   border: Border(
                                     left: BorderSide(
                                       color: isSelected
@@ -157,13 +141,11 @@ class Filterview extends GetView<Filtercontroller> {
                                     ),
                                   ),
                                 ),
-
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(
                                     milliseconds: 180,
                                   ),
                                   curve: Curves.easeOutCubic,
-
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontFamily: "DMSans",
@@ -175,7 +157,6 @@ class Filterview extends GetView<Filtercontroller> {
                                         : Colorstheam.nobelblack
                                         .withValues(alpha: 0.5),
                                   ),
-
                                   child: Text(
                                     category.title,
                                   ),
@@ -187,65 +168,43 @@ class Filterview extends GetView<Filtercontroller> {
                       },
                     ),
                   ),
-
                   // ======================================================
                   // RIGHT SIDE - OPTIONS
                   // ======================================================
-
                   Expanded(
                     child: Obx(
                           () {
-                        final int selectedIndex =
-                            controller.selectedCategoryIndex.value;
-
-                        final selectedCategory =
-                        controller.categories[selectedIndex];
-
-                        final options =
-                            controller.filterOptions[
-                            selectedCategory.type] ??
-                                [];
-
+                        final int selectedIndex = controller.selectedCategoryIndex.value;
+                        final selectedCategory = controller.categories[selectedIndex];
+                        final options = controller.filterOptions[selectedCategory.type] ?? [];
                         return ListView.builder(
                           padding: EdgeInsets.symmetric(
                             vertical: 8.h,
                             horizontal: 16.w,
                           ),
-
                           itemCount: options.length,
-
-                          itemBuilder: (
-                              context,
-                              index,
-                              ) {
+                          itemBuilder: (context, index,) {
                             final option = options[index];
-
-                            final bool isChecked =
-                            controller.isOptionSelected(
+                            final bool isChecked = controller.isOptionSelected(
                               selectedCategory.type,
                               option.id,
                             );
-
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
-
                               onTap: () {
                                 controller.toggleOption(
                                   selectedCategory.type,
                                   option.id,
                                 );
                               },
-
                               child: AnimatedContainer(
                                 duration: const Duration(
                                   milliseconds: 220,
                                 ),
                                 curve: Curves.easeOutCubic,
-
                                 padding: EdgeInsets.symmetric(
                                   vertical: 10.h,
                                 ),
-
                                 child: Row(
                                   children: [
 

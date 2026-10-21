@@ -159,9 +159,7 @@ class _LuxuryToastState extends State<_LuxuryToast>
                     size: 18.sp,
                   ),
                 ),
-
                 SizedBox(width: 13.w),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

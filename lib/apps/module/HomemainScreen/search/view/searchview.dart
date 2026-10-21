@@ -10,12 +10,7 @@ import 'package:maliaextention/color/colorstheam.dart';
 
 class Searchview extends GetView<Searchdatacontroller> {
   Searchview({super.key});
-  final List<String> recentSearches = [
-    "Butterfly Weft",
-    "Genius Weft",
-    "K-Tips",
-    "Tape Wefts",
-  ];
+
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
@@ -33,34 +28,25 @@ class Searchview extends GetView<Searchdatacontroller> {
             elevation: 0,
             scrolledUnderElevation: 0,
             titleSpacing: 0,
+            leadingWidth: 50.w,
+            leading: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                final bottomNav =
+                Get.find<Bottomnavigationcontroller>();
 
-            leadingWidth: 60.w,
-
-            leading: Padding(
-              padding: EdgeInsets.only(
-                left: screensize.width * 0.04,
-              ),
-              child: InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                borderRadius: BorderRadius.circular(100.r),
-                onTap: () {
-                  final bottomNav = Get.find<Bottomnavigationcontroller>();
-                  bottomNav.selectedIndex.value = 0;
-                  bottomNav.currentPage.value = PageType.home;
-                },
+                bottomNav.selectedIndex.value = 0;
+                bottomNav.currentPage.value =
+                    PageType.home;
+              },
+              child: Padding(
+                padding: EdgeInsets.only(left: screensize.width * 0.04),
                 child: Container(
-                  height: 40.h,
-                  width: 40.w,
+                  width: 32.w,
+                  height: 32.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colorstheam.black,
-                    border: Border.all(
-                      color: Colorstheam.black,
-                      width: 1.5,
-                    ),
+                    color: Colorstheam.nobelblack,
                   ),
                   child: Center(
                     child: SvgPicture.asset(
@@ -72,7 +58,6 @@ class Searchview extends GetView<Searchdatacontroller> {
                 ),
               ),
             ),
-
             title: TweenAnimationBuilder<double>(
               tween: Tween<double>(
                 begin: 0.0,
@@ -106,10 +91,15 @@ class Searchview extends GetView<Searchdatacontroller> {
                       color: Colorstheam.clusterwhite
                     )
                   ),
-                  child: TextField(
+                  child:
+
+                  TextField(
+                    controller: controller.searchTextController,
                     autofocus: true,
                     textInputAction: TextInputAction.search,
                     textAlignVertical: TextAlignVertical.center,
+                    onChanged: controller.onSearchChanged,
+                    onSubmitted: controller.submitSearch,
                     style: TextStyle(
                       fontFamily: "DMSans",
                       fontSize: 15.sp,
@@ -126,10 +116,7 @@ class Searchview extends GetView<Searchdatacontroller> {
                         color: Colorstheam.lightgrey,
                       ),
                       prefixIcon: Padding(
-                        padding: EdgeInsets.only(
-                          left: 14.w,
-                          right: 10.w,
-                        ),
+                        padding: EdgeInsets.only(left: 14.w, right: 10.w),
                         child: SvgPicture.asset(
                           "asset/svg/search.svg",
                           width: 18.w,
@@ -140,15 +127,23 @@ class Searchview extends GetView<Searchdatacontroller> {
                         minWidth: 42.w,
                         minHeight: 46.h,
                       ),
-                      suffixIcon: Padding(
-                        padding: EdgeInsets.only(
-                          left: 14.w,
-                          right: 10.w,
-                        ),
-                        child: SvgPicture.asset(
-                          "asset/svg/mic.svg",
-                          width: 18.w,
-                          height: 18.h,
+                      suffixIcon: Obx(
+                            () => controller.searchText.value.isNotEmpty
+                            ? IconButton(
+                          onPressed: controller.clearSearch,
+                          icon: Icon(
+                            Icons.close,
+                            size: 19.sp,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        )
+                            : Padding(
+                          padding: EdgeInsets.only(left: 14.w, right: 10.w),
+                          child: SvgPicture.asset(
+                            "asset/svg/mic.svg",
+                            width: 18.w,
+                            height: 18.h,
+                          ),
                         ),
                       ),
                       suffixIconConstraints: BoxConstraints(
@@ -158,70 +153,321 @@ class Searchview extends GetView<Searchdatacontroller> {
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
                     ),
-                  ),
+                  )
+
+
                 ),
               ),
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,top: screensize.height * 0.02),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Recent Serches".toUpperCase(),
+        body: Obx(() {
+          final hasQuery = controller.searchText.value.trim().isNotEmpty;
+
+          if (!hasQuery) {
+            return ListView(
+              padding: EdgeInsets.fromLTRB(16.w, 22.h, 16.w, 24.h),
+              children: [
+                _searchSectionTitle('RECENT SEARCHES'),
+                SizedBox(height: 14.h),
+                if (controller.recentSearches.isEmpty)
+                  Text(
+                    'Your recent searches will appear here.',
                     style: TextStyle(
+                      fontFamily: 'DMSans',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colorstheam.grey,
+                    ),
+                  )
+                else
+                  Wrap(
+                    spacing: 8.w,
+                    runSpacing: 8.h,
+                    children: controller.recentSearches.map((term) {
+                      return ActionChip(
+                        label: Text(
+                          term,
+                          style: TextStyle(
+                            fontFamily: 'DMSans',
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        ),
+                        backgroundColor: Colorstheam.white,
+                        side: BorderSide(color: Colorstheam.clusterwhite),
+                        onPressed: () => controller.selectRecentSearch(term),
+                      );
+                    }).toList(),
+                  ),
+              ],
+            );
+          }
+
+          if (controller.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(color: Colorstheam.black),
+            );
+          }
+
+          if (controller.errorMessage.value.isNotEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(24.w),
+                child: Text(
+                  controller.errorMessage.value,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colorstheam.grey,
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return ListView(
+            padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 30.h),
+            children: [
+              // RELATED PRODUCTS
+              if (controller.products.isNotEmpty) ...[
+                _searchSectionTitle('RELATED PRODUCTS'),
+                SizedBox(height: 12.h),
+                ...controller.products.map(
+                      (product) => _buildSearchProduct(product),
+                ),
+                SizedBox(height: 22.h),
+              ],
+
+              // SUGGESTIONS
+              if (controller.suggestions.isNotEmpty) ...[
+                _searchSectionTitle('SUGGESTIONS'),
+                SizedBox(height: 10.h),
+                ...controller.suggestions.map(
+                      (term) => _buildSearchSuggestion(term),
+                ),
+                SizedBox(height: 22.h),
+              ],
+
+              // COLLECTIONS
+              if (controller.collections.isNotEmpty) ...[
+                _searchSectionTitle('COLLECTIONS'),
+                SizedBox(height: 10.h),
+                ...controller.collections.map(
+                      (collection) => _buildSearchCollection(collection),
+                ),
+              ],
+
+              if (controller.products.isEmpty &&
+                  controller.suggestions.isEmpty &&
+                  controller.collections.isEmpty)
+                Padding(
+                  padding: EdgeInsets.only(top: 40.h),
+                  child: Center(
+                    child: Text(
+                      'No results found for "${controller.searchText.value}".',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: "DMSans",
-                        color: Colorstheam.arabiangrey
+                        color: Colorstheam.grey,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 14.h),
-              SizedBox(
-                height: 40.h,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screensize.width * 0.04,
-                  ),
-                  itemCount: recentSearches.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 10.w),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                      ),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colorstheam.clusterwhite
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            recentSearches[index],
-                            style: TextStyle(
-                              fontFamily: "DMSans",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colorstheam.nobelblack,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
             ],
-          )
+          );
+        }),
+
+
       ),
     );
   }
+
+  Widget _searchSectionTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'DMSans',
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.8,
+        color: Colorstheam.arabiangrey,
+      ),
+    );
+  }
+
+  Widget _buildSearchProduct(Map<String, String> product) {
+    final imageUrl = product['image'] ?? '';
+
+    return InkWell(
+      onTap: () {
+        Get.find<Bottomnavigationcontroller>()
+            .openProductDetails(product);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 14.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6.r),
+              child: SizedBox(
+                width: 94.w,
+                height: 112.h,
+                child: imageUrl.isNotEmpty
+                    ? Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Icon(
+                    Icons.image_outlined,
+                    color: Colorstheam.grey,
+                  ),
+                )
+                    : Icon(
+                  Icons.image_outlined,
+                  color: Colorstheam.grey,
+                ),
+              ),
+            ),
+            SizedBox(width: 14.w),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: 3.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product['name'] ?? '',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colorstheam.nobelblack,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      '15 Minutes Per Row',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colorstheam.grey,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      product['priceLabel'] ?? 'Login to See Price',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colorstheam.nobelblack,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchSuggestion(String term) {
+    return InkWell(
+      onTap: () => controller.selectSuggestion(term),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 11.h),
+        child: Row(
+          children: [
+            Icon(
+              Icons.search,
+              size: 18.sp,
+              color: Colorstheam.grey,
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Text(
+                term,
+                style: TextStyle(
+                  fontFamily: 'DMSans',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.north_west,
+              size: 15.sp,
+              color: Colorstheam.grey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchCollection(Map<String, String> collection) {
+    final imageUrl = collection['image'] ?? '';
+
+    return InkWell(
+      onTap: () {
+        controller.selectSuggestion(collection['name'] ?? '');
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5.r),
+              child: SizedBox(
+                width: 54.w,
+                height: 54.h,
+                child: imageUrl.isNotEmpty
+                    ? Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Icon(
+                    Icons.collections_outlined,
+                    color: Colorstheam.grey,
+                  ),
+                )
+                    : Icon(
+                  Icons.collections_outlined,
+                  color: Colorstheam.grey,
+                ),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Text(
+                collection['name'] ?? '',
+                style: TextStyle(
+                  fontFamily: 'DMSans',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 13.sp,
+              color: Colorstheam.grey,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

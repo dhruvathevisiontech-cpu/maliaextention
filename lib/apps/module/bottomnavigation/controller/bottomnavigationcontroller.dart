@@ -23,6 +23,7 @@ import 'package:maliaextention/apps/module/EducationScreen/viewclass/view/viewcl
 import 'package:maliaextention/apps/module/HomemainScreen/homescreen/view/homeview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/orderplace/controller/orderplacecontroller.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/orderplace/view/orderplaceview.dart';
+import 'package:maliaextention/apps/module/HomemainScreen/search/controller/searchcontroller.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/viewcartcontroller.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
@@ -80,15 +81,24 @@ class Bottomnavigationcontroller extends GetxController {
   var selectedCollectionName = ''.obs;
   final Rxn<Map<String, String>> selectedProduct = Rxn<Map<String, String>>();
   void openProductDetails(Map<String, String> product) {
+    debugPrint('Tapped product: ${product['name']}');
+    debugPrint('Tapped product ID: ${product['id']}');
+    debugPrint('Tapped product handle: ${product['handle']}');
+
     selectedProduct.value = product;
+
     if (!Get.isRegistered<Productdetailscontroller>()) {
       Get.put(Productdetailscontroller());
     }
-    final productDetailsController = Get.find<Productdetailscontroller>();
+
+    final productDetailsController =
+    Get.find<Productdetailscontroller>();
 
     productDetailsController.setProduct(product);
 
     currentPage.value = PageType.productdetails;
+
+    debugPrint('Current page: ${currentPage.value}');
   }
 
   void changeIndex(int index) {
@@ -312,6 +322,9 @@ class Bottomnavigationcontroller extends GetxController {
         return Orderplaceview();
 
       case PageType.search:
+        if (!Get.isRegistered<Searchdatacontroller>()) {
+          Get.put(Searchdatacontroller());
+        }
         return Searchview();
       case PageType.home:
       default:

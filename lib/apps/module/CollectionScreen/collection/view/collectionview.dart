@@ -11,14 +11,6 @@ import 'package:maliaextention/color/colorstheam.dart';
 
 class Collectionview extends GetView<Collectioncontroller> {
   Collectionview({super.key});
-
-  final List<String> mainCategories = [
-    "Hair Extensions",
-    "Hair Care",
-    "Accessories",
-    "The Length Club ",
-  ];
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -89,69 +81,131 @@ class Collectionview extends GetView<Collectioncontroller> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
+              // Expanded(
+              //   child: GridView.builder(
+              //     physics: const BouncingScrollPhysics(),
+              //     padding: EdgeInsets.only(
+              //       left: screensize.width * 0.055,
+              //       right: screensize.width * 0.055,
+              //       bottom: 40.h,
+              //     ),
+              //     itemCount: mainCategories.length,
+              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 14.w,
+              //       mainAxisSpacing: 24.h,
+              //       childAspectRatio: 0.72,
+              //     ),
+              //     itemBuilder: (context, index) {
+              //       return v(
+              //         title: mainCategories[index],
+              //         index: index,
+              //       );
+              //     },
+              //   ),
+              // ),
               Expanded(
-                child: GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(
-                    left: screensize.width * 0.055,
-                    right: screensize.width * 0.055,
-                    bottom: 40.h,
-                  ),
-                  itemCount: mainCategories.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 14.w,
-                    mainAxisSpacing: 24.h,
-                    childAspectRatio: 0.72,
-                  ),
-                  itemBuilder: (context, index) {
-                    return _gridCategory(
-                      title: mainCategories[index],
-                      index: index,
+                child: Obx(() {
+                  if (controller.isMetaobjectsLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                ),
+                  }
+
+                  if (controller.metaobjectsErrorMessage.value.isNotEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(24.w),
+                        child: Text(
+                          'Unable to load collections.\n'
+                              '${controller.metaobjectsErrorMessage.value}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 14.sp,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+
+                  final categories = controller.metaobjectCollections;
+
+                  if (categories.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No collections available.',
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 15.sp,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      ),
+                    );
+                  }
+
+                  return GridView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.only(
+                      left: screensize.width * 0.055,
+                      right: screensize.width * 0.055,
+                      bottom: 40.h,
+                    ),
+                    itemCount: categories.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 14.w,
+                      mainAxisSpacing: 24.h,
+                      childAspectRatio: 0.72,
+                    ),
+                    itemBuilder: (context, index) {
+                      return _gridCategory(
+                        category: categories[index],
+                        index: index,
+                      );
+                    },
+                  );
+                }),
               ),
+
             ],
           ),
         ),
       ),
     );
   }
+
   Widget _gridCategory({
-    required String title,
+    required Map<String, dynamic> category,
     required int index,
   }) {
-    final List<String> categoryImages = [
-      "asset/image/collectionone.png",
-      "asset/image/collection2.png",
-      "asset/image/collection3.png",
-      "asset/image/collection4.png",
+    final String title =
+        category['title']?.toString() ?? '';
+
+    final String imageUrl =
+        category['imageUrl']?.toString() ?? '';
+
+    final List<String> fallbackImages = [
+      'asset/image/collectionone.png',
+      'asset/image/collection2.png',
+      'asset/image/collection3.png',
+      'asset/image/collection4.png',
     ];
 
     return TweenAnimationBuilder<double>(
-      tween: Tween(
-        begin: 0,
-        end: 1,
-      ),
-      duration: Duration(
-        milliseconds: 400 + (index * 100),
-      ),
+      tween: Tween(begin: 0, end: 1),
+      duration: Duration(milliseconds: 400 + index * 100),
       curve: Curves.easeOutCubic,
-
       builder: (context, value, child) {
         return Transform.translate(
-          offset: Offset(
-            0,
-            20.h * (1 - value),
-          ),
+          offset: Offset(0, 20.h * (1 - value)),
           child: Opacity(
             opacity: value,
             child: child,
           ),
         );
       },
-
       child: Obx(() {
         final bool selected =
             controller.selectedCollection.value == index;
@@ -160,34 +214,40 @@ class Collectionview extends GetView<Collectioncontroller> {
           behavior: HitTestBehavior.opaque,
 
           onTap: () {
-            controller.selectCollection(index);
+            debugPrint('Collection tapped: ${category['title']}');
+            debugPrint('Collection data: $category');
 
-            final bottomNav =
-            Get.find<Bottomnavigationcontroller>();
+            final title = category['title']?.toString().trim() ?? '';
 
-            bottomNav.selectedCollectionIndex.value = index;
+            if (title.isEmpty) {
+              Get.snackbar(
+                'Collection unavailable',
+                'This collection has no title.',
+                snackPosition: SnackPosition.BOTTOM,
+              );
+              return;
+            }
+
+            final bottomNav = Get.find<Bottomnavigationcontroller>();
+
+            controller.selectedCollection.value = index;
+
+            // Collectionlistcontroller looks up the metaobject by this title.
             bottomNav.selectedCollectionName.value = title;
-
             bottomNav.selectedIndex.value = 1;
-            bottomNav.currentPage.value =
-                PageType.collectionlist;
-          },
+            bottomNav.currentPage.value = PageType.collectionlist;
 
+            debugPrint('Opening collection list: $title');
+            debugPrint('Current page: ${bottomNav.currentPage.value}');
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              // ------------------------------------------
-              // IMAGE
-              // ------------------------------------------
-
               Expanded(
                 child: AnimatedContainer(
-                  duration: const Duration(
-                    milliseconds: 300,
-                  ),
+                  duration: const Duration(milliseconds: 300),
                   width: double.infinity,
-
+                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     color: Colorstheam.nobelblack.withValues(
                       alpha: 0.04,
@@ -201,27 +261,33 @@ class Collectionview extends GetView<Collectioncontroller> {
                       width: selected ? 1.2 : 1,
                     ),
                   ),
-                  child: Image.asset(
-                    categoryImages[index],
-                    width: 171.w,
-                    height: 171.h,
+                  child: imageUrl.isNotEmpty
+                      ? Image.network(
+                    imageUrl,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stack) {
+                      return Image.asset(
+                        fallbackImages[
+                        index % fallbackImages.length],
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  )
+                      : Image.asset(
+                    fallbackImages[
+                    index % fallbackImages.length],
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-
               SizedBox(height: 11.h),
-
-              // ------------------------------------------
-              // CATEGORY TEXT
-              // ------------------------------------------
-
               Text(
                 title.toUpperCase(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontFamily: "Urbanist",
+                  fontFamily: 'Urbanist',
                   fontSize: 17.sp,
                   height: 1.05,
                   fontWeight: FontWeight.w600,
@@ -229,14 +295,9 @@ class Collectionview extends GetView<Collectioncontroller> {
                   color: Colorstheam.nobelblack,
                 ),
               ),
-
               SizedBox(height: 5.h),
-
-              // Minimal line
               AnimatedContainer(
-                duration: const Duration(
-                  milliseconds: 300,
-                ),
+                duration: const Duration(milliseconds: 300),
                 width: selected ? 32.w : 18.w,
                 height: selected ? 2 : 1,
                 color: Colorstheam.nobelblack.withValues(
@@ -249,6 +310,7 @@ class Collectionview extends GetView<Collectioncontroller> {
       }),
     );
   }
+
   // ============================================================
   // BACK BUTTON
   // ============================================================
