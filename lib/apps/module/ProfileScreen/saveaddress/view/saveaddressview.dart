@@ -944,6 +944,7 @@ import 'package:maliaextention/animation/textselect.dart';
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
+          HapticFeedback.heavyImpact();
           final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
           bottomNav.selectedIndex.value = 4;
           bottomNav.currentPage.value = PageType.profile;

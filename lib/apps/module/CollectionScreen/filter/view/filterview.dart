@@ -115,6 +115,7 @@ class Filterview extends GetView<Filtercontroller> {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 controller
                                     .selectedCategoryIndex
                                     .value = index;
@@ -192,6 +193,7 @@ class Filterview extends GetView<Filtercontroller> {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 controller.toggleOption(
                                   selectedCategory.type,
                                   option.id,
@@ -417,6 +419,7 @@ class Filterview extends GetView<Filtercontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           controller.selectedButton.value = 0;
 
                           controller.resetFilters();
@@ -515,6 +518,7 @@ class Filterview extends GetView<Filtercontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           controller.selectedButton.value = 1;
 
                           controller.applyFilters();

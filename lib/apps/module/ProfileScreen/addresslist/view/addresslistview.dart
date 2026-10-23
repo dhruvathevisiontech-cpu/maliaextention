@@ -183,6 +183,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 debugPrint("Add New Address");
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 4;
                 bottomNav.currentPage.value = PageType.saveaddress;
@@ -605,6 +606,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Get.back();
                         },
                         child: Container(
@@ -635,6 +637,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Get.back();
 
                           // TODO:
@@ -675,6 +678,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

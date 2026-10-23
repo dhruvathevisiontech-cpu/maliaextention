@@ -1192,8 +1192,8 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                         width: 176.w,
                         child: GestureDetector(
                           onTap: () {
-                            final bottomNav =
-                            Get.find<Bottomnavigationcontroller>();
+                            HapticFeedback.heavyImpact();
+                            final bottomNav = Get.find<Bottomnavigationcontroller>();
                             bottomNav.selectedIndex.value = 1;
                             bottomNav.currentPage.value = PageType.productdetails;
                           },
@@ -1216,7 +1216,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                                     right: 10.w,
                                     child: GestureDetector(
                                       onTap: () {
-                                        // Wishlist logic
+                                        HapticFeedback.heavyImpact();
                                       },
                                       child: AnimatedContainer(
                                         duration:
@@ -1306,6 +1306,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.onlinetraing;

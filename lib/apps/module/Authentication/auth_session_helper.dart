@@ -34,6 +34,20 @@ class AuthSessionHelper {
     //   SetOptions(merge: true),
     // );
   }
+  static bool isLoggedIn() {
+    return _storage.read("isLoggedIn") == true;
+  }
+  static Future<void> logout() async {
+    await _storage.write("isLoggedIn", false);
+
+    final session = _storage.read("session");
+
+    if (session is Map) {
+      final updatedSession = Map<String, dynamic>.from(session);
+      updatedSession["isLoggedIn"] = false;
+      await _storage.write("session", updatedSession);
+    }
+  }
   static Map<String, dynamic>? getSession() {
     return _storage.read("session");
   }

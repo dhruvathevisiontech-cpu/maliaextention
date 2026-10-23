@@ -483,6 +483,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                                     SizedBox(height: 20.h),
                                                     GestureDetector(
                                                       onTap: (){
+                                                        HapticFeedback.heavyImpact();
                                                         Get.offAllNamed(Routes.LOGIN);
                                                       },
                                                       child: Container(

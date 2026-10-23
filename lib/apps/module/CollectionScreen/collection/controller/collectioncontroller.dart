@@ -157,7 +157,7 @@ class Collectioncontroller extends GetxController {
         print('Metaobject is_active: $activeValue');
 
         // Skip inactive entries. Empty values are not treated as active.
-        if (activeValue != 'true') continue;
+        if (activeValue == 'false') continue;
 
         final title =
             values['title']?.toString().trim() ?? '';
@@ -186,8 +186,13 @@ class Collectioncontroller extends GetxController {
       );
 
       metaobjectCollections.assignAll(result);
-
+      print('Result count before assignAll: ${result.length}');
+      print('Result data: $result');
       print('Active metaobjects: ${result.length}');
+      print(
+        'Observable list count after assignAll: '
+            '${metaobjectCollections.length}',
+      );
       for (final item in result) {
         print(
           '${item['title']} | '

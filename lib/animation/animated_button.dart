@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AnimatedButton extends StatefulWidget {
   final Widget child;
@@ -27,7 +28,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
     setState(() {
       _isPressed = false;
     });
-
+    HapticFeedback.heavyImpact();
     widget.onTap?.call();
   }
 

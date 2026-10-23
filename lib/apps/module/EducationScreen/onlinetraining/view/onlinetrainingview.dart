@@ -239,6 +239,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                                 bottomNav.selectedIndex.value = 3;
                                 bottomNav.currentPage.value = PageType.onlinetrainingviewclass;
@@ -365,6 +366,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                                 bottomNav.selectedIndex.value = 3;
                                 bottomNav.currentPage.value = PageType.onlinetrainingviewclass;
@@ -491,6 +493,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                                 bottomNav.selectedIndex.value = 3;
                                 bottomNav.currentPage.value = PageType.onlinetrainingviewclass;
@@ -994,6 +997,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.education;

@@ -197,6 +197,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                                   alignment: PlaceholderAlignment.middle,
                                   child: GestureDetector(
                                     onTap: () {
+                                      HapticFeedback.heavyImpact();
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,

@@ -1997,6 +1997,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
+                                    HapticFeedback.heavyImpact();
                                     controller.isAccepted.toggle();
                                   },
                                   child: Row(
@@ -2050,6 +2051,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
+                                    HapticFeedback.heavyImpact();
                                     controller.isAccepted1.toggle();
                                   },
                                   child: Row(

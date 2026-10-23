@@ -224,6 +224,7 @@ class Blogview extends GetView<Blogcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final Bottomnavigationcontroller bottomNav =
         Get.find<Bottomnavigationcontroller>();
 

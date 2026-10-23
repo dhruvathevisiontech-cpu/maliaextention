@@ -649,6 +649,7 @@ class Privacypolicyview extends GetView<Privacypolicycontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.policy;

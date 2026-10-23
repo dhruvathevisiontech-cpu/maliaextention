@@ -7,6 +7,8 @@ import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
 import 'package:maliaextention/apps/module/cartcontroller.dart';
 
+import '../../../Authentication/auth_session_helper.dart';
+
 class Productdetailscontroller extends GetxController {
   final CarouselSliderController carouselController =
   CarouselSliderController();
@@ -29,6 +31,11 @@ class Productdetailscontroller extends GetxController {
   late Cartcontroller cartController;
   late Wishlistcontroller wishlistController;
   late Map<String, dynamic> product;
+
+  final RxList<Map<String, dynamic>> recommendedProducts =
+      <Map<String, dynamic>>[].obs;
+
+  final RxBool isLoadingRecommendations = false.obs;
 
   final lengths = <String>[
     '18" (40g)',
@@ -127,6 +134,55 @@ class Productdetailscontroller extends GetxController {
       }
     }
   ''';
+  static const String _recommendationsQuery = r'''
+  query GetProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId) {
+      id
+      title
+      handle
+      availableForSale
+      featuredImage {
+        url
+        altText
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+''';
+
+  Future<void> fetchRecommendations() async {
+    final productId = productDetails['id']?.toString() ?? '';
+
+    if (productId.isEmpty) return;
+
+    isLoadingRecommendations.value = true;
+
+    try {
+      final response = await ShopifyCollectionService.query(
+        _recommendationsQuery,
+        variables: {'productId': productId},
+      );
+
+      final rawProducts = response['productRecommendations'] as List? ?? [];
+
+      recommendedProducts.assignAll(
+        rawProducts
+            .whereType<Map>()
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList(),
+      );
+    } catch (e) {
+      debugPrint('fetchRecommendations error: $e');
+      recommendedProducts.clear();
+    } finally {
+      isLoadingRecommendations.value = false;
+    }
+  }
 
   String get productName =>
       productDetails['title']?.toString() ??
@@ -184,11 +240,16 @@ class Productdetailscontroller extends GetxController {
       };
     }).toList();
   }
+  final RxBool isLoggedIn = false.obs;
 
+  void checkLoginStatus() {
+    isLoggedIn.value = AuthSessionHelper.isLoggedIn();
+    print("Is User Logged In: ${isLoggedIn.value}");
+  }
   @override
   void onInit() {
     super.onInit();
-
+    checkLoginStatus();
     wishlistController = Get.find<Wishlistcontroller>();
 
     if (Get.isRegistered<Cartcontroller>()) {
@@ -218,6 +279,7 @@ class Productdetailscontroller extends GetxController {
     productDetails.clear();
     productImages.clear();
     variants.clear();
+    recommendedProducts.clear();
     selectedVariant.value = null;
     productError.value = '';
 
@@ -249,7 +311,8 @@ class Productdetailscontroller extends GetxController {
       }
 
       productDetails.assignAll(rawProduct);
-
+      recommendedProducts.clear();
+      await fetchRecommendations();
       final loadedImages = <String>[];
       final imageNodes =
           rawProduct['images']?['nodes'] as List? ?? [];

@@ -430,6 +430,7 @@ class Contactusview extends GetView<Contactuscontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
 
         bottomNav.selectedIndex.value = 4;

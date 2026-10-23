@@ -60,6 +60,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 4;
                   bottomNav.currentPage.value = PageType.vieworder;
@@ -135,6 +136,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
               ),
               GestureDetector(
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 4;
                   bottomNav.currentPage.value = PageType.vieworder;
@@ -215,6 +217,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

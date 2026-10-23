@@ -66,6 +66,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.viewcart;

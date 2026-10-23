@@ -255,6 +255,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
 
     return GestureDetector(
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 1;
         bottomNav.openProductDetails(product);
@@ -418,6 +419,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 1;
         bottomNav.currentPage.value = PageType.collection;

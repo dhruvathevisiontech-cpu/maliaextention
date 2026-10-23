@@ -379,6 +379,7 @@ info@maliaextensions.com
                     SizedBox(height: 8.h),
                     GestureDetector(
                       onTap: () async {
+                        HapticFeedback.heavyImpact();
                         final uri = Uri(
                           scheme: 'mailto',
                           path: 'info@maliaextensions.com',
@@ -499,6 +500,7 @@ info@maliaextensions.com
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.policy;

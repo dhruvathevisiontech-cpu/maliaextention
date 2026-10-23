@@ -49,6 +49,7 @@ class Homeview extends GetView<Homecontroller> {
             actions: [
               GestureDetector(
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav =
                   Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -67,6 +68,7 @@ class Homeview extends GetView<Homecontroller> {
                 ),
                 child: GestureDetector(
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     final bottomNav =
                     Get.find<Bottomnavigationcontroller>();
                     bottomNav.selectedIndex.value = 0;
@@ -194,6 +196,7 @@ class Homeview extends GetView<Homecontroller> {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
+                                      HapticFeedback.heavyImpact();
                                       final bottomNav =
                                       Get.find<
                                           Bottomnavigationcontroller>();
@@ -292,6 +295,7 @@ class Homeview extends GetView<Homecontroller> {
 
                         return GestureDetector(
                           onTap: () {
+                            HapticFeedback.heavyImpact();
                             final bottomNav =
                             Get.find<
                                 Bottomnavigationcontroller>();
@@ -412,19 +416,12 @@ class Homeview extends GetView<Homecontroller> {
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       final product = products[index];
-
-                      final productImage =
-                          product['image']?.toString() ?? '';
-
-                      final productName =
-                          product['name']?.toString() ?? '';
-
-                      final productRating =
-                          product['rating']?.toString() ?? '4.9';
-
+                      final productImage = product['image']?.toString() ?? '';
+                      final productName = product['name']?.toString() ?? '';
+                      final productRating = product['rating']?.toString() ?? '4.9';
                       return GestureDetector(
                         onTap: () {
-                          // Product details navigation can be added here.
+                          HapticFeedback.heavyImpact();
                         },
                         child: Column(
                           crossAxisAlignment:
@@ -470,6 +467,7 @@ class Homeview extends GetView<Homecontroller> {
 
                                     return GestureDetector(
                                       onTap: () {
+                                        HapticFeedback.heavyImpact();
                                         controller
                                             .toggleWishlist(index);
                                       },
@@ -625,6 +623,7 @@ class Homeview extends GetView<Homecontroller> {
 
                         return GestureDetector(
                           onTap: () {
+                            HapticFeedback.heavyImpact();
                             controller.selectLength(length);
                           },
                           child: AnimatedContainer(
@@ -766,6 +765,7 @@ class Homeview extends GetView<Homecontroller> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          HapticFeedback.heavyImpact();
                                           controller
                                               .selectEducation(0);
                                         },
@@ -817,6 +817,7 @@ class Homeview extends GetView<Homecontroller> {
 
                                       GestureDetector(
                                         onTap: () {
+                                          HapticFeedback.heavyImpact();
                                           controller
                                               .selectEducation(1);
                                         },

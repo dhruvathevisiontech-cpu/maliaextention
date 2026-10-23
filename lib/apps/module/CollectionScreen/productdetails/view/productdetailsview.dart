@@ -11,7 +11,7 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Productdetailsview extends GetView<Productdetailscontroller> {
-  Productdetailsview({super.key});
+  const Productdetailsview({super.key});
 
   void _selectOptionValue(String optionName, String value) {
     final currentVariant = controller.selectedVariant.value;
@@ -69,7 +69,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -89,6 +88,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.collectionlist;
@@ -133,17 +133,14 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             ),
           ],
         ),
-
-        // One loader for the entire product-details screen.
         body: Obx(() {
           if (controller.isLoadingProduct.value) {
             return Center(
-              child: CircularProgressIndicator(
-                color: Colorstheam.nobelblack,
-              ),
+              child: Image.asset(
+                "asset/video/loading.gif"
+              )
             );
           }
-
           if (controller.productError.value.isNotEmpty) {
             return Center(
               child: Padding(
@@ -207,7 +204,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     _buildProductGallery(),
                     Transform.translate(
                       offset: Offset(0, -24.h),
@@ -226,15 +223,232 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             _buildProductHeading(screenSize),
-                            _buildPriceAndAvailability(screenSize),
-                            _buildVariantOptions(screenSize),
-                            _buildQuantityAndCart(screenSize),
-                            _buildBuyNow(screenSize),
+                            SizedBox(height: screenSize.height * 0.01),
+                            controller.isLoggedIn == true ?
+                                Column(
+                                  children: <Widget>[
+                                    _buildPriceAndAvailability(screenSize),
+                                    _buildVariantOptions(screenSize),
+                                    _buildQuantityAndCart(screenSize),
+                                    _buildBuyNow(screenSize),
+                                  ],
+                                ):
+                                Padding(
+                                  padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
+                                  child: Container(
+                                    color: Colorstheam.clusterwhite,
+                                    child: Column(
+                                      children: <Widget>[
+                                        SizedBox(height: screenSize.height * 0.015),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Pro Account Required",
+                                            style: TextStyle(
+                                              fontSize: 22.sp,
+                                              fontFamily: "Urbanist",
+                                              fontWeight: FontWeight.bold,
+                                              color: Colorstheam.nobelblack
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: screenSize.height * 0.01),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Maliá products are available exclusively to licensed hair stylists. Create your free pro account to access professional pricing, malia education and to place orders.",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontFamily: "DMSans",
+                                              fontWeight: FontWeight.w600,
+                                              color: Colorstheam.nobelblack
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: screenSize.height * 0.01),
+                                        AnimatedButton(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
+                                            child: Container(
+                                              height: 40.h,
+                                              color: Colorstheam.nobelblack,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Pro Stylist Registration",
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontFamily: "DMSans",
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colorstheam.clusterwhite
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: screenSize.height * 0.01),
+                                        AnimatedButton(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
+                                            child: Container(
+                                              height: 40.h,
+                                              color: Colorstheam.nobelblack,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Sign in",
+                                                  style: TextStyle(
+                                                      fontSize: 16.sp,
+                                                      fontFamily: "DMSans",
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colorstheam.clusterwhite
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: screenSize.height * 0.01),
+                                        IntrinsicWidth(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text(
+                                                "Locate Certified Maliá Stylists Near You",
+                                                style: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  fontFamily: "DMSans",
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colorstheam.nobelblack,
+                                                ),
+                                              ),
+                                              SizedBox(height: 2.h),
+                                              Container(
+                                                height: 1.h,
+                                                width: double.infinity,
+                                                color: Colorstheam.nobelblack,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: screenSize.height * 0.015),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            SizedBox(height: screenSize.height * 0.02),
                             _buildProductDetails(screenSize),
                             _buildShippingInfo(screenSize),
                             _buildWarrantyInfo(screenSize),
+                            Obx(() {
+                              if (controller.isLoadingRecommendations.value) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+
+                              if (controller.recommendedProducts.isEmpty) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 20.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                      child: Text(
+                                        'You May Also Like',
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontFamily: 'Urbanist',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colorstheam.nobelblack
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 14.h),
+                                    SizedBox(
+                                      height: 245.h,
+                                      child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                        itemCount: controller.recommendedProducts.length,
+                                        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                                        itemBuilder: (context, index) {
+                                          final item = controller.recommendedProducts[index];
+
+                                          final imageUrl =
+                                              item['featuredImage']?['url']?.toString() ?? '';
+                                          final title = item['title']?.toString() ?? '';
+                                          final amount = item['priceRange']?['minVariantPrice']
+                                          ?['amount']
+                                              ?.toString() ??
+                                              '0.00';
+                                          final currency = item['priceRange']?['minVariantPrice']
+                                          ?['currencyCode']
+                                              ?.toString() ??
+                                              'USD';
+
+                                          return SizedBox(
+                                            width: 176.w,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ClipRRect(
+                                                  child: SizedBox(
+                                                    width: 176.w,
+                                                    height: 176.h,
+                                                    child: imageUrl.isEmpty
+                                                        ? const SizedBox.shrink()
+                                                        : Image.network(
+                                                      imageUrl,
+                                                      fit: BoxFit.cover,
+                                                      errorBuilder: (_, __, ___) =>
+                                                      const SizedBox.shrink(),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 8.h),
+                                                Text(
+                                                  title,
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontFamily: 'DMSans',
+                                                    color: Colorstheam.grey,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4.h),
+                                                Text(
+                                                  '$currency $amount',
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    fontFamily: 'DMSans',
+                                                    color: Colorstheam.nobelblack,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            })
                           ],
                         ),
                       ),
@@ -257,7 +471,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
         children: [
           Obx(() {
             final images = controller.productImages.toList();
-
             if (images.isEmpty) {
               return Center(
                 child: Icon(
@@ -267,7 +480,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                 ),
               );
             }
-
             return CarouselSlider.builder(
               carouselController: controller.carouselController,
               itemCount: images.length,
@@ -302,20 +514,16 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               ),
             );
           }),
-
-          // Dynamic Shopify image thumbnails.
           Positioned(
-            bottom: 20.h,
+            bottom: 40.h,
             left: 0,
             right: 0,
             child: Obx(() {
               final images = controller.productImages.toList();
               final selectedIndex = controller.currentIndex.value;
-
               if (images.isEmpty) {
                 return const SizedBox.shrink();
               }
-
               return Center(
                 child: Container(
                   height: 60.h,
@@ -329,9 +537,9 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                     itemCount: images.length,
                     itemBuilder: (context, index) {
                       final selected = selectedIndex == index;
-
                       return GestureDetector(
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           controller.carouselController.animateToPage(
                             index,
                             duration: const Duration(milliseconds: 400),
@@ -467,7 +675,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           ),
           SizedBox(height: 14.h),
           Row(
-            children: [
+            children: <Widget>[
               Expanded(
                 child: Text(
                   _formattedPrice(),
@@ -595,44 +803,139 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Wrap(
-                    spacing: 8.w,
-                    runSpacing: 8.h,
-                    children: values.map((rawValue) {
-                      final value = rawValue.toString();
-                      final selected = selectedValue == value;
 
-                      return GestureDetector(
-                        onTap: () => _selectOptionValue(name, value),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 10.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: selected
-                                ? Colorstheam.nobelblack
-                                : Colorstheam.white,
-                            border: Border.all(
-                              color: Colorstheam.nobelblack,
-                            ),
-                          ),
-                          child: Text(
-                            value,
-                            style: TextStyle(
-                              fontFamily: 'DMSans',
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500,
-                              color: selected
-                                  ? Colorstheam.clusterwhite
-                                  : Colorstheam.nobelblack,
-                            ),
-                          ),
-                        ),
+                  if (name.toLowerCase().contains('shade'))...[
+                    SizedBox(height: 12.h),
+                    Obx(() {
+                      final currentVariant = controller.selectedVariant.value;
+                      final currentOptions =
+                          currentVariant?['selectedOptions'] as List? ?? [];
+
+                      final currentOption = currentOptions.cast<Map>().firstWhere(
+                            (option) =>
+                        option['name'].toString().toLowerCase() ==
+                            name.toLowerCase(),
+                        orElse: () => <String, dynamic>{},
                       );
-                    }).toList(),
-                  ),
+
+                      final currentValue =
+                          currentOption['value']?.toString() ?? selectedValue;
+
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: values.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 6,
+                          crossAxisSpacing: 8.w,
+                          mainAxisSpacing: 10.h,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          final value = values[index];
+
+                          final shadeIndex = controller.shadeNames.indexWhere(
+                                (shade) =>
+                            shade.trim().toLowerCase() ==
+                                value.trim().toLowerCase(),
+                          );
+
+                          if (shadeIndex == -1 ||
+                              shadeIndex >= controller.shades.length) {
+                            return GestureDetector(
+                              onTap: () => _selectOptionValue(name, value),
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: value == currentValue
+                                        ? Colorstheam.burntearth
+                                        : Colors.transparent,
+                                    width: value == currentValue ? 2.w : 0,
+                                  ),
+                                ),
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontFamily: 'DMSans',
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+
+                          final selected = value == currentValue;
+
+                          return GestureDetector(
+                            onTap: () => _selectOptionValue(name, value),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 180),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: selected
+                                      ? Colorstheam.burntearth
+                                      : Colors.transparent,
+                                  width: selected ? 2.w : 0,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(selected ? 2.w : 0),
+                                child: Image.asset(
+                                  controller.shades[shadeIndex],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }),
+                  ]
+                  else ...[
+                    Wrap(
+                      spacing: 8.w,
+                      runSpacing: 8.h,
+                      children: values.map((rawValue) {
+                        final value = rawValue.toString();
+                        final selected = selectedValue == value;
+
+                        return GestureDetector(
+                          onTap: () => _selectOptionValue(name, value),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 10.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: selected
+                                  ? Colorstheam.nobelblack
+                                  : Colorstheam.white,
+                              border: Border.all(
+                                color: Colorstheam.nobelblack,
+                              ),
+                            ),
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontFamily: 'DMSans',
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                color: selected
+                                    ? Colorstheam.clusterwhite
+                                    : Colorstheam.nobelblack,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ]
+
+
                 ],
               ),
             );
@@ -877,7 +1180,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
   }) {
     return Padding(
       padding: EdgeInsets.only(
-        top: 20.h,
         left: screenSize.width * 0.04,
         right: screenSize.width * 0.04,
       ),
@@ -886,10 +1188,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           color: Colorstheam.white,
           border: Border(
             top: BorderSide(
-              color: Colorstheam.clusterwhite,
-              width: 3.w,
-            ),
-            bottom: BorderSide(
               color: Colorstheam.clusterwhite,
               width: 3.w,
             ),
@@ -907,8 +1205,10 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               vertical: 4.h,
             ),
             childrenPadding: EdgeInsets.only(bottom: 16.h),
-            shape: const Border(),
-            collapsedShape: const Border(),
+            shape:  Border.all(
+              width: 1
+            ),
+            collapsedShape: Border(),
             backgroundColor: Colors.transparent,
             collapsedBackgroundColor: Colors.transparent,
             title: Text(

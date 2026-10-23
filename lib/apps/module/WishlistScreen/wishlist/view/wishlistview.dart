@@ -351,6 +351,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                 behavior: HitTestBehavior.opaque,
 
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final productId =
                   product["id"]?.toString();
 
@@ -449,7 +450,9 @@ class Wishlistview extends GetView<Wishlistcontroller> {
               SizedBox(height: 12.h),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {},
+                onTap: () {
+                  HapticFeedback.heavyImpact();
+                },
                 child: IntrinsicWidth(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -484,6 +487,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       behavior: HitTestBehavior.opaque,
 
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav =
         Get.find<Bottomnavigationcontroller>();
 

@@ -475,6 +475,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 Obx(
                       () => GestureDetector(
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       controller.isAddressSelected.value =
                       !controller.isAddressSelected.value;
                     },
@@ -605,6 +606,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                     },
                     child: Container(
                         padding: EdgeInsets.all(5.w),
@@ -1072,6 +1074,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;

@@ -32,6 +32,7 @@ class Searchview extends GetView<Searchdatacontroller> {
             leading: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav =
                 Get.find<Bottomnavigationcontroller>();
 

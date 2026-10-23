@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
 
 class Wishlistcontroller extends GetxController {
-  final RxList<Map<String, dynamic>> wishlistProducts =
-      <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> wishlistProducts = <Map<String, dynamic>>[].obs;
 
   void addToWishlist(Map<String, dynamic> product) {
     final productId = product["id"]?.toString();

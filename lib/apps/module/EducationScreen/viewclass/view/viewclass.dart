@@ -933,6 +933,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.inperson;

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:maliaextention/animation/animated_button.dart';
+import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Profilecontroller extends GetxController {
@@ -159,7 +161,9 @@ class Profilecontroller extends GetxController {
   }
 
 
-  void logout() {
-    // Add your existing authentication logout logic here.
+  Future<void> logout() async {
+    await AuthSessionHelper.logout();
+    Get.offAllNamed(Routes.ONBOARDING);
+    print("Is User Logged In: ${AuthSessionHelper.isLoggedIn()}");
   }
 }

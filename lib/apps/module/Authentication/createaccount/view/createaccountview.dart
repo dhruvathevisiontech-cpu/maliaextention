@@ -583,6 +583,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
+                                    HapticFeedback.heavyImpact();
                                     controller.isAccepted.toggle();
                                   },
                                   child: Row(
@@ -636,6 +637,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
+                                    HapticFeedback.heavyImpact();
                                     controller.isAccepted1.toggle();
                                   },
                                   child: Row(

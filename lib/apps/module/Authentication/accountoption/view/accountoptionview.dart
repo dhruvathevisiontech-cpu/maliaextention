@@ -132,7 +132,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                         child: Obx((){
                           return GestureDetector(
                             onTap: () {
-                              HapticFeedback.lightImpact();
+                              HapticFeedback.heavyImpact();
                               controller.selectOption(0);
                               Get.offAllNamed(Routes.PROSTYLISTREGISTRATION);
                             },
@@ -214,7 +214,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                         child: Obx((){
                           return GestureDetector(
                             onTap: () {
-                              HapticFeedback.lightImpact();
+                              HapticFeedback.heavyImpact();
                               controller.selectOption(1);
                               Get.offAllNamed(Routes.CREATEACCOUNT);
                             },

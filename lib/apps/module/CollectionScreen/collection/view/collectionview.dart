@@ -214,6 +214,7 @@ class Collectionview extends GetView<Collectioncontroller> {
           behavior: HitTestBehavior.opaque,
 
           onTap: () {
+            HapticFeedback.heavyImpact();
             debugPrint('Collection tapped: ${category['title']}');
             debugPrint('Collection data: $category');
 
@@ -320,6 +321,7 @@ class Collectionview extends GetView<Collectioncontroller> {
       behavior: HitTestBehavior.opaque,
 
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav =
         Get.find<Bottomnavigationcontroller>();
 

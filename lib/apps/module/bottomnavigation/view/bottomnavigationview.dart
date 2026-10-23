@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -76,6 +77,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
+          HapticFeedback.heavyImpact();
           controller.selectedIndex.value = index;
         },
         child: AnimatedContainer(

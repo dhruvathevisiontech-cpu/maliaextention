@@ -165,6 +165,7 @@ class Profileview extends GetView<Profilecontroller> {
                     children: <Widget>[
                       GestureDetector(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.salonlocator;
@@ -209,6 +210,7 @@ class Profileview extends GetView<Profilecontroller> {
                       ),
                       GestureDetector(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.profiledetails;
@@ -290,6 +292,7 @@ class Profileview extends GetView<Profilecontroller> {
                       ),
                       GestureDetector(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.addresslist;
@@ -334,6 +337,7 @@ class Profileview extends GetView<Profilecontroller> {
                       ),
                       GestureDetector(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 4;
                           bottomNav.currentPage.value = PageType.orderhistory;
@@ -382,6 +386,7 @@ class Profileview extends GetView<Profilecontroller> {
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
+                                HapticFeedback.heavyImpact();
                                 controller.isProfileExpanded.value =
                                 !controller.isProfileExpanded.value;
                               },
@@ -442,6 +447,7 @@ class Profileview extends GetView<Profilecontroller> {
                                     children: <Widget>[
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.educationfaq;
@@ -462,6 +468,7 @@ class Profileview extends GetView<Profilecontroller> {
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.contactus;
@@ -483,6 +490,7 @@ class Profileview extends GetView<Profilecontroller> {
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.aboutus;
@@ -503,6 +511,7 @@ class Profileview extends GetView<Profilecontroller> {
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.policy;
@@ -523,6 +532,7 @@ class Profileview extends GetView<Profilecontroller> {
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.gallary;
@@ -543,6 +553,7 @@ class Profileview extends GetView<Profilecontroller> {
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){
+                                          HapticFeedback.heavyImpact();
                                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                                           bottomNav.selectedIndex.value = 4;
                                           bottomNav.currentPage.value = PageType.faqlist;
@@ -648,6 +659,7 @@ class Profileview extends GetView<Profilecontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;

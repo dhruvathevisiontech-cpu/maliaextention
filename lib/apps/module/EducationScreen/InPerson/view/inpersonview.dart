@@ -438,6 +438,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.education;
@@ -532,6 +533,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 3;
                           bottomNav.currentPage.value = PageType.viewclass;
