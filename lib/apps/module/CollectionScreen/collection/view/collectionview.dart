@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:maliaextention/apps/module/CollectionScreen/collection/controller/collectioncontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Collectionview extends GetView<Collectioncontroller> {
   Collectionview({super.key});
@@ -221,11 +222,7 @@ class Collectionview extends GetView<Collectioncontroller> {
             final title = category['title']?.toString().trim() ?? '';
 
             if (title.isEmpty) {
-              Get.snackbar(
-                'Collection unavailable',
-                'This collection has no title.',
-                snackPosition: SnackPosition.BOTTOM,
-              );
+              AppSnackbar.error('This collection has no title.',);
               return;
             }
 

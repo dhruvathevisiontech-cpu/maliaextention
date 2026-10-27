@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -356,12 +357,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                             height: 48.h,
                             child: AnimatedButton(
                               onTap: () {
-                                Get.snackbar(
-                                  'Contact Support',
-                                  'Connect your Contact Us page here.',
-                                  snackPosition:
-                                  SnackPosition.BOTTOM,
-                                );
+                                AppSnackbar.error('Connect your Contact Us page here.',);
                               },
                               child: Container(
                                 height: 40.h,

@@ -9,32 +9,25 @@ import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/CollectionScreen/productdetails/controller/productdetailscontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Productdetailsview extends GetView<Productdetailscontroller> {
   const Productdetailsview({super.key});
-
   void _selectOptionValue(String optionName, String value) {
     final currentVariant = controller.selectedVariant.value;
     final currentOptions = <String, String>{};
-
-    final selectedOptions =
-        currentVariant?['selectedOptions'] as List? ?? [];
-
+    final selectedOptions = currentVariant?['selectedOptions'] as List? ?? [];
     for (final option in selectedOptions) {
       if (option is Map) {
         final name = option['name']?.toString() ?? '';
         final optionValue = option['value']?.toString() ?? '';
-
         if (name.isNotEmpty && optionValue.isNotEmpty) {
           currentOptions[name] = optionValue;
         }
       }
     }
-
     currentOptions[optionName] = value;
-
     Map<String, dynamic>? matchingVariant;
-
     for (final variant in controller.variants) {
       final options = variant['selectedOptions'] as List? ?? [];
       var matches = true;
@@ -65,7 +58,126 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       controller.selectVariant(matchingVariant);
     }
   }
+  void _showWishlistPicker() {
+    final wishlistController = controller.wishlistController;
 
+    if (controller.currentProductId.isEmpty) {
+      AppSnackbar.error('Please wait until the product has loaded.',);
+      return;
+    }
+
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 28.h),
+        decoration: BoxDecoration(
+          color: Colorstheam.white,
+        ),
+        child: SafeArea(
+          top: false,
+          child: Obx(() {
+            final lists = wishlistController.wishlists.toList();
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40.w,
+                    height: 4.h,
+                    decoration: BoxDecoration(
+                      color: Colorstheam.grey,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  'Save to wishlist',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
+                SizedBox(height: 6.h),
+                Text(
+                  'Choose a collection for this product.',
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 13.sp,
+                    color: Colorstheam.grey,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: lists.length,
+                    separatorBuilder: (_, __) => Divider(color: Colorstheam.clusterwhite),
+                    itemBuilder: (context, index) {
+                      final wishlist = lists[index];
+                      final id = wishlist['id'].toString();
+                      final name = wishlist['name']?.toString() ?? 'Wishlist';
+                      final products = wishlist['products'];
+                      final count = products is List ? products.length : 0;
+                      final alreadyAdded = wishlistController.isProductInWishlist(
+                        id,
+                        controller.currentProductId,
+                      );
+                      return Material(
+                        color: Colorstheam.white,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            name,
+                            style: TextStyle(
+                              fontFamily: 'DMSans',
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colorstheam.nobelblack,
+                            ),
+                          ),
+                          subtitle: Text(
+                            '$count ${count == 1 ? 'item' : 'items'}',
+                            style: TextStyle(
+                              fontFamily: 'DMSans',
+                              fontSize: 12.sp,
+                              color: Colorstheam.grey,
+                            ),
+                          ),
+                          trailing: Icon(
+                            alreadyAdded
+                                ? Icons.check_circle
+                                : Icons.add_circle_outline,
+                            color: Colorstheam.nobelblack,
+                            size: 23.w,
+                          ),
+                          onTap: () {
+                            if (alreadyAdded) {
+                              Get.back();
+                              AppSnackbar.error('This product is already in "$name".',);
+                              return;
+                            }
+
+                            controller.addCurrentProductToWishlist(id);
+                            Get.back();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -114,6 +226,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             _headerIcon(
               icon: 'asset/svg/search.svg',
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -125,6 +238,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               child: _headerIcon(
                 icon: 'asset/svg/cart.svg',
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -270,6 +384,9 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                         ),
                                         SizedBox(height: screenSize.height * 0.01),
                                         AnimatedButton(
+                                          onTap: (){
+                                            HapticFeedback.heavyImpact();
+                                          },
                                           child: Padding(
                                             padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
                                             child: Container(
@@ -292,6 +409,9 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                         ),
                                         SizedBox(height: screenSize.height * 0.01),
                                         AnimatedButton(
+                                          onTap: (){
+                                            HapticFeedback.heavyImpact();
+                                          },
                                           child: Padding(
                                             padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
                                             child: Container(
@@ -576,6 +696,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           ),
 
           // Wishlist.
+          // Wishlist.
           Positioned(
             top: 16.h,
             right: 16.w,
@@ -583,7 +704,10 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               final selected = controller.isWishlisted.value;
 
               return GestureDetector(
-                onTap: controller.toggleWishlist,
+                onTap: () {
+                  HapticFeedback.heavyImpact();
+                  _showWishlistPicker();
+                },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   width: 44.w,

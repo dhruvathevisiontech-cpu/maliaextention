@@ -39,7 +39,7 @@ class Logincontroller extends GetxController {
         },
       );
     } else {
-      AppSnackbar.warning("Your account is not verified.");
+      AppSnackbar.error("Your account is not verified.");
     }
   }
   @override

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Loginotpcontroller extends GetxController {
   static const String staticOtp = "123456";
@@ -53,10 +54,7 @@ class Loginotpcontroller extends GetxController {
 
   Future<void> verifyOtp() async {
     if (otpController.text.length != 6) {
-      Get.snackbar(
-        "Error",
-        "Please enter a 6-digit OTP",
-      );
+      AppSnackbar.error("Please enter a 6-digit OTP",);
       return;
     }
 
@@ -76,10 +74,7 @@ class Loginotpcontroller extends GetxController {
 
       isLoading.value = false;
 
-      Get.snackbar(
-        "Success",
-        "OTP Verified Successfully",
-      );
+      AppSnackbar.success("OTP Verified Successfully",);
 
       // Go to home
       Get.offAllNamed(Routes.BOTTOMNAV);
@@ -87,8 +82,7 @@ class Loginotpcontroller extends GetxController {
     } else {
       isLoading.value = false;
 
-      Get.snackbar(
-        "Error",
+      AppSnackbar.error(
         "Invalid OTP",
       );
     }
@@ -103,10 +97,7 @@ class Loginotpcontroller extends GetxController {
 
     startTimer();
 
-    Get.snackbar(
-      "Success",
-      "OTP resent successfully",
-    );
+    AppSnackbar.success("OTP resent successfully",);
   }
 
   @override

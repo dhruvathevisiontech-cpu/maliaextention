@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,11 +14,9 @@ import 'package:maliaextention/typo/apptext.dart';
 
 class Viewcart extends GetView<Viewcartcontroller> {
   const Viewcart({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -61,6 +61,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -72,6 +73,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               child: _headerIcon(
                 icon: "asset/svg/wishlist.svg",
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 2;
                   bottomNav.currentPage.value = PageType.wishlist;
@@ -82,11 +84,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
         ),
         body: Obx(() {
           final cartItems = controller.cartController.cartItems;
-
           if (cartItems.isEmpty) {
             return _buildEmptyCartView(context);
           }
-
           return _buildCartList(cartItems,context);
         }),
       ),
@@ -119,6 +119,12 @@ class Viewcart extends GetView<Viewcartcontroller> {
           ),
           SizedBox(height: 16.h),
           AnimatedButton(
+            onTap: (){
+              HapticFeedback.heavyImpact();
+              final bottomNav = Get.find<Bottomnavigationcontroller>();
+              bottomNav.selectedIndex.value = 1;
+              bottomNav.currentPage.value = PageType.collection;
+            },
             child: Container(
               height: 44.h,
               width: 171.w,
@@ -138,23 +144,41 @@ class Viewcart extends GetView<Viewcartcontroller> {
             ),
           ),
           SizedBox(height: 36.h),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: screensize.width * 0.02),
-              child: Text(
-                "You May Also Like",
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontFamily: "Urbanist",
-                  fontWeight: FontWeight.bold,
-                  color: Colorstheam.nobelblack,
+          Obx(() {
+            final cartController = controller.cartController;
+            final products = cartController.recommendedProducts;
+
+            if (cartController.isLoadingRecommendations.value &&
+                products.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (products.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "You May Also Like",
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontFamily: "Urbanist",
+                      fontWeight: FontWeight.bold,
+                      color: Colorstheam.nobelblack,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(height: 12.h),
-          _buildHorizontalProductList1(context),
+                SizedBox(height: 12.h),
+                _buildHorizontalProductList1(context),
+              ],
+            );
+          }),
         ],
       ),
     );
@@ -577,7 +601,25 @@ class Viewcart extends GetView<Viewcartcontroller> {
   }
   Widget _buildCartItemCard(Map item, int index,BuildContext context) {
     final product = item["product"] as Map? ?? {};
-    Size screensize = MediaQuery.of(context).size;
+
+    final screensize = MediaQuery.of(context).size;
+
+    // First check the top-level cart item, then nested product data.
+    final imageUrl = (
+        item["image"] ??
+            product["image"] ??
+            item["featuredImage"]?["url"] ??
+            product["featuredImage"]?["url"] ??
+            ""
+    ).toString().trim();
+
+    debugPrint("[CART UI] Item keys: ${item.keys.toList()}");
+    debugPrint("[CART UI] Product keys: ${product.keys.toList()}");
+    debugPrint("[CART UI] Image URL: $imageUrl");
+
+    final isValidNetworkImage =
+        imageUrl.startsWith("https://") ||
+            imageUrl.startsWith("http://");
     return Padding(
       padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
       child: Container(
@@ -587,26 +629,46 @@ class Viewcart extends GetView<Viewcartcontroller> {
             Stack(
               children: [
                 ClipRRect(
-                  child: Image.asset(
-                    product["image"] ?? "",
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: isValidNetworkImage
+                      ? Image.network(
+                    imageUrl,
                     width: 120.w,
                     height: 120.h,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      width: 120.w,
-                      height: 120.h,
-                      color: Colors.grey.shade300,
-                      child: const Icon(Icons.image),
-                    ),
-                  ),
+                    errorBuilder: (context, error, stackTrace) {
+                      debugPrint(
+                        "[CART UI] Image loading failed: $error",
+                      );
+
+                      return _buildImagePlaceholder();
+                    },
+                    loadingBuilder: (
+                        context,
+                        child,
+                        loadingProgress,
+                        ) {
+                      if (loadingProgress == null) return child;
+
+                      return Container(
+                        width: 120.w,
+                        height: 120.h,
+                        color: Colorstheam.lightgrey,
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    },
+                  )
+                      : _buildImagePlaceholder(),
                 ),
                 Positioned(
                   top: 6.h,
                   left: 6.w,
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
-                    onTap: () {
+                    onTap: () async{
                       HapticFeedback.heavyImpact();
+                      await controller.removeItem(index);
                     },
                     child: Container(
                         padding: EdgeInsets.all(5.w),
@@ -632,14 +694,15 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    product["name"] ?? "Product Name",
+                    item["name"]?.toString() ?? item["title"]?.toString() ?? "Product Name",
                     style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w600,
-                        color: Colorstheam.nobelblack
+                      fontSize: 14.sp,
+                      fontFamily: "DMSans",
+                      fontWeight: FontWeight.w600,
+                      color: Colorstheam.nobelblack,
                     ),
                   ),
+
                   SizedBox(height: 6.h),
                   Text(
                     "\$${product["price"] ?? '245'}",
@@ -713,85 +776,215 @@ class Viewcart extends GetView<Viewcartcontroller> {
       ),
     );
   }
+  Widget _buildImagePlaceholder() {
+    return Container(
+      width: 120.w,
+      height: 120.h,
+      color: Colorstheam.lightgrey,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_outlined,
+        color: Colorstheam.grey,
+      ),
+    );
+  }
   Widget _buildHorizontalProductList(BuildContext context) {
-    Size screensize = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-      child: SizedBox (
+    final screensize = MediaQuery.of(context).size;
+
+    // Use the Cartcontroller instance already used by your cart screen.
+    final cartController = controller.cartController;
+
+    return Obx(() {
+      final products = cartController.recommendedProducts;
+
+      if (cartController.isLoadingRecommendations.value) {
+        return SizedBox(
+          height: 228.h,
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+
+      if (products.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return SizedBox(
         height: 228.h,
         child: ListView.separated(
+          padding: EdgeInsets.symmetric(
+            horizontal: screensize.width * 0.04,
+          ),
           scrollDirection: Axis.horizontal,
-          itemCount: 2,
+          itemCount: products.length,
           separatorBuilder: (_, __) => SizedBox(width: 12.w),
           itemBuilder: (context, index) {
+            final item = products[index];
+
+            final name = (item['name'] ?? item['title'] ?? '').toString();
+            final image = (item['image'] ?? '').toString();
+            final price = double.tryParse(
+              (item['price'] ?? '0').toString(),
+            ) ??
+                0.0;
+
             return SizedBox(
+              width: 176.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Stack(
                     children: [
                       Container(
-                        height: 176.h,
+                        height: 140.h,
                         width: 176.w,
-                        color: Colors.grey.shade200,
-                        child: const Icon(Icons.image, color: Colors.grey),
+                        color: Colorstheam.lightgrey,
+                        child: image.isNotEmpty
+                            ? Image.network(
+                          image,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Center(
+                            child: Icon(
+                              Icons.image_outlined,
+                              color: Colorstheam.grey,
+                              size: 32.sp,
+                            ),
+                          ),
+                        )
+                            : Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            color: Colorstheam.grey,
+                            size: 32.sp,
+                          ),
+                        ),
                       ),
                       Positioned(
                         top: 6.w,
                         right: 6.w,
                         child: Container(
                           padding: EdgeInsets.all(4.w),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Colorstheam.white,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(Icons.favorite_border, size: 14.sp),
+                          child: Icon(
+                            Icons.favorite_border,
+                            size: 14.sp,
+                            color: Colorstheam.nobelblack,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    index == 0 ? "Genius Weft" : "Keratin Bond Tips(K-Tip)",
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w600,
-                        color: Colorstheam.nobelblack
-                    ),
+                    name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: "DMSans",
+                      fontWeight: FontWeight.w600,
+                      color: Colorstheam.nobelblack,
+                    ),
                   ),
                   SizedBox(height: 2.h),
-                  Text(
-                    index == 0 ? "\$160.00" : "\$85.00",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.bold,
-                        color: Colorstheam.nobelblack
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '\$${price.toStringAsFixed(2)}',
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.bold,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      GestureDetector(
+                        onTap: () {
+                          cartController.addRecommendedProduct(item);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 5.h,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colorstheam.nobelblack,
+                            ),
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Text(
+                            "ADD",
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.bold,
+                              color: Colorstheam.nobelblack,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             );
           },
         ),
-      ),
-    );
+      );
+    });
   }
+
   Widget _buildHorizontalProductList1(BuildContext context) {
-    Size screensize = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left: screensize.width * 0.02,right: screensize.width * 0.02),
-      child: SizedBox (
+    final cartController = controller.cartController;
+
+    return Obx(() {
+      final products = cartController.recommendedProducts;
+
+      if (products.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return SizedBox(
         height: 228.h,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: 2,
+          itemCount: products.length,
           separatorBuilder: (_, __) => SizedBox(width: 12.w),
           itemBuilder: (context, index) {
+            final product = products[index];
+
+            final name =
+                product['name']?.toString() ??
+                    product['title']?.toString() ??
+                    'Product';
+
+            final imageUrl = product['image']?.toString().isNotEmpty == true
+                ? product['image'].toString()
+                : product['featuredImage']?['url']?.toString() ?? '';
+
+            final price =
+                product['price']?.toString() ??
+                    product['priceRange']?['minVariantPrice']?['amount']
+                        ?.toString() ??
+                    '0.00';
+
+            final currencyCode =
+                product['currencyCode']?.toString() ??
+                    product['priceRange']?['minVariantPrice']?['currencyCode']
+                        ?.toString() ??
+                    'USD';
+
             return SizedBox(
+              width: 176.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -800,43 +993,81 @@ class Viewcart extends GetView<Viewcartcontroller> {
                       Container(
                         height: 176.h,
                         width: 176.w,
-                        color: Colors.grey.shade200,
-                        child: const Icon(Icons.image, color: Colors.grey),
+                        color: Colorstheam.clusterwhite,
+                        child: imageUrl.isNotEmpty
+                            ? Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) =>
+                          const Center(
+                            child: Icon(Icons.image),
+                          ),
+                        )
+                            : const Center(
+                          child: Icon(Icons.image),
+                        ),
                       ),
                       Positioned(
                         top: 6.w,
                         right: 6.w,
                         child: Container(
                           padding: EdgeInsets.all(4.w),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Colorstheam.white,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(Icons.favorite_border, size: 14.sp),
+                          child: Icon(
+                            Icons.favorite_border,
+                            size: 14.sp,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 6.w,
+                        right: 6.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            cartController.addRecommendedProduct(product);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(7.w),
+                            decoration: BoxDecoration(
+                              color: Colorstheam.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 18.sp,
+                              color: Colorstheam.nobelblack,
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 6.h),
                   Text(
-                    index == 0 ? "Genius Weft" : "Keratin Bond Tips(K-Tip)",
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w600,
-                        color: Colorstheam.nobelblack
-                    ),
+                    name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontFamily: "DMSans",
+                      fontWeight: FontWeight.w600,
+                      color: Colorstheam.nobelblack,
+                    ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    index == 0 ? "\$160.00" : "\$85.00",
+                    '$currencyCode $price',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.bold,
-                        color: Colorstheam.nobelblack
+                      fontSize: 14.sp,
+                      fontFamily: "DMSans",
+                      fontWeight: FontWeight.bold,
+                      color: Colorstheam.nobelblack,
                     ),
                   ),
                 ],
@@ -844,9 +1075,10 @@ class Viewcart extends GetView<Viewcartcontroller> {
             );
           },
         ),
-      ),
-    );
+      );
+    });
   }
+
   Widget _buildPriceDetailsSection(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
     return Padding(
@@ -1044,6 +1276,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
           ),
           AnimatedButton(
             onTap: (){
+              HapticFeedback.heavyImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 0;
               bottomNav.currentPage.value = PageType.orderplace;

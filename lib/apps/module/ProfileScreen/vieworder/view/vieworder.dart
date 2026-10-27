@@ -8,8 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/viewordercontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 
-
-
 class Vieworder extends GetView<Viewordercontroller> {
   const Vieworder({super.key});
 

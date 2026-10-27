@@ -40,8 +40,8 @@ class SplashView extends GetView<SplashController> {
                         shape: BoxShape.circle,
                         gradient: RadialGradient(
                           colors: [
-                            Colorstheam.clusterwhite.withOpacity(0.0),
-                            Colorstheam.clusterwhite.withOpacity(0.0),
+                            Colorstheam.clusterwhite.withValues(alpha: 0.0),
+                            Colorstheam.clusterwhite.withValues(alpha: 0.0),
                           ],
                         ),
                       ),
@@ -112,9 +112,9 @@ class SplashView extends GetView<SplashController> {
                       width: 42.w,
                       child: LinearProgressIndicator(
                         minHeight: 1.2,
-                        backgroundColor: Colors.black.withOpacity(0.08),
+                        backgroundColor: Colors.black.withValues(alpha: 0.08),
                         valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.black.withOpacity(0.65),
+                          Colors.black.withValues(alpha: 0.65),
                         ),
                       ),
                     ),

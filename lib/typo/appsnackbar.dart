@@ -5,43 +5,25 @@ import 'package:get/get.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 
 class AppSnackbar {
+  AppSnackbar._();
+
   static void success(String message) {
-    _show(
-      title: 'ADDED TO YOUR BAG',
-      message: message,
-      icon: Icons.check_rounded,
-    );
+    _show(message, Icons.check_circle_outline_rounded);
   }
 
   static void error(String message) {
-    _show(
-      title: 'UNABLE TO COMPLETE',
-      message: message,
-      icon: Icons.priority_high_rounded,
-    );
+    _show(message, Icons.error_outline_rounded);
   }
 
-  static void warning(String message) {
-    _show(
-      title: 'A LITTLE REMINDER',
-      message: message,
-      icon: Icons.info_outline_rounded,
-    );
-  }
+  // static void warning(String message) {
+  //   _show(message, Icons.warning_amber_rounded);
+  // }
+  //
+  // static void info(String message) {
+  //   _show(message, Icons.info_outline_rounded);
+  // }
 
-  static void info(String message) {
-    _show(
-      title: 'JUST SO YOU KNOW',
-      message: message,
-      icon: Icons.auto_awesome_outlined,
-    );
-  }
-
-  static void _show({
-    required String title,
-    required String message,
-    required IconData icon,
-  }) {
+  static void _show(String message, IconData icon) {
     final context = Get.context;
     if (context == null) return;
 
@@ -56,190 +38,85 @@ class AppSnackbar {
           backgroundColor: Colors.transparent,
           elevation: 0,
           padding: EdgeInsets.zero,
-          margin: EdgeInsets.fromLTRB(
-            16.w,
-            0,
-            16.w,
-            20.h,
-          ),
+          margin: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
           duration: const Duration(seconds: 3),
-          dismissDirection: DismissDirection.horizontal,
-          content: _LuxuryToast(
-            title: title,
+          dismissDirection: DismissDirection.down,
+          content: _NudeMinimalToast(
             message: message,
             icon: icon,
-            onClose: messenger.hideCurrentSnackBar,
+            onClose: () => messenger.hideCurrentSnackBar(),
           ),
         ),
       );
   }
 }
 
-class _LuxuryToast extends StatefulWidget {
-  final String title;
+class _NudeMinimalToast extends StatelessWidget {
   final String message;
   final IconData icon;
   final VoidCallback onClose;
 
-  const _LuxuryToast({
-    required this.title,
+  const _NudeMinimalToast({
     required this.message,
     required this.icon,
     required this.onClose,
   });
 
   @override
-  State<_LuxuryToast> createState() => _LuxuryToastState();
-}
-
-class _LuxuryToastState extends State<_LuxuryToast>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _progressController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _progressController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..forward();
-  }
-
-  @override
-  void dispose() {
-    _progressController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-      clipBehavior: Clip.antiAlias,
+      constraints: BoxConstraints(minHeight: 48.h),
+      padding: EdgeInsets.only(left: 13.w, right: 5.w),
       decoration: BoxDecoration(
-        color: Colorstheam.nobelblack,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: Colorstheam.white.withValues(alpha: 0.13),
-          width: 0.7,
-        ),
+        color: Colorstheam.clusterwhite,
+        borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colorstheam.black.withValues(alpha: 0.22),
-            blurRadius: 28.r,
-            offset: Offset(0, 12.h),
+            color: Colorstheam.black.withValues(alpha: 0.08),
+            blurRadius: 18.r,
+            offset: Offset(0, 5.h),
           ),
         ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Row(
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              16.w,
-              16.h,
-              10.w,
-              15.h,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 38.w,
-                  height: 38.w,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colorstheam.white.withValues(alpha: 0.22),
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    widget.icon,
-                    color: Colorstheam.white,
-                    size: 18.sp,
-                  ),
-                ),
-                SizedBox(width: 13.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'M A L I Á',
-                        style: TextStyle(
-                          color: Colorstheam.Silver,
-                          fontFamily: 'DMSans',
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 2.0,
-                        ),
-                      ),
-
-                      SizedBox(height: 5.h),
-
-                      Text(
-                        widget.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colorstheam.white,
-                          fontFamily: 'DMSans',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 0.65,
-                        ),
-                      ),
-
-                      SizedBox(height: 5.h),
-
-                      Text(
-                        widget.message,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colorstheam.Silver,
-                          fontFamily: 'DMSans',
-                          fontSize: 11.5.sp,
-                          fontWeight: FontWeight.w400,
-                          height: 1.45,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(width: 4.w),
-
-                IconButton(
-                  onPressed: widget.onClose,
-                  splashRadius: 18.r,
-                  padding: EdgeInsets.all(8.r),
-                  constraints: const BoxConstraints(),
-                  icon: Icon(
-                    Icons.close_rounded,
-                    color: Colorstheam.Silver,
-                    size: 17.sp,
-                  ),
-                ),
-              ],
+          Icon(
+            icon,
+            size: 19.sp,
+            color: Colorstheam.burntearth,
+          ),
+          SizedBox(width: 11.w),
+          Expanded(
+            child: Text(
+              message,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: 'DMSans',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: Colorstheam.nobelblack,
+                letterSpacing: 0.1,
+              ),
             ),
           ),
-
-          AnimatedBuilder(
-            animation: _progressController,
-            builder: (context, child) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: FractionallySizedBox(
-                  widthFactor: 1 - _progressController.value,
-                  child: Container(
-                    height: 2.h,
-                    color: Colorstheam.Silver,
-                  ),
-                ),
-              );
-            },
+          SizedBox(width: 4.w),
+          IconButton(
+            onPressed: onClose,
+            tooltip: 'Dismiss notification',
+            visualDensity: VisualDensity.compact,
+            constraints: BoxConstraints(
+              minWidth: 34.w,
+              minHeight: 40.h,
+            ),
+            padding: EdgeInsets.zero,
+            splashRadius: 16.r,
+            icon: Icon(
+              Icons.close_rounded,
+              size: 16.sp,
+              color: Colorstheam.grey,
+            ),
           ),
         ],
       ),

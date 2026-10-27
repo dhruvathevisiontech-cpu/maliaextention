@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
 import 'package:maliaextention/apps/module/cartcontroller.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 import '../../../Authentication/auth_session_helper.dart';
 
@@ -206,7 +207,54 @@ class Productdetailscontroller extends GetxController {
 
     return product['price']?.toString() ?? '0.00';
   }
+  String get currentProductId =>
+      productDetails['id']?.toString() ??
+          product['id']?.toString() ??
+          '';
 
+  String get currentProductImage {
+    if (productImages.isNotEmpty) {
+      final index = currentIndex.value;
+
+      if (index >= 0 && index < productImages.length) {
+        return productImages[index];
+      }
+    }
+
+    return productDetails['featuredImage']?['url']?.toString() ??
+        product['image']?.toString() ??
+        '';
+  }
+
+  Map<String, dynamic> get wishlistProductData {
+    return <String, dynamic>{
+      ...product,
+      'id': currentProductId,
+      'name': productName,
+      'title': productName,
+      'handle': productDetails['handle']?.toString() ??
+          product['handle']?.toString() ??
+          '',
+      'image': currentProductImage,
+      'price': price,
+      'currencyCode': currencyCode,
+    };
+  }
+
+  void addCurrentProductToWishlist(String wishlistId) {
+    if (currentProductId.isEmpty) {
+      AppSnackbar.error('Product details are not available yet.');
+      return;
+    }
+
+    wishlistController.addProductToWishlist(
+      wishlistId,
+      wishlistProductData,
+    );
+
+    isWishlisted.value =
+        wishlistController.isProductInAnyWishlist(currentProductId);
+  }
   bool get isAvailable {
     if (selectedVariant.value != null) {
       return selectedVariant.value!['availableForSale'] == true;
@@ -266,8 +314,9 @@ class Productdetailscontroller extends GetxController {
     product = Map<String, dynamic>.from(newProduct);
 
     final productId = product['id']?.toString() ?? '';
+
     isWishlisted.value = productId.isNotEmpty &&
-        wishlistController.isWishlisted(productId);
+        wishlistController.isProductInAnyWishlist(productId);
 
     currentIndex.value = 0;
     selectedShade.value = 0;
@@ -311,6 +360,8 @@ class Productdetailscontroller extends GetxController {
       }
 
       productDetails.assignAll(rawProduct);
+      isWishlisted.value =
+          wishlistController.isProductInAnyWishlist(currentProductId);
       recommendedProducts.clear();
       await fetchRecommendations();
       final loadedImages = <String>[];
@@ -414,58 +465,79 @@ class Productdetailscontroller extends GetxController {
     isWishlisted.value = wishlistController.isWishlisted(productId);
   }
 
-  void addToCart() {
+
+  Future<void> addToCart() async {
+    if (selectedShade.value < 0 ||
+        selectedShade.value >= shadeNames.length ||
+        selectedLength.value < 0 ||
+        selectedLength.value >= lengths.length ||
+        selectedhairlength.value < 0 ||
+        selectedhairlength.value >= hairlength.length) {
+      AppSnackbar.error('Please select valid product options.');
+      return;
+    }
+
     final variant = selectedVariant.value;
 
-    if (variant == null) {
-      Get.snackbar(
-        'Unavailable',
-        'No Shopify variant is available for this product.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+    if (variant == null || variant['id'] == null) {
+      AppSnackbar.error('No Shopify variant is available for this product.',);
       return;
     }
 
     if (variant['availableForSale'] != true) {
-      Get.snackbar(
-        'Out of Stock',
-        'This variant is currently unavailable.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.error('This variant is currently unavailable.',);
       return;
     }
 
-    final selectedShadeName = shadeNames[selectedShade.value];
-    final selectedLengthValue = lengths[selectedLength.value];
-    final selectedHairType = hairlength[selectedhairlength.value];
+    final variantId = variant['id'].toString();
+
+    if (variantId.isEmpty) {
+      AppSnackbar.error('The Shopify variant ID is missing.',);
+      return;
+    }
+
+
+    final selectedImageUrl =
+    currentIndex.value >= 0 &&
+        currentIndex.value < productImages.length
+        ? productImages[currentIndex.value]
+        : (productDetails['featuredImage']?['url'] ??
+        product['image'] ??
+        '')
+        .toString();
+
+    debugPrint('[PRODUCT DETAILS] Selected image: "$selectedImageUrl"');
 
     final cartProduct = <String, dynamic>{
       ...product,
-      'id': productDetails['id']?.toString() ?? product['id']?.toString() ?? '',
+      'id': productDetails['id']?.toString() ??
+          product['id']?.toString() ??
+          '',
       'name': productName,
-      'handle': productDetails['handle']?.toString() ?? product['handle'] ?? '',
-      'image': productImages.isNotEmpty
-          ? productImages.first
-          : product['image'] ?? '',
+      'handle': productDetails['handle']?.toString() ??
+          product['handle']?.toString() ??
+          '',
+      'image': selectedImageUrl,
       'price': price,
       'currencyCode': currencyCode,
-      'variantId': variant['id']?.toString() ?? '',
+      'variantId': variantId,
       'variantTitle': variant['title']?.toString() ?? '',
       'variantPrice': price,
-      'variantAvailableForSale':
-      variant['availableForSale'] == true ? 'true' : 'false',
+      'variantAvailableForSale': 'true',
       'selectedOptions': variant['selectedOptions'] ?? [],
     };
 
-    cartController.addToCart(
+
+    await cartController.addToCart(
       product: cartProduct,
-      shade: selectedShadeName,
-      length: selectedLengthValue,
-      hairType: selectedHairType,
+      shade: shadeNames[selectedShade.value],
+      length: lengths[selectedLength.value],
+      hairType: hairlength[selectedhairlength.value],
       quantity: quantity.value,
-      variantId: variant['id']?.toString() ?? '',
+      variantId: variantId,
       variantPrice: price,
       currencyCode: currencyCode,
     );
   }
+
 }

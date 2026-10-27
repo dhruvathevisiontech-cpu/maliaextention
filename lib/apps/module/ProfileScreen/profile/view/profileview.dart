@@ -12,11 +12,9 @@ import 'package:maliaextention/typo/apptext.dart';
 
 class Profileview extends GetView<Profilecontroller> {
   const Profileview({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-    final bottomNav = Get.find<Bottomnavigationcontroller>();
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -63,6 +61,7 @@ class Profileview extends GetView<Profilecontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -75,6 +74,7 @@ class Profileview extends GetView<Profilecontroller> {
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -486,7 +486,6 @@ class Profileview extends GetView<Profilecontroller> {
                                           ),
                                         ),
                                       ),
-
                                       SizedBox(height: screensize.height * 0.01),
                                       GestureDetector(
                                         onTap: (){

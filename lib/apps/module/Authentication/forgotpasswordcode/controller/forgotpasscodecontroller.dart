@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Forgotpasscodecontroller extends GetxController {
   static const String staticOtp = "123456";
@@ -55,10 +56,7 @@ class Forgotpasscodecontroller extends GetxController {
   }
   Future<void> verifyOtp() async {
     if (otpController.text.length != 6) {
-      Get.snackbar(
-        "Error",
-        "Please enter a 6-digit OTP",
-      );
+      AppSnackbar.error("Please enter a 6-digit OTP",);
       return;
     }
 
@@ -69,16 +67,10 @@ class Forgotpasscodecontroller extends GetxController {
     isLoading.value = false;
 
     if (otpController.text == staticOtp) {
-      Get.snackbar(
-        "Success",
-        "OTP Verified Successfully",
-      );
+      AppSnackbar.success("OTP Verified Successfully",);
       Get.offAllNamed(Routes.RESETPASSWORD);
     } else {
-      Get.snackbar(
-        "Error",
-        "Invalid OTP",
-      );
+      AppSnackbar.error("Invalid OTP",);
     }
   }
   Future<void> resendOtp() async {
@@ -90,9 +82,6 @@ class Forgotpasscodecontroller extends GetxController {
 
     startTimer();
 
-    Get.snackbar(
-      "Success",
-      "OTP resent successfully\nStatic OTP: $staticOtp",
-    );
+    AppSnackbar.success("OTP resent successfully\nStatic OTP: $staticOtp",);
   }
 }

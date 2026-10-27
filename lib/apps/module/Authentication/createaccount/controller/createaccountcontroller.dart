@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
 class Createaccountcontroller extends GetxController {
@@ -247,15 +248,9 @@ class Createaccountcontroller extends GetxController {
       // --------------------------------------------------------
 
       await Future.delayed(const Duration(seconds: 1));
-      Get.snackbar(
-        "Success",
-        "Account information is valid",
-      );
+      AppSnackbar.success("Account information is valid",);
     } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Something went wrong. Please try again.",
-      );
+      AppSnackbar.error("Something went wrong. Please try again.",);
     } finally {
       isLoading.value = false;
     }

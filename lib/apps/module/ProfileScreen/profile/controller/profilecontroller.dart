@@ -159,11 +159,8 @@ class Profilecontroller extends GetxController {
       ignoreSafeArea: true,
     );
   }
-
-
   Future<void> logout() async {
     await AuthSessionHelper.logout();
     Get.offAllNamed(Routes.ONBOARDING);
-    print("Is User Logged In: ${AuthSessionHelper.isLoggedIn()}");
   }
 }

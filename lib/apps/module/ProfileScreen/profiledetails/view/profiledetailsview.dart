@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -573,14 +574,8 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
   // EDIT MESSAGEz
 
   void _showEditMessage(String field) {
-    Get.snackbar(
-      'Edit $field',
-      'Connect this action to your profile editing form.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colorstheam.nobelblack,
-      colorText: Colorstheam.white,
-      margin: EdgeInsets.all(16.w),
-      borderRadius: 14.r,
+    AppSnackbar.error(
+      'Edit $field Connect this action to your profile editing form.',
     );
   }
 }

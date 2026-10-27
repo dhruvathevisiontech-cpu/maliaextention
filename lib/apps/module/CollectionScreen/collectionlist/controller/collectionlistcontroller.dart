@@ -2,30 +2,23 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Collectionlistcontroller extends GetxController {
   final RxInt selectedSubCollection = 0.obs;
-
-  final RxList<Map<String, dynamic>> metaobjectCollections =
-      <Map<String, dynamic>>[].obs;
-
-  final RxList<Map<String, dynamic>> subCollections =
-      <Map<String, dynamic>>[].obs;
-
-  final RxList<Map<String, String>> products =
-      <Map<String, String>>[].obs;
-  final RxList<Map<String, String>> allProducts =
-      <Map<String, String>>[].obs;
-
+  final RxList<Map<String, dynamic>> metaobjectCollections = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> subCollections = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, String>> products = <Map<String, String>>[].obs;
+  final RxList<Map<String, String>> allProducts = <Map<String, String>>[].obs;
   final RxBool isLoadingCollections = false.obs;
   final RxBool isLoadingSubCollections = false.obs;
   final RxBool isLoadingProducts = false.obs;
-
   final RxString errorMessage = ''.obs;
   final RxSet<String> appliedSortBy = <String>{'featured'}.obs;
   final RxSet<String> appliedAvailability = <String>{}.obs;
@@ -33,7 +26,6 @@ class Collectionlistcontroller extends GetxController {
   final RxSet<String> appliedLength = <String>{}.obs;
   final Wishlistcontroller wishlistController =
   Get.find<Wishlistcontroller>();
-
   String? _loadedParentId;
   String? _loadedSubCollectionId;
 
@@ -212,101 +204,56 @@ class Collectionlistcontroller extends GetxController {
   Future<void> loadMetaobjectCollections() async {
     isLoadingCollections.value = true;
     errorMessage.value = '';
-
     try {
       final data = await _shopifyRequest(_metaobjectsQuery);
       final nodes = data['metaobjects']?['nodes'] as List? ?? [];
-
-      debugPrint('Metaobject nodes received: ${nodes.length}');
-
       final loaded = <Map<String, dynamic>>[];
-
       for (final item in nodes) {
         if (item is! Map<String, dynamic>) continue;
-
         final fields = _fieldsByKey(item['fields']);
-
         final titleField = fields['title'];
         final activeField = fields['is_active'];
         final sortField = fields['sort_order'];
         final collectionField = fields['collection'];
         final imageField = fields['image'];
-
-        final subcollectionsField =
-            fields['subcollections'] ?? fields['Subcollections'];
-
-        final activeValue =
-        activeField?['value']?.toString().toLowerCase().trim();
-
+        final subcollectionsField = fields['subcollections'] ?? fields['Subcollections'];
+        final activeValue = activeField?['value']?.toString().toLowerCase().trim();
         if (activeValue == 'false') continue;
-
-        final linkedCollection =
-        _collectionFromReference(collectionField?['reference']);
-
-        // Read the metaobject's display image.
+        final linkedCollection = _collectionFromReference(collectionField?['reference']);
         final imageReference = imageField?['reference'];
         String imageUrl = '';
-
         if (imageReference is Map<String, dynamic>) {
           final image = imageReference['image'];
-
           if (image is Map) {
             imageUrl = image['url']?.toString() ?? '';
           } else {
             imageUrl = imageReference['url']?.toString() ?? '';
           }
         }
-
-        // First try Shopify's resolved collection references.
-        final referenceNodes =
-            subcollectionsField?['references']?['nodes'] as List? ?? [];
-
+        final referenceNodes = subcollectionsField?['references']?['nodes'] as List? ?? [];
         final children = <Map<String, dynamic>>[];
-
         for (final child in referenceNodes) {
           final parsed = _collectionFromReference(child);
           if (parsed != null) {
             children.add(parsed);
           }
         }
-
-        // Fallback: parse collection GIDs stored in the field value.
         if (children.isEmpty) {
-          final rawValue =
-              subcollectionsField?['value']?.toString().trim() ?? '';
-
+          final rawValue = subcollectionsField?['value']?.toString().trim() ?? '';
           if (rawValue.isNotEmpty) {
             try {
               final decoded = jsonDecode(rawValue);
-
               if (decoded is List) {
                 final ids = decoded
                     .map((id) => id.toString().trim())
                     .where((id) => id.startsWith('gid://shopify/Collection/'))
                     .toList();
-
-                debugPrint(
-                  'Fetching ${ids.length} subcollections by ID for '
-                      '${titleField?['value'] ?? item['handle']}',
-                );
-
                 children.addAll(await _loadCollectionsByIds(ids));
               }
             } catch (e) {
-              debugPrint(
-                'Unable to parse subcollections for ${item['handle']}: $e',
-              );
             }
           }
         }
-
-        debugPrint(
-          'Collection ${item['handle']}: '
-              'title=${titleField?['value']}, '
-              'parent=${linkedCollection?['handle']}, '
-              'children=${children.length}',
-        );
-
         loaded.add({
           'id': item['id']?.toString() ?? '',
           'handle': item['handle']?.toString() ?? '',
@@ -322,20 +269,14 @@ class Collectionlistcontroller extends GetxController {
           'subcollections': children,
         });
       }
-
       loaded.sort(
             (a, b) => (a['sort_order'] as int).compareTo(
           b['sort_order'] as int,
         ),
       );
-
       metaobjectCollections.assignAll(loaded);
-
-      debugPrint('Loaded parent collections: ${loaded.length}');
     } catch (e, stackTrace) {
       errorMessage.value = 'Unable to load collections.';
-      debugPrint('loadMetaobjectCollections error: $e');
-      debugPrintStack(stackTrace: stackTrace);
     } finally {
       isLoadingCollections.value = false;
     }
@@ -384,11 +325,6 @@ class Collectionlistcontroller extends GetxController {
           },
         ),
       );
-
-      debugPrint('Selected parent: $parentTitle');
-      debugPrint('Subcollections loaded: ${subCollections.length}');
-
-      // Automatically load products from the first subcollection.
       if (subCollections.isNotEmpty) {
         await loadProductsForSelectedSubCollection(0);
       } else {
@@ -396,8 +332,6 @@ class Collectionlistcontroller extends GetxController {
       }
     } catch (e, stackTrace) {
       errorMessage.value = 'Unable to load subcollections.';
-      debugPrint('loadSubCollectionsForParent error: $e');
-      debugPrintStack(stackTrace: stackTrace);
     } finally {
       isLoadingSubCollections.value = false;
     }
@@ -522,26 +456,17 @@ class Collectionlistcontroller extends GetxController {
           'image': imageUrl,
           'rating': '',
           'price': price,
-
-          // Additional metadata used internally by the filters.
-          '_availableForSale':
-          node['availableForSale'] == true ? 'true' : 'false',
+          '_availableForSale': node['availableForSale'] == true ? 'true' : 'false',
           '_collectionHandles': jsonEncode(collectionHandles),
           '_lengthOptions': jsonEncode(lengthValues.toSet().toList()),
           '_variantAvailability': jsonEncode(variantAvailability),
           '_createdAt': node['createdAt']?.toString() ?? '',
         });
       }
-
       allProducts.assignAll(loadedProducts);
-
-      debugPrint('Products fetched: ${allProducts.length}');
-
       applyProductFilters();
     } catch (e, stackTrace) {
       errorMessage.value = 'Unable to load products.';
-      debugPrint('loadProductsForSelectedSubCollection error: $e');
-      debugPrintStack(stackTrace: stackTrace);
     } finally {
       isLoadingProducts.value = false;
     }
@@ -684,39 +609,159 @@ class Collectionlistcontroller extends GetxController {
         result.sort((a, b) =>
             (b['_createdAt'] ?? '').compareTo(a['_createdAt'] ?? ''));
         break;
-
-    // Featured, Most Relevant and Best Selling are not
-    // reliably sortable using the fields currently fetched here.
       case 'featured':
       case 'relevant':
       case 'best_selling':
       default:
         break;
     }
-
     products.assignAll(result);
-
-    debugPrint('Products before filters: ${allProducts.length}');
-    debugPrint('Products after filters: ${products.length}');
-    debugPrint('Applied availability: ${appliedAvailability.toList()}');
-    debugPrint('Applied collections: ${appliedCollections.toList()}');
-    debugPrint('Applied lengths: ${appliedLength.toList()}');
-    debugPrint('Applied sort: $sortBy');
   }
-
-
   bool isWishlisted(Map<String, String> product) {
     final id = product['id'] ?? '';
     if (id.isEmpty) return false;
     return wishlistController.isWishlisted(id);
   }
-
   void toggleWishlist(Map<String, String> product) {
-    wishlistController.toggleWishlist(
-      Map<String, dynamic>.from(product),
-    );
+    final productId = product['id'] ?? '';
+    if (productId.isEmpty) {
+      AppSnackbar.error('Product ID is missing.',);
+      return;
+    }
+
+    _showWishlistPicker(product);
   }
 
+  void _showWishlistPicker(Map<String, String> product) {
+    final productId = product['id'] ?? '';
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+        decoration: BoxDecoration(
+          color: Colorstheam.white,
+        ),
+        child: SafeArea(
+          child: Obx(() {
+            final wishlists = wishlistController.wishlists.toList();
+
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Save to wishlist',
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Choose a collection for this product.',
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 13,
+                    color: Colorstheam.grey,
+                  ),
+                ),
+                const SizedBox(height: 18),
+
+                if (wishlists.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'No wishlist collections yet. Create one first.',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 14,
+                        color: Colorstheam.grey,
+                      ),
+                    ),
+                  )
+                else
+                  Flexible(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: wishlists.length,
+                      separatorBuilder: (_, __) =>
+                      const SizedBox(height: 4),
+                      itemBuilder: (context, index) {
+                        final wishlist = wishlists[index];
+                        final id = wishlist['id']?.toString() ?? '';
+                        final name =
+                            wishlist['name']?.toString() ?? 'Wishlist';
+
+                        final rawProducts = wishlist['products'];
+                        final count = rawProducts is List
+                            ? rawProducts.length
+                            : 0;
+
+                        final alreadyAdded =
+                        wishlistController.isProductInWishlist(
+                          id,
+                          productId,
+                        );
+
+                        return Material(
+                          color: Colorstheam.white,
+                          child: ListTile(
+                            contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 4),
+                            title: Text(
+                              name,
+                              style: TextStyle(
+                                fontFamily: 'DMSans',
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.nobelblack,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '$count ${count == 1 ? 'item' : 'items'}',
+                              style: TextStyle(
+                                fontFamily: 'DMSans',
+                                fontSize: 12,
+                                color: Colorstheam.grey,
+                              ),
+                            ),
+                            trailing: Icon(
+                              alreadyAdded
+                                  ? Icons.check_circle
+                                  : Icons.add_circle_outline,
+                              color: Colorstheam.nobelblack,
+                            ),
+                            onTap: () {
+                              if (alreadyAdded) {
+                                Get.back();
+                                AppSnackbar.error('This product is already in "$name".',);
+                                return;
+                              }
+
+                              wishlistController.addProductToWishlist(
+                                id,
+                                Map<String, dynamic>.from(product),
+                              );
+
+                              Get.back();
+
+                              AppSnackbar.success('Added to "$name".',);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            );
+          }),
+        ),
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
+  }
   @override
   void onInit() {
     super.onInit();

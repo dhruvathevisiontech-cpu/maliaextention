@@ -152,7 +152,6 @@ class Homecontroller extends GetxController {
     butterflyVideoController.initialize().then((_) {
       isButterflyVideoInitialized.value = true;
     }).catchError((error) {
-      debugPrint('Video initialization failed: $error');
     });
 
     fetchHomePage();
@@ -161,13 +160,9 @@ class Homecontroller extends GetxController {
   // Fetch the single active home_page entry
   Future<void> fetchHomePage() async {
     if (isHomeLoading.value) return;
-
     isHomeLoading.value = true;
     homeErrorMessage.value = '';
-
     try {
-      debugPrint('Fetching Shopify home_page metaobject...');
-
       final data = await ShopifyCollectionService.query(
         _homePageQuery,
       );
@@ -356,17 +351,7 @@ class Homecontroller extends GetxController {
           'handle': collection['handle']?.toString() ?? '',
         });
       }
-
       categories.assignAll(activeCategories);
-
-      debugPrint('Category count: ${categories.length}');
-      debugPrint(
-        'Category titles: ${categories.map((e) => e['title']).toList()}',
-      );
-
-
-// ---------------- LENGTH OPTIONS ----------------
-
       lengthOptions.assignAll(
         textList('length_options')
             .expand((item) => item.split(','))
@@ -374,33 +359,17 @@ class Homecontroller extends GetxController {
             .where((item) => item.isNotEmpty)
             .toList(),
       );
-
       if (!lengthOptions.contains(selectedLength.value) &&
           lengthOptions.isNotEmpty) {
         selectedLength.value = lengthOptions.first;
       }
-
-      debugPrint('Category count: ${categories.length}');
-      debugPrint('Category titles: ${categories.map((e) => e['title']).toList()}');
-      debugPrint('Length options: ${lengthOptions.toList()}');
-
       if (lengthOptions.isNotEmpty &&
           !lengthOptions.contains(selectedLength.value)) {
         selectedLength.value = lengthOptions.first;
       }
-
-      debugPrint('Home metaobject loaded: ${activeEntry['handle']}');
-      debugPrint('Hero title: ${homeContent['hero_title']}');
-      debugPrint('Categories loaded: ${categories.length}');
-      debugPrint('Lengths loaded: ${lengthOptions.length}');
-
-      // Fetch products from the selected featured collection.
       await fetchFeaturedProducts();
     } catch (error, stackTrace) {
       homeErrorMessage.value = error.toString();
-
-      debugPrint('Home page fetch failed: $error');
-      debugPrintStack(stackTrace: stackTrace);
     } finally {
       isHomeLoading.value = false;
     }
@@ -414,7 +383,6 @@ class Homecontroller extends GetxController {
         collection['handle'] == null ||
         collection['handle'].toString().isEmpty) {
       featuredProducts.clear();
-      debugPrint('No featured collection selected.');
       return;
     }
 
@@ -452,27 +420,17 @@ class Homecontroller extends GetxController {
           'handle': collection['handle'],
         },
       );
-
       final collectionData = result['collection'];
-
       if (collectionData == null) {
         featuredProducts.clear();
-        debugPrint('Featured collection was not found.');
         return;
       }
-
-      final nodes =
-          collectionData['products']?['nodes'] as List? ?? [];
-
+      final nodes = collectionData['products']?['nodes'] as List? ?? [];
       featuredProducts.assignAll(
         nodes.map((node) {
           final image = node['featuredImage'];
-          final variants =
-              node['variants']?['nodes'] as List? ?? [];
-
-          final price =
-          variants.isNotEmpty ? variants.first['price'] : null;
-
+          final variants = node['variants']?['nodes'] as List? ?? [];
+          final price = variants.isNotEmpty ? variants.first['price'] : null;
           return <String, dynamic>{
             'id': node['id']?.toString() ?? '',
             'name': node['title']?.toString() ?? '',
@@ -487,12 +445,7 @@ class Homecontroller extends GetxController {
           };
         }).toList(),
       );
-
-      debugPrint(
-        'Featured products loaded: ${featuredProducts.length}',
-      );
     } catch (error) {
-      debugPrint('Featured products fetch failed: $error');
     }
   }
 
