@@ -1,20 +1,12 @@
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 
 class Searchdatacontroller extends GetxController {
-  final TextEditingController searchTextController =
-  TextEditingController();
-
+  final TextEditingController searchTextController = TextEditingController();
   final RxString searchText = ''.obs;
-
-  final RxList<Map<String, String>> products =
-      <Map<String, String>>[].obs;
-
-  final RxList<Map<String, String>> collections =
-      <Map<String, String>>[].obs;
+  final RxList<Map<String, String>> products = <Map<String, String>>[].obs;
+  final RxList<Map<String, String>> collections = <Map<String, String>>[].obs;
 
   final RxList<String> suggestions = <String>[].obs;
   final RxList<String> recentSearches = <String>[].obs;

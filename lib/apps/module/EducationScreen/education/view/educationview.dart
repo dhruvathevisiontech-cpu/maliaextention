@@ -10,6 +10,7 @@ import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/EducationScreen/education/controller/educationcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
+import 'package:marquee/marquee.dart';
 
 class Educationview extends GetView<Educationcontroller> {
   const Educationview({super.key});
@@ -79,7 +80,6 @@ class Educationview extends GetView<Educationcontroller> {
             ),
           ],
         ),
-
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Column(
@@ -180,7 +180,277 @@ class Educationview extends GetView<Educationcontroller> {
                 buttonText: "Start Learning",
                 screensize: screensize,
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 15.h),
+              Container(
+                  width: double.infinity,
+                  color: Colorstheam.nobelblack,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screensize.width * 0.04,
+                    vertical: 24.h,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "WHY MALIA?",
+                          style: TextStyle(
+                            fontSize: 22.sp,
+                            fontFamily: "Urbanist",
+                            fontWeight: FontWeight.bold,
+                            color: Colorstheam.clusterwhite,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "I built Malia because I was tired of overpriced products and overcomplicated methods that didn't actually serve stylists. Extension work should be faster, smarter, and built for real salon life.",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w500,
+                            color: Colorstheam.clusterwhite,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: screensize.height * 0.005),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "― Dimitra Louro, Founder",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FontStyle.italic,
+                            color: Colorstheam.clusterwhite,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: screensize.height * 0.005),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "We don’t just sell wefts and wish you luck. We help stylists build successful hair extension businesses through:",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.w500,
+                            color: Colorstheam.clusterwhite,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: screensize.height * 0.02
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              color: Colorstheam.clusterwhite,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Text(
+                              "Sales & Consultation Training",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontFamily: "DMSans",
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.clusterwhite,
+                                height: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: screensize.height * 0.02
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              color: Colorstheam.clusterwhite,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Text(
+                              "Consistent Product",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontFamily: "DMSans",
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.clusterwhite,
+                                height: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: screensize.height * 0.02
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              color: Colorstheam.clusterwhite,
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Text(
+                              "A Community That Shows Up",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontFamily: "DMSans",
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.clusterwhite,
+                                height: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: screensize.height * 0.02,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              colorFilter: ColorFilter.mode(
+                                Colorstheam.clusterwhite,
+                                BlendMode.srcIn,
+                              ),
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Expanded(
+                              child: Text(
+                                "Shipping & Customer Support You Can Build A Business On",
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: "DMSans",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colorstheam.clusterwhite,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: screensize.height * 0.02,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              colorFilter: ColorFilter.mode(
+                                Colorstheam.clusterwhite,
+                                BlendMode.srcIn,
+                              ),
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Expanded(
+                              child: Text(
+                                "Guidance From Malia Certified Mentors",
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: "DMSans",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colorstheam.clusterwhite,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: screensize.height * 0.02,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SvgPicture.asset(
+                              "asset/svg/verified.svg",
+                              width: 30.w,
+                              height: 30.w,
+                              colorFilter: ColorFilter.mode(
+                                Colorstheam.clusterwhite,
+                                BlendMode.srcIn,
+                              ),
+                              fit: BoxFit.contain,
+                            ),
+                            SizedBox(width: 16.w),
+                            Expanded(
+                              child: Text(
+                                "Continuing Hair Extension Education",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontFamily: "DMSans",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colorstheam.clusterwhite,
+                                  height: 1.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+              Container(
+                height: 45.h,
+                color: Colorstheam.clusterwhite,
+                child: Marquee(
+                  text: '✦   Your Chair. Your Skills.',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colorstheam.nobelblack,
+                  ),
+                  velocity: 40,
+                  blankSpace: 15,
+                  startPadding: 0,
+                  pauseAfterRound: Duration.zero,
+                  showFadingOnlyWhenScrolling: true,
+                ),
+              ),
               Container(
                 width: double.infinity,
                 color: Colorstheam.nobelblack,

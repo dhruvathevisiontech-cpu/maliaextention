@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
@@ -210,25 +210,24 @@ class Wishlistview extends GetView<Wishlistcontroller> {
               ],
             ),
           ),
-
           actions: [
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
-
             SizedBox(width: 16.w),
-
             Padding(
               padding: EdgeInsets.only(
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -422,7 +421,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                 fontSize: 14.sp,
                 fontFamily: 'DMSans',
                 fontWeight: FontWeight.w300,
-                color: Colorstheam.black.withOpacity(0.3),
+                color: Colorstheam.black.withValues(alpha: 0.3),
               ),
               textAlign: TextAlign.center,
             ),

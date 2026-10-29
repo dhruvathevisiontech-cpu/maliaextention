@@ -1,14 +1,11 @@
 
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 class ShopifyCollectionService {
   static const String storeDomain = 'flutter-developer.myshopify.com';
   static const String apiVersion = '2026-10';
-  static const String storefrontToken =
-      'c71631f99e3257f1f6749095e0682220';
-
+  static const String storefrontToken = 'c71631f99e3257f1f6749095e0682220';
   static String get baseUrl => 'https://$storeDomain/api/$apiVersion/graphql.json';
 
   static Future<Map<String, dynamic>> query(

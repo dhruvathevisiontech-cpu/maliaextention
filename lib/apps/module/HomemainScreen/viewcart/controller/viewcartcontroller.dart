@@ -1,8 +1,7 @@
 
 import 'package:get/get.dart';
-import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/apps/module/cartcontroller.dart';
 
 class Viewcartcontroller extends GetxController {

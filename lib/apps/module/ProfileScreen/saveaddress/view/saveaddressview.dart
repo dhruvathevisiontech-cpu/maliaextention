@@ -3,13 +3,13 @@
   import 'package:flutter/material.dart';
   import 'package:flutter/services.dart';
   import 'package:flutter_svg/flutter_svg.dart';
-  import 'package:maliaextention/animation/animated_button.dart';
-import 'package:maliaextention/animation/textselect.dart';
-  import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/controller/saveaddresscontroller.dart';
   import 'package:maliaextention/typo/apptext.dart';
   import 'package:maliaextention/color/colorstheam.dart';
+  import 'package:maliaextention/animation/textselect.dart';
   import 'package:flutter_screenutil/flutter_screenutil.dart';
+  import 'package:maliaextention/animation/animated_button.dart';
   import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+  import 'package:maliaextention/apps/module/ProfileScreen/saveaddress/controller/saveaddresscontroller.dart';
 
   class Saveaddressview extends GetView<Saveaddresscontroller> {
     const Saveaddressview({super.key});
@@ -947,7 +947,7 @@ import 'package:maliaextention/animation/textselect.dart';
           HapticFeedback.heavyImpact();
           final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
           bottomNav.selectedIndex.value = 4;
-          bottomNav.currentPage.value = PageType.profile;
+          bottomNav.currentPage.value = PageType.addresslist;
         },
         child: Container(
           width: 32.w,

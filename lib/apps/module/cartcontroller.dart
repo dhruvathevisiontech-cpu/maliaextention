@@ -1,19 +1,13 @@
-
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
-
-import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 import 'package:maliaextention/typo/appsnackbar.dart';
+import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 
 class Cartcontroller extends GetxController {
   final GetStorage _storage = GetStorage();
-
-  final RxList<Map<String, dynamic>> cartItems =
-      <Map<String, dynamic>>[].obs;
-  final RxList<Map<String, dynamic>> recommendedProducts =
-      <Map<String, dynamic>>[].obs;
-
+  final RxList<Map<String, dynamic>> cartItems = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> recommendedProducts = <Map<String, dynamic>>[].obs;
   final RxBool isLoadingRecommendations = false.obs;
   final RxBool isLoading = false.obs;
   final RxBool isUpdating = false.obs;

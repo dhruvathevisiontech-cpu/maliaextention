@@ -15,8 +15,6 @@ class Inpersonview extends GetView<Inpersoncontroller> {
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-    final bottomNav = Get.find<Bottomnavigationcontroller>();
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -53,6 +51,8 @@ class Inpersonview extends GetView<Inpersoncontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
+                final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
@@ -66,6 +66,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -255,6 +256,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                 ),
                 child: AnimatedButton(
                   onTap: (){
+                    HapticFeedback.heavyImpact();
                     final bottomNav = Get.find<Bottomnavigationcontroller>();
                     bottomNav.selectedIndex.value = 3;
                     bottomNav.currentPage.value = PageType.hostclass;

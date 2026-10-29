@@ -1,701 +1,418 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:maliaextention/animation/animated_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profile/controller/profilecontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/typo/apptext.dart';
 
 class Profileview extends GetView<Profilecontroller> {
   const Profileview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final Size screensize = MediaQuery.of(context).size;
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
-      child: Scaffold(
-        backgroundColor: Colorstheam.white,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colorstheam.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          titleSpacing: 0,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(1.h),
-            child: Container(
-              height: 1.h,
-              width: double.infinity,
-              color: Colorstheam.clusterwhite,
-            ),
-          ),
-          title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
-            child: Row(
-              children: [
-                _backButton(),
-                SizedBox(width: screensize.width * 0.02),
-                Text(
-                  Apptext.profileappbartitle,
-                  style: TextStyle(
-                      fontSize: 22.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                  ),
-                )
-              ],
-            ),
-          ),
-          actions: [
-            _headerIcon(
-              icon: "asset/svg/search.svg",
-              onTap: () {
-                HapticFeedback.heavyImpact();
-                final bottomNav = Get.find<Bottomnavigationcontroller>();
-                bottomNav.selectedIndex.value = 0;
-                bottomNav.currentPage.value = PageType.search;
-              },
-            ),
-            SizedBox(width: 20.w),
-            Padding(
-              padding: EdgeInsets.only(
-                right: screensize.width * 0.04,
-              ),
-              child: _headerIcon(
-                onTap: (){
-                  HapticFeedback.heavyImpact();
-                  final bottomNav = Get.find<Bottomnavigationcontroller>();
-                  bottomNav.selectedIndex.value = 0;
-                  bottomNav.currentPage.value = PageType.viewcart;
-                },
-                icon: "asset/svg/cart.svg",
-              ),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
+    final Bottomnavigationcontroller bottomController = Get.find<Bottomnavigationcontroller>();
+    return Scaffold(
+      backgroundColor: Colorstheam.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildAppBar(bottomController),
+            Expanded(
+              child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.02),
-                  child: Text(
-                    Apptext.profilewelcome,
-                    style:  TextStyle(
-                      fontSize: 18.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: 0),
-                  child: Text(
-                    Apptext.profilewelcomesubtitle,
-                    style:  TextStyle(
-                        fontSize: 18.sp,
-                        fontFamily: "Urbanist",
-                        fontWeight: FontWeight.bold,
-                        color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.02),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                  child: AnimatedButton(
-                    onTap: () {
-                    },
-                    child: Container(
-                      height: 40.h,
-                      width: 160.w,
-                      decoration: BoxDecoration(
-                          color: Colorstheam.nobelblack,
-                          border: BoxBorder.all(
-                              color: Colorstheam.nobelblack,
-                              width: 1
-                          )
-                      ),
-                      child: Center(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 250),
-                          child: Text(
-                            Apptext.profilebtntext,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: "DMSans",
-                              fontWeight: FontWeight.bold,
-                              color: Colorstheam.clusterwhite,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.03),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colorstheam.clusterwhite)
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 22.w),
                   child: Column(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: (){
-                          HapticFeedback.heavyImpact();
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.salonlocator;
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 30.h),
+                      _buildWelcomeSection(),
+                      SizedBox(height: 22.h),
+                      _buildProfileButton(),
+                      SizedBox(height: 32.h),
+                      _menuItem(
+                        title: 'Salon Locator',
+                        asset: 'asset/svg/salonlocator.svg',
+                        onTap: () =>
+                            _navigate(bottomController, PageType.salonlocator),
+                      ),
+                      _divider(),
+                      _menuItem(
+                        title: 'Profile Details',
+                        asset: 'asset/svg/profile.svg',
+                        onTap: () => _navigate(
+                          bottomController,
+                          PageType.profiledetails,
+                        ),
+                      ),
+                      _divider(),
+                      _menuItem(
+                        title: 'My Courses',
+                        asset: 'asset/svg/cource.svg',
+                        onTap: () {},
+                      ),
+                      _divider(),
+                      _menuItem(
+                        title: 'Address Book',
+                        asset: 'asset/svg/address.svg',
+                        onTap: () =>
+                            _navigate(bottomController, PageType.addresslist),
+                      ),
+                      _divider(),
+                      _menuItem(
+                        title: 'Order History',
+                        asset: 'asset/svg/orders.svg',
+                        onTap: () =>
+                            _navigate(bottomController, PageType.orderhistory),
+                      ),
+                      _divider(),
+                      _buildInformationSection(bottomController),
+                      _divider(),
+                      SizedBox(height: 28.h),
+                      Text(
+                        'ACCOUNT SETTINGS',
+                        style: TextStyle(
+                          fontFamily: 'DMSans',
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.4,
+                          color: Colorstheam.grey,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      _accountAction(title: 'Delete Account', onTap: () {}),
+                      _divider(),
+                      _accountAction(
+                        title: 'Log Out',
+                        onTap: () {
+                          controller.showLogoutBottomSheet();
                         },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/salonlocator.svg",
-                                  height: 16.67.h,
-                                  width: 13.33.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Salon Locators",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          HapticFeedback.heavyImpact();
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.profiledetails;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/profile.svg",
-                                  height:   13.33.h,
-                                  width: 13.33.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Profile Details",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 20.h,
-                              width: 20.w,
-                              child: SvgPicture.asset(
-                                "asset/svg/cource.svg",
-                                height: 12.5.h,
-                                width: 15.w,
-                                color: Colorstheam.nobelblack,
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            Text(
-                              "My Courses",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontFamily: "DMSans",
-                                color: Colorstheam.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          HapticFeedback.heavyImpact();
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.addresslist;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/address.svg",
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Address",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          HapticFeedback.heavyImpact();
-                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                          bottomNav.selectedIndex.value = 4;
-                          bottomNav.currentPage.value = PageType.orderhistory;
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                height: 20.h,
-                                width: 20.w,
-                                child: SvgPicture.asset(
-                                  "asset/svg/orders.svg",
-                                  height:  16.h,
-                                  width: 16.w,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(width: 12.w),
-                              Text(
-                                "Orders",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  color: Colorstheam.black,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      Obx(
-                            () => Column(
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                HapticFeedback.heavyImpact();
-                                controller.isProfileExpanded.value =
-                                !controller.isProfileExpanded.value;
-                              },
-                              child: Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 8.h,
-                                ),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 20.h,
-                                      width: 20.w,
-                                      child: SvgPicture.asset(
-                                        "asset/svg/information.svg",
-                                        height: 20.h,
-                                        width: 20.w,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                    SizedBox(width: 12.w),
-                                    Expanded(
-                                      child: Text(
-                                        "Information",
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontFamily: "DMSans",
-                                          color: Colorstheam.black,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    AnimatedRotation(
-                                      turns: controller.isProfileExpanded.value ? 0.5 : 0,
-                                      duration: const Duration(milliseconds: 200),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 22.sp,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            AnimatedCrossFade(
-                              firstChild: const SizedBox.shrink(),
-                              secondChild: Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 12.h,
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: screensize.width * 0.08,right: screensize.width * 0.08),
-                                  child: Column(
-                                    children: <Widget>[
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.educationfaq;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Education FAQ’s",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.contactus;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Contact us",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.aboutus;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "About Us",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.policy;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Policies",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.gallary;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Gallery",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      GestureDetector(
-                                        onTap: (){
-                                          HapticFeedback.heavyImpact();
-                                          final bottomNav = Get.find<Bottomnavigationcontroller>();
-                                          bottomNav.selectedIndex.value = 4;
-                                          bottomNav.currentPage.value = PageType.faqlist;
-                                        },
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "FAQ’s",
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontFamily: "DMSans",
-                                              color: Colorstheam.black,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          "Blog",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontFamily: "DMSans",
-                                            color: Colorstheam.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: screensize.height * 0.01),
-                                    ],
-                                  ),
-                                )
-                              ),
-                              crossFadeState: controller.isProfileExpanded.value
-                                  ? CrossFadeState.showSecond
-                                  : CrossFadeState.showFirst,
-                              duration: const Duration(milliseconds: 250),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 08.h,
-                        ),
-                        child: Text(
-                          "Delete Account",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: "DMSans",
-                            color: Colorstheam.red,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                        child: Divider(
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: controller.showLogoutBottomSheet,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 08.h,
-                          ),
-                          child: Text(
-                            "Logout",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: "DMSans",
-                              color: Colorstheam.red,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
+                      SizedBox(height: 28.h),
                     ],
                   ),
                 ),
               ),
-            ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar(Bottomnavigationcontroller bottomController) {
+    return Container(
+      height: 54.h,
+      padding: EdgeInsets.symmetric(horizontal: 22.w),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colorstheam.clusterwhite, width: 0.7),
+        ),
+      ),
+      child: Row(
+        children: [
+          _headerIcon(
+            asset: 'asset/svg/arrowleft.svg',
+            onTap: () => _navigate(bottomController, PageType.home, index: 0),
+          ),
+
+          SizedBox(width: 18.w),
+
+          Expanded(
+            child: Text(
+              Apptext.profileappbartitle,
+              style: TextStyle(
+                fontFamily: 'Urbanist',
+                fontSize: 19.sp,
+                fontWeight: FontWeight.w600,
+                color: Colorstheam.nobelblack,
+              ),
+            ),
+          ),
+
+          _headerIcon(
+            asset: 'asset/svg/search.svg',
+            onTap: () => _navigate(bottomController, PageType.search, index: 0),
+          ),
+
+          SizedBox(width: 18.w),
+
+          _headerIcon(
+            asset: 'asset/svg/cart.svg',
+            onTap: () =>
+                _navigate(bottomController, PageType.viewcart, index: 0),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _headerIcon({required String asset, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: 26.w,
+        height: 38.h,
+        child: Center(
+          child: SvgPicture.asset(
+            asset,
+            width: 19.w,
+            height: 19.h,
+            colorFilter: ColorFilter.mode(
+              Colorstheam.nobelblack,
+              BlendMode.srcIn,
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _backButton() {
+  Widget _buildWelcomeSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          Apptext.profilewelcome,
+          style: TextStyle(
+            fontFamily: 'Urbanist',
+            fontSize: 27.sp,
+            height: 1.2,
+            fontWeight: FontWeight.w600,
+            color: Colorstheam.nobelblack,
+          ),
+        ),
+
+        SizedBox(height: 8.h),
+
+        Text(
+          Apptext.profilewelcomesubtitle,
+          style: TextStyle(
+            fontFamily: 'DMSans',
+            fontSize: 12.sp,
+            height: 1.5,
+            fontWeight: FontWeight.w400,
+            color: Colorstheam.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProfileButton() {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
-        final bottomNav = Get.find<Bottomnavigationcontroller>();
-        bottomNav.selectedIndex.value = 0;
-        bottomNav.currentPage.value = PageType.home;
+        // Add your preferred profile action here.
       },
       child: Container(
-        width: 32.w,
-        height: 32.w,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colorstheam.nobelblack,
-        ),
-        child: Center(
-          child: SvgPicture.asset(
-            "asset/svg/arrowleft.svg",
-            width: 10.w,
-            height: 10.h,
+        width: double.infinity,
+        height: 46.h,
+        alignment: Alignment.center,
+        color: Colorstheam.nobelblack,
+        child: Text(
+          Apptext.profilebtntext,
+          style: TextStyle(
+            fontFamily: 'DMSans',
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w600,
+            color: Colorstheam.white,
           ),
         ),
       ),
     );
   }
-  Widget _headerIcon({
-    required String icon,
-    VoidCallback? onTap,
+
+  Widget _menuItem({
+    required String title,
+    required String asset,
+    required VoidCallback onTap,
   }) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: SizedBox(
-        width: 22.w,
-        height: 22.w,
-        child: SvgPicture.asset(
-          icon,
-          width: 22.w,
-          height: 22.w,
+        height: 56.h,
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              asset,
+              width: 19.w,
+              height: 19.h,
+              colorFilter: ColorFilter.mode(
+                Colorstheam.nobelblack,
+                BlendMode.srcIn,
+              ),
+            ),
+
+            SizedBox(width: 15.w),
+
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'DMSans',
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+            ),
+
+            Icon(Icons.chevron_right, size: 19.sp, color: Colorstheam.grey),
+          ],
         ),
       ),
     );
+  }
+
+  Widget _buildInformationSection(Bottomnavigationcontroller bottomController) {
+    return Obx(
+      () => Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              controller.isProfileExpanded.toggle();
+            },
+            behavior: HitTestBehavior.opaque,
+            child: SizedBox(
+              height: 56.h,
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    'asset/svg/information.svg',
+                    width: 19.w,
+                    height: 19.h,
+                    colorFilter: ColorFilter.mode(
+                      Colorstheam.nobelblack,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+
+                  SizedBox(width: 15.w),
+
+                  Expanded(
+                    child: Text(
+                      'Information',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colorstheam.nobelblack,
+                      ),
+                    ),
+                  ),
+
+                  Icon(
+                    controller.isProfileExpanded.value
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 19.sp,
+                    color: Colorstheam.grey,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          if (controller.isProfileExpanded.value)
+            Padding(
+              padding: EdgeInsets.only(left: 34.w, bottom: 12.h),
+              child: Column(
+                children: [
+                  _informationLink(
+                    title: 'Education FAQs',
+                    onTap: () =>
+                        _navigate(bottomController, PageType.educationfaq),
+                  ),
+                  _informationLink(
+                    title: 'Contact Us',
+                    onTap: () =>
+                        _navigate(bottomController, PageType.contactus),
+                  ),
+                  _informationLink(
+                    title: 'About Us',
+                    onTap: () => _navigate(bottomController, PageType.aboutus),
+                  ),
+                  _informationLink(
+                    title: 'Policies',
+                    onTap: () => _navigate(bottomController, PageType.policy),
+                  ),
+                  _informationLink(
+                    title: 'Gallery',
+                    onTap: () => _navigate(bottomController, PageType.gallary),
+                  ),
+                  _informationLink(
+                    title: 'FAQs',
+                    onTap: () => _navigate(bottomController, PageType.faqlist),
+                  ),
+                  _informationLink(title: 'Blog', onTap: () {}),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _informationLink({
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        height: 39.h,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'DMSans',
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              color: Colorstheam.grey,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _accountAction({required String title, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        height: 48.h,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'DMSans',
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+              color: Colorstheam.Racingred,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _divider() {
+    return Divider(height: 1, thickness: 0.6, color: Colorstheam.clusterwhite);
+  }
+
+  void _navigate(
+    Bottomnavigationcontroller bottomController,
+    PageType page, {
+    int index = 4,
+  }) {
+    bottomController.selectedIndex.value = index;
+    bottomController.currentPage.value = page;
   }
 }

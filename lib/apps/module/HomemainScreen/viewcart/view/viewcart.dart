@@ -1,16 +1,14 @@
-import 'dart:developer';
-
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:maliaextention/animation/animated_button.dart';
+import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
 import 'package:maliaextention/animation/textselect.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/viewcartcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/typo/apptext.dart';
 
 class Viewcart extends GetView<Viewcartcontroller> {
   const Viewcart({Key? key}) : super(key: key);

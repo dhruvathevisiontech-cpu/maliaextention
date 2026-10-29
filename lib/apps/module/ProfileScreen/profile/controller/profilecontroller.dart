@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'dart:async';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
-import 'package:maliaextention/apps/routes/app_pages.dart';
-import 'package:maliaextention/color/colorstheam.dart';
 
 class Profilecontroller extends GetxController {
   final RxBool isProfileExpanded = false.obs;
   final RxInt selectedLogoutButton = (-1).obs;
+
   void showLogoutBottomSheet() {
     Get.bottomSheet(
       Container(
