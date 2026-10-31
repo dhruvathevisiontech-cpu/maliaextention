@@ -17,7 +17,6 @@ class Contactusview extends GetView<Contactuscontroller> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screensize = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -81,7 +80,7 @@ class Contactusview extends GetView<Contactuscontroller> {
                     vertical: 26.h,
                   ),
                   decoration: BoxDecoration(
-                    color: Colorstheam.clusterwhite.withOpacity(0.6),
+                    color: Colorstheam.clusterwhite.withValues(alpha: 0.6),
                     border: Border.all(
                       color: Colorstheam.clusterwhite,
                       width: 1,
@@ -95,7 +94,7 @@ class Contactusview extends GetView<Contactuscontroller> {
                           vertical: 7.h,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.75),
+                          color: Colors.white.withValues(alpha: 0.75),
                         ),
                         child: Text(
                           'M A L I A   S U P P O R T',
@@ -104,7 +103,7 @@ class Contactusview extends GetView<Contactuscontroller> {
                             fontSize: 10.sp,
                             fontFamily: 'DMSans',
                             fontWeight: FontWeight.w700,
-                            color: Colorstheam.nobelblack.withOpacity(0.6),
+                            color: Colorstheam.nobelblack.withValues(alpha: 0.6),
                             letterSpacing: 0.5,
                           ),
                         ),
@@ -135,7 +134,7 @@ class Contactusview extends GetView<Contactuscontroller> {
                             height: 1.7,
                             fontFamily: 'DMSans',
                             fontWeight: FontWeight.w400,
-                            color: Colorstheam.nobelblack.withOpacity(0.6),
+                            color: Colorstheam.nobelblack.withValues(alpha: 0.6),
                           ),
                         ),
                       ),

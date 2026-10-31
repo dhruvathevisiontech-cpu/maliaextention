@@ -33,12 +33,9 @@ class Searchview extends GetView<Searchdatacontroller> {
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 HapticFeedback.heavyImpact();
-                final bottomNav =
-                Get.find<Bottomnavigationcontroller>();
-
+                final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
-                bottomNav.currentPage.value =
-                    PageType.home;
+                bottomNav.currentPage.value = PageType.home;
               },
               child: Padding(
                 padding: EdgeInsets.only(left: screensize.width * 0.04),
@@ -92,9 +89,7 @@ class Searchview extends GetView<Searchdatacontroller> {
                       color: Colorstheam.clusterwhite
                     )
                   ),
-                  child:
-
-                  TextField(
+                  child: TextField(
                     controller: controller.searchTextController,
                     autofocus: true,
                     textInputAction: TextInputAction.search,
@@ -155,15 +150,12 @@ class Searchview extends GetView<Searchdatacontroller> {
                       contentPadding: EdgeInsets.zero,
                     ),
                   )
-
-
                 ),
               ),
             ),
           ),
         body: Obx(() {
           final hasQuery = controller.searchText.value.trim().isNotEmpty;
-
           if (!hasQuery) {
             return ListView(
               padding: EdgeInsets.fromLTRB(16.w, 22.h, 16.w, 24.h),
@@ -204,13 +196,11 @@ class Searchview extends GetView<Searchdatacontroller> {
               ],
             );
           }
-
           if (controller.isLoading.value) {
             return Center(
               child: CircularProgressIndicator(color: Colorstheam.black),
             );
           }
-
           if (controller.errorMessage.value.isNotEmpty) {
             return Center(
               child: Padding(
@@ -228,11 +218,9 @@ class Searchview extends GetView<Searchdatacontroller> {
               ),
             );
           }
-
           return ListView(
             padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 30.h),
             children: [
-              // RELATED PRODUCTS
               if (controller.products.isNotEmpty) ...[
                 _searchSectionTitle('RELATED PRODUCTS'),
                 SizedBox(height: 12.h),
@@ -241,8 +229,6 @@ class Searchview extends GetView<Searchdatacontroller> {
                 ),
                 SizedBox(height: 22.h),
               ],
-
-              // SUGGESTIONS
               if (controller.suggestions.isNotEmpty) ...[
                 _searchSectionTitle('SUGGESTIONS'),
                 SizedBox(height: 10.h),
@@ -251,8 +237,6 @@ class Searchview extends GetView<Searchdatacontroller> {
                 ),
                 SizedBox(height: 22.h),
               ],
-
-              // COLLECTIONS
               if (controller.collections.isNotEmpty) ...[
                 _searchSectionTitle('COLLECTIONS'),
                 SizedBox(height: 10.h),
@@ -260,7 +244,6 @@ class Searchview extends GetView<Searchdatacontroller> {
                       (collection) => _buildSearchCollection(collection),
                 ),
               ],
-
               if (controller.products.isEmpty &&
                   controller.suggestions.isEmpty &&
                   controller.collections.isEmpty)
@@ -282,12 +265,9 @@ class Searchview extends GetView<Searchdatacontroller> {
             ],
           );
         }),
-
-
       ),
     );
   }
-
   Widget _searchSectionTitle(String title) {
     return Text(
       title,
@@ -300,14 +280,11 @@ class Searchview extends GetView<Searchdatacontroller> {
       ),
     );
   }
-
   Widget _buildSearchProduct(Map<String, String> product) {
     final imageUrl = product['image'] ?? '';
-
     return InkWell(
       onTap: () {
-        Get.find<Bottomnavigationcontroller>()
-            .openProductDetails(product);
+        Get.find<Bottomnavigationcontroller>().openProductDetails(product);
       },
       child: Padding(
         padding: EdgeInsets.only(bottom: 14.h),
@@ -323,7 +300,7 @@ class Searchview extends GetView<Searchdatacontroller> {
                     ? Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Icon(
+                  errorBuilder: (_, _, _) => Icon(
                     Icons.image_outlined,
                     color: Colorstheam.grey,
                   ),
@@ -419,7 +396,6 @@ class Searchview extends GetView<Searchdatacontroller> {
 
   Widget _buildSearchCollection(Map<String, String> collection) {
     final imageUrl = collection['image'] ?? '';
-
     return InkWell(
       onTap: () {
         controller.selectSuggestion(collection['name'] ?? '');
@@ -437,7 +413,7 @@ class Searchview extends GetView<Searchdatacontroller> {
                     ? Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Icon(
+                  errorBuilder: (_, _, _) => Icon(
                     Icons.collections_outlined,
                     color: Colorstheam.grey,
                   ),

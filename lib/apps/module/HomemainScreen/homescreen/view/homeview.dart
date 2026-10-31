@@ -15,7 +15,6 @@ class Homeview extends GetView<Homecontroller> {
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -26,6 +25,7 @@ class Homeview extends GetView<Homecontroller> {
         color: Colorstheam.clusterwhite,
         backgroundColor: Colorstheam.nobelblack,
         onRefresh: () async {
+          HapticFeedback.heavyImpact();
           await controller.fetchHomePage();
         },
         child: Scaffold(
@@ -50,8 +50,7 @@ class Homeview extends GetView<Homecontroller> {
               GestureDetector(
                 onTap: () {
                   HapticFeedback.heavyImpact();
-                  final bottomNav =
-                  Get.find<Bottomnavigationcontroller>();
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.search;
                 },
@@ -69,8 +68,7 @@ class Homeview extends GetView<Homecontroller> {
                 child: GestureDetector(
                   onTap: () {
                     HapticFeedback.heavyImpact();
-                    final bottomNav =
-                    Get.find<Bottomnavigationcontroller>();
+                    final bottomNav = Get.find<Bottomnavigationcontroller>();
                     bottomNav.selectedIndex.value = 0;
                     bottomNav.currentPage.value = PageType.viewcart;
                   },
@@ -90,45 +88,22 @@ class Homeview extends GetView<Homecontroller> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: screensize.height * 0.01),
-
-                // ---------------- HERO SECTION ----------------
-
                 Padding(
                   padding: EdgeInsets.only(
                     left: screensize.width * 0.04,
                     right: screensize.width * 0.04,
                   ),
                   child: Obx(() {
-                    final heroImage =
-                        controller.homeContent['hero_image']
-                            ?.toString() ??
-                            '';
-
-                    final heroEyebrow =
-                        controller.homeContent['hero_eyebrow']
-                            ?.toString() ??
-                            'NEW SEASON EDIT';
-
-                    final heroTitle =
-                        controller.homeContent['hero_title']
-                            ?.toString() ??
-                            'Premium Hair Extensions';
-
-                    final heroDescription =
-                        controller.homeContent['hero_description']
-                            ?.toString() ??
-                            'Crafted with high-quality hair, our wefts deliver a flawless transformation with a luxurious finish.';
-
-                    final heroButtonLabel =
-                        controller.homeContent['hero_button_label']
-                            ?.toString() ??
-                            'Shop Extensions';
-
+                    final heroImage = controller.homeContent['hero_image'] ?.toString() ?? '';
+                    final heroEyebrow = controller.homeContent['hero_eyebrow']?.toString() ?? 'NEW SEASON EDIT';
+                    final heroTitle = controller.homeContent['hero_title']?.toString() ?? 'Premium Hair Extensions';
+                    final heroDescription = controller.homeContent['hero_description']?.toString() ?? 'Crafted with high-quality hair, our wefts deliver a flawless transformation with a luxurious finish.';
+                    final heroButtonLabel = controller.homeContent['hero_button_label']?.toString() ?? 'Shop Extensions';
                     return SizedBox(
                       height: 410.h,
                       width: 362.w,
                       child: Stack(
-                        children: [
+                        children: <Widget>[
                           ClipRRect(
                             child: heroImage.isNotEmpty
                                 ? Image.network(
@@ -136,8 +111,7 @@ class Homeview extends GetView<Homecontroller> {
                               height: 410.h,
                               width: 362.w,
                               fit: BoxFit.cover,
-                              errorBuilder:
-                                  (context, error, stackTrace) {
+                              errorBuilder: (context, error, stackTrace) {
                                 return Image.asset(
                                   "asset/image/image1.png",
                                   height: 410.h,
@@ -158,9 +132,8 @@ class Homeview extends GetView<Homecontroller> {
                             right: 20.w,
                             bottom: 25.h,
                             child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
                                 Text(
                                   heroEyebrow,
                                   style: TextStyle(
@@ -197,9 +170,7 @@ class Homeview extends GetView<Homecontroller> {
                                   child: GestureDetector(
                                     onTap: () {
                                       HapticFeedback.heavyImpact();
-                                      final bottomNav =
-                                      Get.find<
-                                          Bottomnavigationcontroller>();
+                                      final bottomNav = Get.find<Bottomnavigationcontroller>();
                                       bottomNav.selectedIndex.value = 0;
                                       bottomNav.currentPage.value =
                                           PageType.collectionlist;
@@ -234,11 +205,7 @@ class Homeview extends GetView<Homecontroller> {
                     );
                   }),
                 ),
-
                 SizedBox(height: screensize.height * 0.02),
-
-                // ---------------- SHOP BY CATEGORY ----------------
-
                 Padding(
                   padding: EdgeInsets.only(
                     left: screensize.width * 0.04,
@@ -267,12 +234,9 @@ class Homeview extends GetView<Homecontroller> {
                     ),
                   ),
                 ),
-
                 SizedBox(height: screensize.height * 0.02),
-
                 Obx(() {
                   final categoryItems = controller.categories;
-
                   return SizedBox(
                     height: 175.h,
                     child: ListView.separated(
@@ -282,27 +246,18 @@ class Homeview extends GetView<Homecontroller> {
                         horizontal: 16.w,
                       ),
                       itemCount: categoryItems.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (_, _) =>
                           SizedBox(width: 12.w),
                       itemBuilder: (context, index) {
                         final category = categoryItems[index];
-
-                        final categoryTitle =
-                            category['title']?.toString() ?? '';
-
-                        final categoryImage =
-                            category['image']?.toString() ?? '';
-
+                        final categoryTitle = category['title']?.toString() ?? '';
+                        final categoryImage = category['image']?.toString() ?? '';
                         return GestureDetector(
                           onTap: () {
                             HapticFeedback.heavyImpact();
-                            final bottomNav =
-                            Get.find<
-                                Bottomnavigationcontroller>();
-
+                            final bottomNav = Get.find<Bottomnavigationcontroller>();
                             bottomNav.selectedIndex.value = 0;
-                            bottomNav.currentPage.value =
-                                PageType.collectionlist;
+                            bottomNav.currentPage.value = PageType.collectionlist;
                           },
                           child: SizedBox(
                             width: 130.w,
@@ -356,10 +311,7 @@ class Homeview extends GetView<Homecontroller> {
                     ),
                   );
                 }),
-
                 SizedBox(height: screensize.height * 0.02),
-
-                // ---------------- FEATURED PRODUCTS ----------------
                 Obx(
                       () => Padding(
                         padding: EdgeInsets.only(
@@ -368,8 +320,7 @@ class Homeview extends GetView<Homecontroller> {
                         ),
                         child: Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                                              controller.homeContent['best_seller_title']?.toString().trim().isNotEmpty == true
+                          child: Text(controller.homeContent['best_seller_title']?.toString().trim().isNotEmpty == true
                             ? controller.homeContent['best_seller_title'].toString().trim()
                             : 'Best Sellers',
                             style: TextStyle(
@@ -378,16 +329,14 @@ class Homeview extends GetView<Homecontroller> {
                               fontWeight: FontWeight.bold,
                               color: Colorstheam.nobelblack,
                             ),
-                                            ),
+                          ),
                         ),
                       ),
                 ),
                 SizedBox(height: screensize.height * 0.02),
                 Obx(() {
                   final products = controller.featuredProducts;
-
-                  if (controller.isHomeLoading.value &&
-                      products.isEmpty) {
+                  if (controller.isHomeLoading.value && products.isEmpty) {
                     return Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 30.h,
@@ -397,14 +346,12 @@ class Homeview extends GetView<Homecontroller> {
                       ),
                     );
                   }
-
                   if (products.isEmpty) {
                     return const SizedBox.shrink();
                   }
-
                   return GridView.builder(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics:  NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     gridDelegate:
                     SliverGridDelegateWithFixedCrossAxisCount(
@@ -424,9 +371,8 @@ class Homeview extends GetView<Homecontroller> {
                           HapticFeedback.heavyImpact();
                         },
                         child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
                             Stack(
                               children: [
                                 ClipRRect(
@@ -543,9 +489,8 @@ class Homeview extends GetView<Homecontroller> {
                             SizedBox(height: 4.h),
 
                             Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
                                 Text(
                                   "LOGIN TO SEE PRICE",
                                   style: TextStyle(

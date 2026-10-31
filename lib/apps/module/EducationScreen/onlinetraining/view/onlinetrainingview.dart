@@ -11,7 +11,6 @@ import 'package:maliaextention/color/colorstheam.dart';
 
 class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
   const Onlinetrainingview({super.key});
-
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;

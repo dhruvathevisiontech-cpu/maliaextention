@@ -15,21 +15,11 @@ class AppSnackbar {
     _show(message, Icons.error_outline_rounded);
   }
 
-  // static void warning(String message) {
-  //   _show(message, Icons.warning_amber_rounded);
-  // }
-  //
-  // static void info(String message) {
-  //   _show(message, Icons.info_outline_rounded);
-  // }
-
   static void _show(String message, IconData icon) {
     final context = Get.context;
     if (context == null) return;
-
     final messenger = ScaffoldMessenger.maybeOf(context);
     if (messenger == null) return;
-
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -79,7 +69,7 @@ class _NudeMinimalToast extends StatelessWidget {
         ],
       ),
       child: Row(
-        children: [
+        children: <Widget>[
           Icon(
             icon,
             size: 19.sp,

@@ -16,7 +16,6 @@ class Filterview extends GetView<Filtercontroller> {
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -25,11 +24,6 @@ class Filterview extends GetView<Filtercontroller> {
       ),
       child: Scaffold(
         backgroundColor: Colorstheam.white,
-
-        // ============================================================
-        // APP BAR
-        // ============================================================
-
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colorstheam.white,
@@ -38,9 +32,7 @@ class Filterview extends GetView<Filtercontroller> {
           titleSpacing: 0,
           centerTitle: false,
           title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
+            padding: EdgeInsets.only(left: screensize.width * 0.04,),
             child: Text(
               Apptext.filtertitle,
               style: TextStyle(
@@ -51,32 +43,20 @@ class Filterview extends GetView<Filtercontroller> {
               ),
             ),
           ),
-
           actions: [
             Padding(
-              padding: EdgeInsets.only(
-                right: screensize.width * 0.04,
-                top: screensize.height * 0.01,
-              ),
+              padding: EdgeInsets.only(right: screensize.width * 0.04, top: screensize.height * 0.01,),
               child: _headerIcon(
                 icon: "asset/svg/close.svg",
                 onTap: () {
-                  final bottomNav =
-                  Get.find<Bottomnavigationcontroller>();
-
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 1;
-                  bottomNav.currentPage.value =
-                      PageType.collectionlist;
+                  bottomNav.currentPage.value = PageType.collectionlist;
                 },
               ),
             ),
           ],
         ),
-
-        // ============================================================
-        // BODY
-        // ============================================================
-
         body: Column(
           children: <Widget>[
             Divider(
@@ -84,15 +64,9 @@ class Filterview extends GetView<Filtercontroller> {
               thickness: 1.h,
               color: Colorstheam.clusterwhite,
             ),
-
             Expanded(
               child: Row(
-                children: [
-
-                  // ======================================================
-                  // LEFT SIDE - CATEGORIES
-                  // ======================================================
-
+                children: <Widget>[
                   Container(
                     width: 120.w,
                     decoration: BoxDecoration(
@@ -103,9 +77,7 @@ class Filterview extends GetView<Filtercontroller> {
                         ),
                       ),
                     ),
-
-                    child: Obx(
-                          () {
+                    child: Obx(() {
                         final int selectedIndex = controller.selectedCategoryIndex.value;
                         return ListView.builder(
                           itemCount: controller.categories.length,
@@ -116,9 +88,7 @@ class Filterview extends GetView<Filtercontroller> {
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 HapticFeedback.heavyImpact();
-                                controller
-                                    .selectedCategoryIndex
-                                    .value = index;
+                                controller.selectedCategoryIndex.value = index;
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(
@@ -130,14 +100,10 @@ class Filterview extends GetView<Filtercontroller> {
                                   horizontal: 16.w,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? Colorstheam.nobelblack.withValues(alpha: 0.04)
-                                      : Colors.transparent,
+                                  color: isSelected ? Colorstheam.nobelblack.withValues(alpha: 0.04) : Colors.transparent,
                                   border: Border(
                                     left: BorderSide(
-                                      color: isSelected
-                                          ? Colorstheam.nobelblack
-                                          : Colors.transparent,
+                                      color: isSelected ? Colorstheam.nobelblack : Colors.transparent,
                                       width: 2.w,
                                     ),
                                   ),
@@ -169,20 +135,13 @@ class Filterview extends GetView<Filtercontroller> {
                       },
                     ),
                   ),
-                  // ======================================================
-                  // RIGHT SIDE - OPTIONS
-                  // ======================================================
                   Expanded(
-                    child: Obx(
-                          () {
+                    child: Obx(() {
                         final int selectedIndex = controller.selectedCategoryIndex.value;
                         final selectedCategory = controller.categories[selectedIndex];
                         final options = controller.filterOptions[selectedCategory.type] ?? [];
                         return ListView.builder(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 8.h,
-                            horizontal: 16.w,
-                          ),
+                          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w,),
                           itemCount: options.length,
                           itemBuilder: (context, index,) {
                             final option = options[index];
@@ -194,92 +153,44 @@ class Filterview extends GetView<Filtercontroller> {
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 HapticFeedback.heavyImpact();
-                                controller.toggleOption(
-                                  selectedCategory.type,
-                                  option.id,
-                                );
+                                controller.toggleOption(selectedCategory.type,option.id,);
                               },
                               child: AnimatedContainer(
-                                duration: const Duration(
-                                  milliseconds: 220,
-                                ),
+                                duration: const Duration(milliseconds: 220),
                                 curve: Curves.easeOutCubic,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10.h),
                                 child: Row(
-                                  children: [
-
-                                    // ==================================
-                                    // PREMIUM CHECKBOX
-                                    // ==================================
-
+                                  children: <Widget>[
                                     AnimatedScale(
                                       scale: isChecked ? 1.05 : 1.0,
-
-                                      duration: const Duration(
-                                        milliseconds: 220,
-                                      ),
-
+                                      duration: const Duration(milliseconds: 220),
                                       curve: Curves.easeOutBack,
-
                                       child: AnimatedContainer(
-                                        duration: const Duration(
-                                          milliseconds: 220,
-                                        ),
-
+                                        duration: const Duration(milliseconds: 220),
                                         curve: Curves.easeOutCubic,
-
                                         width: 18.w,
                                         height: 18.w,
-
                                         decoration: BoxDecoration(
-                                          color: isChecked
-                                              ? Colorstheam.nobelblack
-                                              : Colorstheam.white,
-
+                                          color: isChecked ? Colorstheam.nobelblack : Colorstheam.white,
                                           border: Border.all(
-                                            color:
-                                            Colorstheam.nobelblack,
+                                            color: Colorstheam.nobelblack,
                                             width: 1.5,
                                           ),
-
                                           boxShadow: isChecked
                                               ? [
                                             BoxShadow(
-                                              color: Colorstheam
-                                                  .nobelblack
-                                                  .withValues(alpha:
-                                                0.15,
-                                              ),
+                                              color: Colorstheam.nobelblack.withValues(alpha: 0.15),
                                               blurRadius: 8,
                                               spreadRadius: 0,
-                                              offset:
-                                              const Offset(
-                                                0,
-                                                3,
-                                              ),
+                                              offset: const Offset(0, 3),
                                             ),
-                                          ]
-                                              : [],
+                                          ]: [],
                                         ),
-
                                         child: AnimatedSwitcher(
-                                          duration: const Duration(
-                                            milliseconds: 220,
-                                          ),
-
-                                          reverseDuration:
-                                          const Duration(
-                                            milliseconds: 120,
-                                          ),
-
-                                          switchInCurve:
-                                          Curves.easeOutBack,
-
-                                          switchOutCurve:
-                                          Curves.easeIn,
-
+                                          duration: const Duration(milliseconds: 220),
+                                          reverseDuration: const Duration(milliseconds: 120),
+                                          switchInCurve: Curves.easeOutBack,
+                                          switchOutCurve: Curves.easeIn,
                                           transitionBuilder: (
                                               Widget child,
                                               Animation<double>
@@ -293,7 +204,6 @@ class Filterview extends GetView<Filtercontroller> {
                                               ),
                                             );
                                           },
-
                                           child: isChecked
                                               ? Center(
                                             key: const ValueKey(
@@ -314,67 +224,34 @@ class Filterview extends GetView<Filtercontroller> {
                                         ),
                                       ),
                                     ),
-
                                     SizedBox(
                                       width: 12.w,
                                     ),
-
-                                    // ==================================
-                                    // LABEL
-                                    // ==================================
-
                                     Expanded(
-                                      child:
-                                      AnimatedDefaultTextStyle(
-                                        duration: const Duration(
-                                          milliseconds: 180,
-                                        ),
-
-                                        curve:
-                                        Curves.easeOutCubic,
-
+                                      child: AnimatedDefaultTextStyle(
+                                        duration: const Duration(milliseconds: 180,),
+                                        curve: Curves.easeOutCubic,
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           fontFamily: "DMSans",
-                                          fontWeight:
-                                          isChecked
-                                              ? FontWeight.w600
-                                              : FontWeight.w500,
-                                          color: Colorstheam
-                                              .nobelblack,
+                                          fontWeight: isChecked ? FontWeight.w600 : FontWeight.w500,
+                                          color: Colorstheam.nobelblack,
                                         ),
-
                                         child: Text(
                                           option.label,
                                         ),
                                       ),
                                     ),
-
-                                    // ==================================
-                                    // COUNT
-                                    // ==================================
-
                                     if (option.count != null)
                                       AnimatedDefaultTextStyle(
-                                        duration:
-                                        const Duration(
-                                          milliseconds: 180,
-                                        ),
-
-                                        curve:
-                                        Curves.easeOutCubic,
-
+                                        duration: const Duration(milliseconds: 180,),
+                                        curve: Curves.easeOutCubic,
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           fontFamily: "DMSans",
-                                          fontWeight:
-                                          isChecked
-                                              ? FontWeight.w600
-                                              : FontWeight.w500,
-                                          color: Colorstheam
-                                              .nobelblack,
+                                          fontWeight: isChecked ? FontWeight.w600 : FontWeight.w500,
+                                          color: Colorstheam.nobelblack,
                                         ),
-
                                         child: Text(
                                           '${option.count}',
                                         ),
@@ -391,214 +268,125 @@ class Filterview extends GetView<Filtercontroller> {
                 ],
               ),
             ),
-
-            // ============================================================
-            // BOTTOM DIVIDER
-            // ============================================================
-
             Divider(
               height: 1.h,
               color: Colorstheam.clusterwhite,
             ),
-
-            // ============================================================
-            // BOTTOM BUTTONS
-            // ============================================================
-
             Padding(
               padding: EdgeInsets.all(16.w),
-
               child: Obx(
                     () => Row(
                   children: <Widget>[
-
-                    // ====================================================
-                    // RESET BUTTON
-                    // ====================================================
-
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           controller.selectedButton.value = 0;
-
                           controller.resetFilters();
                         },
-
                         child: AnimatedScale(
-                          scale:
-                          controller.selectedButton.value == 0
+                          scale: controller.selectedButton.value == 0
                               ? 1.02
                               : 1.0,
-
                           duration: const Duration(
                             milliseconds: 180,
                           ),
-
                           curve: Curves.easeOutCubic,
-
                           child: AnimatedContainer(
                             duration: const Duration(
                               milliseconds: 220,
                             ),
-
                             curve: Curves.easeOutCubic,
-
                             height: 40.h,
-
                             decoration: BoxDecoration(
-                              color:
-                              controller.selectedButton.value == 0
+                              color: controller.selectedButton.value == 0
                                   ? Colorstheam.nobelblack
                                   : Colors.white,
-
                               border: Border.all(
                                 color: Colorstheam.nobelblack,
                                 width: 1.w,
                               ),
-
-                              boxShadow:
-                              controller.selectedButton.value == 0
+                              boxShadow: controller.selectedButton.value == 0
                                   ? [
                                 BoxShadow(
-                                  color: Colors.black
-                                      .withValues(alpha:
-                                    0.12,
-                                  ),
+                                  color: Colors.black.withValues(alpha: 0.12,),
                                   blurRadius: 12,
                                   spreadRadius: 0,
-                                  offset: const Offset(
-                                    0,
-                                    5,
-                                  ),
+                                  offset: const Offset(0, 5,),
                                 ),
                               ]
                                   : [],
                             ),
-
                             child: Center(
-                              child:
-                              AnimatedDefaultTextStyle(
-                                duration: const Duration(
-                                  milliseconds: 180,
-                                ),
-
+                              child: AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 180),
                                 curve: Curves.easeOutCubic,
-
                                 style: TextStyle(
-                                  color: controller
-                                      .selectedButton
-                                      .value ==
-                                      0
-                                      ? Colors.white
-                                      : Colorstheam.nobelblack,
+                                  color: controller.selectedButton.value == 0 ? Colors.white : Colorstheam.nobelblack,
                                   fontSize: 14.sp,
                                   fontFamily: "Urbanist",
                                   fontWeight: FontWeight.bold,
                                 ),
-
-                                child: const Text(
-                                  'Reset',
-                                ),
+                                child: Text('Reset'),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-
                     SizedBox(
                       width: 12.w,
                     ),
-
-                    // ====================================================
-                    // APPLY BUTTON
-                    // ====================================================
-
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           controller.selectedButton.value = 1;
-
                           controller.applyFilters();
                         },
-
                         child: AnimatedScale(
-                          scale:
-                          controller.selectedButton.value == 1
+                          scale: controller.selectedButton.value == 1
                               ? 1.02
                               : 1.0,
-
                           duration: const Duration(
                             milliseconds: 180,
                           ),
-
                           curve: Curves.easeOutCubic,
-
                           child: AnimatedContainer(
                             duration: const Duration(
                               milliseconds: 220,
                             ),
-
                             curve: Curves.easeOutCubic,
-
                             height: 40.h,
-
                             decoration: BoxDecoration(
-                              color:
-                              controller.selectedButton.value == 1
+                              color: controller.selectedButton.value == 1
                                   ? Colorstheam.nobelblack
                                   : Colors.white,
-
                               border: Border.all(
                                 color: Colorstheam.nobelblack,
                                 width: 1.w,
                               ),
-
-                              boxShadow:
-                              controller.selectedButton.value == 1
+                              boxShadow: controller.selectedButton.value == 1
                                   ? [
                                 BoxShadow(
-                                  color: Colors.black
-                                      .withValues(alpha:
-                                    0.12,
-                                  ),
+                                  color: Colors.black.withValues(alpha: 0.12,),
                                   blurRadius: 12,
                                   spreadRadius: 0,
-                                  offset: const Offset(
-                                    0,
-                                    5,
-                                  ),
+                                  offset: const Offset(0, 5),
                                 ),
-                              ]
-                                  : [],
+                              ] : [],
                             ),
-
                             child: Center(
-                              child:
-                              AnimatedDefaultTextStyle(
-                                duration: const Duration(
-                                  milliseconds: 180,
-                                ),
-
+                              child: AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 180,),
                                 curve: Curves.easeOutCubic,
-
                                 style: TextStyle(
-                                  color: controller
-                                      .selectedButton
-                                      .value ==
-                                      1
-                                      ? Colors.white
-                                      : Colorstheam.nobelblack,
+                                  color: controller.selectedButton.value == 1 ? Colors.white : Colorstheam.nobelblack,
                                   fontSize: 14.sp,
                                   fontFamily: "Urbanist",
                                   fontWeight: FontWeight.bold,
                                 ),
-
-                                child: const Text(
-                                  'Apply',
-                                ),
+                                child: const Text('Apply'),
                               ),
                             ),
                           ),
@@ -614,24 +402,16 @@ class Filterview extends GetView<Filtercontroller> {
       ),
     );
   }
-
-  // ================================================================
-  // HEADER ICON
-  // ================================================================
-
   Widget _headerIcon({
     required String icon,
     VoidCallback? onTap,
   }) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-
       onTap: onTap,
-
       child: SizedBox(
         width: 26.25.w,
         height: 26.25.w,
-
         child: SvgPicture.asset(
           icon,
           width: 26.25.w,

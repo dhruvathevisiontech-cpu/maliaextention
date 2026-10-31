@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/EducationScreen/InPerson/controller/inpersoncontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
+
 
 class Inpersonview extends GetView<Inpersoncontroller> {
   const Inpersonview({super.key});
@@ -57,9 +58,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
-
             SizedBox(width: 20.w),
-
             Padding(
               padding: EdgeInsets.only(
                 right: screensize.width * 0.04,
@@ -76,363 +75,405 @@ class Inpersonview extends GetView<Inpersoncontroller> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.02),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Master Hair Extensions In Person",
+        body: Obx(() {
+          if (controller.isLoadingEducation.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (controller.education.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    controller.educationError.value.isNotEmpty
+                        ? controller.educationError.value
+                        : "No education data found.",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.01),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Reserve your place in an upcoming class to learn, practice, and build confidence through immersive, hands-on training.",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w500,
-                        color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.03,),
-              _classCard(
-                date: "9th Nov",
-                location: "Derry, NH",
-                ticket: "Vip Ticket • 10AM–3PM",
-                description: "Students will learn everything from foundational installation to technique refinement, taught step-by-step by a certified Malia Extensions Educator.",
-                price: "\$699.00",
-                context: context,
-                onTap: () {
-
-                },
-              ),
-              SizedBox(height: screensize.height * 0.02),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Coming Soon",
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.02),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: SizedBox(
-                  height: 152.h,
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colorstheam.nobelblack.withValues(alpha: 0.4),
-                            border: Border.all(
-                              width: 0.6,
-                              color: Colorstheam.nobelblack.withValues(alpha: 0.4),
-                            )
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Registration Will Coming Soon - Join the Notification List Below",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w600,
-                                color: Colorstheam.clusterwhite
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(
-                          color: Colorstheam.clusterwhite,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Derry, NH",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 22.sp,
-                                      fontFamily: "Urbanist",
-                                      fontWeight: FontWeight.bold,
-                                      color: Colorstheam.nobelblack.withValues(alpha: 0.4)
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "Lorem ipsum dolor sit amet, consectetur.",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontFamily: "DMSans",
-                                      fontWeight: FontWeight.w500,
-                                      color: Colorstheam.nobelblack.withValues(alpha: 0.4)
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.03),
-                child: Image.asset(
-                  "asset/image/image03.png"
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.02),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Host a class in your city.",
-                    style: TextStyle(
-                      fontSize: 22.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.01),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "We partner with select salons to host Butterfly Method education experiences across the country. These classes are designed for stylists who value elevated education, intentional growth, and modern extension techniques that prioritize efficiency, comfort, and results.",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w500,
-                        color: Colorstheam.nobelblack
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.01),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screensize.width * 0.04,
-                ),
-                child: AnimatedButton(
-                  onTap: (){
-                    HapticFeedback.heavyImpact();
-                    final bottomNav = Get.find<Bottomnavigationcontroller>();
-                    bottomNav.selectedIndex.value = 3;
-                    bottomNav.currentPage.value = PageType.hostclass;
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      color: Colorstheam.nobelblack,
-                      border: Border.all(
-                        color: Colorstheam.nobelblack,
-                        width: 1,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Submit Request",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontFamily: "DMSans",
-                          fontWeight: FontWeight.bold,
-                          color: Colorstheam.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.01),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: Divider(
-                  height: 2,
-                  color: Colorstheam.nobelblack,
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.015),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Excellence in Every Session",
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontFamily: "Urbanist",
-                    fontWeight: FontWeight.bold,
-                    color: Colorstheam.nobelblack
-                  ),
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.01),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Image.asset(
-                        'asset/image/ig1.png',
-                        width: 114.w,
-                        height: 171.h,
-                      ),
-                    ),
-                    SizedBox(width: screensize.width * 0.02),
-                    Expanded(
-                      child: Image.asset(
-                        'asset/image/ig2.png',
-                        width: 114.w,
-                        height: 171.h,
-                      ),
-                    ),
-                    SizedBox(width: screensize.width * 0.02),
-                    Expanded(
-                      child: Image.asset(
-                        'asset/image/ig3.png',
-                        width: 114.w,
-                        height: 171.h,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: screensize.height * 0.015),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "Experience the Malia Difference",
-                  style: TextStyle(
-                      fontSize: 22.sp,
-                      fontFamily: "Urbanist",
-                      fontWeight: FontWeight.bold,
-                      color: Colorstheam.nobelblack
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  "More than a new hairstyle, It's a transformation that reflects the best version of you.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       fontFamily: "DMSans",
-                      fontWeight: FontWeight.w500,
-                      color: Colorstheam.nobelblack
+                      color: Colorstheam.nobelblack,
+                    ),
+                  ),
+                  SizedBox(height: 15.h),
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.loadEducation();
+                    },
+                    child: const Text("Retry"),
+                  ),
+                ],
+              ),
+            );
+          }
+          final classImage = controller.education['class_image']?.toString() ?? '';
+          return SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screensize.width * 0.04,
+                    right: screensize.width * 0.04,
+                    top: screensize.height * 0.02,
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      controller.education['page_title']?.toString() ?? '',
+                      style: TextStyle(
+                        fontSize: 22.sp,
+                        fontFamily: "Urbanist",
+                        fontWeight: FontWeight.bold,
+                        color: Colorstheam.nobelblack,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: screensize.height * 0.01),
-              Obx(
-                    () => Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screensize.width * 0.04,
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.01),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      controller.education['page_description']?.toString() ?? '',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: "DMSans",
+                          fontWeight: FontWeight.w500,
+                          color: Colorstheam.nobelblack
+                      ),
+                    ),
                   ),
+                ),
+                SizedBox(height: screensize.height * 0.03,),
+                _classCard(
+                  date: controller.education['class_date']?.toString() ?? '',
+                  location: controller.education['class_location']?.toString() ?? '',
+                  ticket: controller.education['ticket_details']?.toString() ?? '',
+                  description: controller.education['class_description']?.toString() ?? '',
+                  price: controller.education['class_price']?.toString() ?? '',
+                  context: context,
+                  onTap: () {},
+                ),
+                SizedBox(height: screensize.height * 0.02),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      controller.education['coming_soon_title']?.toString() ?? '',
+                      style: TextStyle(
+                          fontSize: 22.sp,
+                          fontFamily: "Urbanist",
+                          fontWeight: FontWeight.bold,
+                          color: Colorstheam.nobelblack
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.02),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
                   child: SizedBox(
-                    height: 347.h,
+                    height: 152.h,
                     width: double.infinity,
-                    child: Stack(
+                    child: Column(
                       children: [
-                        PageView.builder(
-                          controller: controller.carouselController,
-                          itemCount: controller.carouselImages.length,
-                          onPageChanged: controller.onCarouselChanged,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 4.w,
-                              ),
-                              child: ClipRRect(
-                                child: Image.asset(
-                                  controller.carouselImages[index],
-                                  width: double.infinity,
-                                  height: 300.h,
-                                  fit: BoxFit.cover,
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colorstheam.nobelblack.withValues(alpha: 0.4),
+                                border: Border.all(
+                                  width: 0.6,
+                                  color: Colorstheam.nobelblack.withValues(alpha: 0.4),
+                                )
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                controller.education['coming_soon_message']?.toString() ?? '',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.w600,
+                                    color: Colorstheam.clusterwhite
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                        Positioned(
-                          bottom: 12.h,
-                          left: 0,
-                          right: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              controller.carouselImages.length,
-                                  (index) {
-                                final bool isActive =
-                                    controller.currentCarouselIndex.value == index;
-
-                                return AnimatedContainer(
-                                  duration: const Duration(milliseconds: 250),
-                                  curve: Curves.easeInOut,
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: 3.w,
-                                  ),
-                                  width: isActive ? 30.w : 6.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    color: isActive
-                                        ? Colorstheam.clusterwhite
-                                        : Colorstheam.clusterwhite,
-                                  ),
-                                );
-                              },
                             ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                              color: Colorstheam.clusterwhite,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      controller.education['coming_soon_location']?.toString() ?? '',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 22.sp,
+                                          fontFamily: "Urbanist",
+                                          fontWeight: FontWeight.bold,
+                                          color: Colorstheam.nobelblack.withValues(alpha: 0.4)
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      controller.education['coming_soon_description']?.toString() ?? '',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontFamily: "DMSans",
+                                          fontWeight: FontWeight.w500,
+                                          color: Colorstheam.nobelblack.withValues(alpha: 0.4)
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: screensize.height * 0.03),
-            ],
-          ),
-        ),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.03),
+                  child: Image.network(
+                    controller.education['class_image']?.toString() ?? '',
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.02),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      controller.education['host_title']?.toString() ?? '',
+                      style: TextStyle(
+                          fontSize: 22.sp,
+                          fontFamily: "Urbanist",
+                          fontWeight: FontWeight.bold,
+                          color: Colorstheam.nobelblack
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.01),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      controller.education['host_description']?.toString() ?? '',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: "DMSans",
+                          fontWeight: FontWeight.w500,
+                          color: Colorstheam.nobelblack
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.01),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screensize.width * 0.04,
+                  ),
+                  child: AnimatedButton(
+                    onTap: (){
+                      HapticFeedback.heavyImpact();
+                      final bottomNav = Get.find<Bottomnavigationcontroller>();
+                      bottomNav.selectedIndex.value = 3;
+                      bottomNav.currentPage.value = PageType.hostclass;
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        color: Colorstheam.nobelblack,
+                        border: Border.all(
+                          color: Colorstheam.nobelblack,
+                          width: 1,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          controller.education['host_button_text']?.toString() ?? '',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontFamily: "DMSans",
+                            fontWeight: FontWeight.bold,
+                            color: Colorstheam.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.01),
+                Padding(
+                  padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
+                  child: Divider(
+                    height: 2,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.015),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    controller.education['gallery_title']?.toString() ?? '',
+                    style: TextStyle(
+                        fontSize: 22.sp,
+                        fontFamily: "Urbanist",
+                        fontWeight: FontWeight.bold,
+                        color: Colorstheam.nobelblack
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.01),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screensize.width * 0.04,
+                    right: screensize.width * 0.04,
+                  ),
+                  child: Row(
+                    children: [
+                      for (int i = 0; i < 3; i++) ...[
+                        if (i > 0)
+                          SizedBox(width: screensize.width * 0.02),
+                        Expanded(
+                          child: Image.network(
+                            controller.galleryImages[i],
+                            width: 114.w,
+                            height: 171.h,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.015),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    controller.education['experience_title']?.toString() ?? '',
+                    style: TextStyle(
+                        fontSize: 22.sp,
+                        fontFamily: "Urbanist",
+                        fontWeight: FontWeight.bold,
+                        color: Colorstheam.nobelblack
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    controller.education['experience_description']?.toString() ?? '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: "DMSans",
+                        fontWeight: FontWeight.w500,
+                        color: Colorstheam.nobelblack
+                    ),
+                  ),
+                ),
+                SizedBox(height: screensize.height * 0.01),
+                Obx(
+                      () => Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screensize.width * 0.04,
+                    ),
+                    child: SizedBox(
+                      height: 347.h,
+                      width: double.infinity,
+                      child: controller.carouselImages.isEmpty
+                          ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                          : Stack(
+                        children: [
+                          PageView.builder(
+                            controller: controller.carouselController,
+                            itemCount: controller.carouselImages.length,
+                            onPageChanged: controller.onCarouselChanged,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4.w,
+                                ),
+                                child: ClipRRect(
+                                  child: Image.network(
+                                    controller.carouselImages[index],
+                                    width: double.infinity,
+                                    height: 300.h,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Center(
+                                        child: Icon(Icons.broken_image),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+
+                          Positioned(
+                            bottom: 12.h,
+                            left: 0,
+                            right: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                controller.carouselImages.length,
+                                    (index) {
+                                  final bool isActive =
+                                      controller.currentCarouselIndex.value == index;
+
+                                  return AnimatedContainer(
+                                    duration: const Duration(milliseconds: 250),
+                                    curve: Curves.easeInOut,
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 3.w,
+                                    ),
+                                    width: isActive ? 30.w : 6.w,
+                                    height: 6.h,
+                                    decoration: BoxDecoration(
+                                      color: isActive
+                                          ? Colorstheam.clusterwhite
+                                          : Colorstheam.grey,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: screensize.height * 0.03),
+
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

@@ -1,10 +1,11 @@
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maliaextention/color/colorstheam.dart';
-import '../controller/bottomnavigationcontroller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+
 class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
   const Bottomnavigationview({super.key});
   @override
@@ -33,7 +34,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               color: Colorstheam.nobelblack,
               child: Row(
-                children: [
+                children: <Widget>[
                   _navItem(
                     "asset/svg/bottomnavigation/home.svg",
                     "Home",
@@ -71,9 +72,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
       String label,
       int index,
       ) {
-    final bool isSelected =
-        controller.selectedIndex.value == index;
-
+    final bool isSelected = controller.selectedIndex.value == index;
     return Expanded(
       child: GestureDetector(
         onTap: () {
@@ -86,7 +85,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
           height: 72.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               AnimatedScale(
                 scale: isSelected ? 1.08 : 1.0,
                 duration: const Duration(milliseconds: 250),
@@ -101,13 +100,12 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
                   ),
                 ),
               ),
-
               AnimatedSize(
                 duration: const Duration(milliseconds: 250),
                 curve: Curves.easeOut,
                 child: isSelected
                     ? Column(
-                  children: [
+                  children: <Widget>[
                     SizedBox(height: 3.h),
                     Text(
                       label,

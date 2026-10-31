@@ -9,7 +9,7 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 import 'package:maliaextention/apps/module/ProfileScreen/orderhistory/controller/orderhistorycontroller.dart';
 
 class Orderhistoryview extends GetView<Orderhistorycontroller> {
-  const Orderhistoryview({Key? key}) : super(key: key);
+  const Orderhistoryview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
                       Container(
                         width: 100.w,
                         height: 118.h,
-                        color: Colorstheam.lightgrey.withOpacity(0.15),
+                        color: Colorstheam.lightgrey.withValues(alpha: 0.15),
                         child: Image.asset(
                           imagePath,
                           fit: BoxFit.cover,

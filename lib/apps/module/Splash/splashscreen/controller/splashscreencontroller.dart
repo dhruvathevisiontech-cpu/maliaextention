@@ -5,10 +5,8 @@ import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
 
 
-class SplashController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
-
   late Animation<double> logoScale;
   late Animation<double> logoOpacity;
   late Animation<double> logoRotation;

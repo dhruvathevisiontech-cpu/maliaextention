@@ -43,9 +43,6 @@ class Policyview extends GetView<Policycontoller> {
 
   void openPolicy(Map<String, String> policy) {
     final policyKey = policy['content'];
-
-    print('Policy key: $policyKey');
-
     switch (policyKey) {
       case 'privacy':
         final bottomNav = Get.find<Bottomnavigationcontroller>();
@@ -70,9 +67,7 @@ class Policyview extends GetView<Policycontoller> {
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.termsandservice;
         break;
-
       default:
-        print('Policy not found: $policyKey');
     }
   }
 

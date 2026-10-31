@@ -94,6 +94,8 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
     },
   ];
 
+  Educationfaqview({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -285,7 +287,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: isExpanded
-                                      ? Colorstheam.nobelblack.withOpacity(0.20)
+                                      ? Colorstheam.nobelblack.withValues(alpha: 0.20)
                                       : const Color(0xFFEAEAEA),
                                 ),
                               ),
@@ -454,7 +456,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
                                   borderRadius: BorderRadius.circular(5.r),
                                 border: Border.all(
                                   color: isExpanded
-                                      ? Colorstheam.nobelblack.withOpacity(0.20)
+                                      ? Colorstheam.nobelblack.withValues(alpha: 0.20)
                                       : const Color(0xFFEAEAEA),
                                 ),
                               ),

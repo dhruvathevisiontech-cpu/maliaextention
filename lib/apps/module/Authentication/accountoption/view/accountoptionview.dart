@@ -6,16 +6,16 @@
 /// 2026-08-06
 /// - Build This Screen
 /// ------------------------------------------------------------
+import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:maliaextention/apps/module/Authentication/accountoption/controller/accountoptioncontroller.dart';
-import 'package:maliaextention/apps/routes/app_pages.dart';
-import 'package:maliaextention/color/colorstheam.dart';
 import 'package:maliaextention/typo/apptext.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maliaextention/apps/module/Authentication/accountoption/controller/accountoptioncontroller.dart';
 
 class Accountoptionview extends GetView<Accountoptioncontroller> {
   Accountoptionview({super.key});

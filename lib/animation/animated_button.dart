@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 class AnimatedButton extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
-
   const AnimatedButton({
     super.key,
     required this.child,
@@ -17,13 +16,11 @@ class AnimatedButton extends StatefulWidget {
 
 class _AnimatedButtonState extends State<AnimatedButton> {
   bool _isPressed = false;
-
   void _onTapDown(TapDownDetails details) {
     setState(() {
       _isPressed = true;
     });
   }
-
   void _onTapUp(TapUpDetails details) {
     setState(() {
       _isPressed = false;

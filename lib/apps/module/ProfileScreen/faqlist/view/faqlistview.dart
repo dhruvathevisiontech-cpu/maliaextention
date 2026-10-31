@@ -47,6 +47,8 @@ class Faqlistview extends GetView<Faqlistcontroller> {
        "Pro pricing is only visible to approved Pro Account holders. Create your free account today to unlock pro pricing.",
     },
   ];
+
+  Faqlistview({super.key});
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -140,7 +142,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.w400,
                         height: 1.65,
-                        color: Colors.black54,
+                        color: Colorstheam.nobelblack,
                       ),
                     ),
                     SizedBox(height: 25.h),
@@ -247,8 +249,8 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                                 border: Border.all(
                                   color: isExpanded
                                       ? Colorstheam.nobelblack
-                                      .withOpacity(0.20)
-                                      : const Color(0xFFEAEAEA),
+                                      .withValues(alpha: 0.20)
+                                      : Colorstheam.alabastergrey,
                                 ),
                               ),
                               child: Theme(
@@ -306,7 +308,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                                           fontFamily: 'Urbanist',
                                           fontSize: 13.sp,
                                           height: 1.75,
-                                          color: Colors.black54,
+                                          color: Colorstheam.nobelblack,
                                         ),
                                       ),
                                     ),
@@ -325,7 +327,6 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
                           color: Colorstheam.clusterwhite,
-                          borderRadius: BorderRadius.circular(5.r)
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +346,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                             style: TextStyle(
                                 height: 1.6,
                                 fontSize: 13.sp,
-                                color: Colors.black54,
+                                color: Colorstheam.nobelblack,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w400
                             ),
@@ -362,7 +363,6 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                                 height: 40.h,
                                 decoration: BoxDecoration(
                                     color: Colorstheam.nobelblack,
-                                    borderRadius: BorderRadius.circular(5.r)
                                 ),
                                 child: Align(
                                   alignment: Alignment.center,

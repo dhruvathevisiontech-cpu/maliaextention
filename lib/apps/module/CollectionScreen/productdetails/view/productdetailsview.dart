@@ -115,7 +115,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemCount: lists.length,
-                    separatorBuilder: (_, __) => Divider(color: Colorstheam.clusterwhite),
+                    separatorBuilder: (_, _) => Divider(color: Colorstheam.clusterwhite),
                     itemBuilder: (context, index) {
                       final wishlist = lists[index];
                       final id = wishlist['id'].toString();
@@ -295,7 +295,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               ),
             );
           }
-
           if (controller.productDetails.isEmpty) {
             return Center(
               child: Text(
@@ -308,14 +307,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               ),
             );
           }
-
           return RefreshIndicator(
             color: Colorstheam.clusterwhite,
             backgroundColor: Colorstheam.nobelblack,
             onRefresh: controller.fetchProductDetails,
             child: SafeArea(
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics:  AlwaysScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -324,10 +322,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                       offset: Offset(0, -24.h),
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.only(
-                          top: 24.h,
-                          bottom: 30.h,
-                        ),
+                        padding: EdgeInsets.only(top: 24.h, bottom: 30.h,),
                         decoration: BoxDecoration(
                           color: Colorstheam.white,
                           borderRadius: BorderRadius.only(
@@ -471,11 +466,9 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                   child: CircularProgressIndicator(),
                                 );
                               }
-
                               if (controller.recommendedProducts.isEmpty) {
                                 return const SizedBox.shrink();
                               }
-
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20.h),
                                 child: Column(
@@ -500,27 +493,18 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                         scrollDirection: Axis.horizontal,
                                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                                         itemCount: controller.recommendedProducts.length,
-                                        separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                                        separatorBuilder: (_, _) => SizedBox(width: 12.w),
                                         itemBuilder: (context, index) {
                                           final item = controller.recommendedProducts[index];
-
-                                          final imageUrl =
-                                              item['featuredImage']?['url']?.toString() ?? '';
+                                          final imageUrl = item['featuredImage']?['url']?.toString() ?? '';
                                           final title = item['title']?.toString() ?? '';
-                                          final amount = item['priceRange']?['minVariantPrice']
-                                          ?['amount']
-                                              ?.toString() ??
-                                              '0.00';
-                                          final currency = item['priceRange']?['minVariantPrice']
-                                          ?['currencyCode']
-                                              ?.toString() ??
-                                              'USD';
-
+                                          final amount = item['priceRange']?['minVariantPrice']?['amount']?.toString() ?? '0.00';
+                                          final currency = item['priceRange']?['minVariantPrice']?['currencyCode']?.toString() ?? 'USD';
                                           return SizedBox(
                                             width: 176.w,
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
+                                              children: <Widget>[
                                                 ClipRRect(
                                                   child: SizedBox(
                                                     width: 176.w,
@@ -530,7 +514,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                                         : Image.network(
                                                       imageUrl,
                                                       fit: BoxFit.cover,
-                                                      errorBuilder: (_, __, ___) =>
+                                                      errorBuilder: (_, _, _) =>
                                                       const SizedBox.shrink(),
                                                     ),
                                                   ),
@@ -582,7 +566,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   Widget _buildProductGallery() {
     return SizedBox(
       height: 402.h,
@@ -781,12 +764,10 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
 
   Widget _buildPriceAndAvailability(Size screenSize) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: screenSize.width * 0.04,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           SizedBox(height: 6.h),
           Text(
             '45 Minutes',
@@ -831,28 +812,21 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           ),
           SizedBox(height: 8.h),
           Row(
-            children: [
+            children: <Widget>[
               Container(
                 width: 12.w,
                 height: 12.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: controller.isAvailable
-                      ? Colorstheam.green
-                      : Colorstheam.grey,
+                  color: controller.isAvailable ? Colorstheam.green : Colorstheam.grey,
                 ),
               ),
               SizedBox(width: 6.w),
-              Text(
-                controller.isAvailable
-                    ? 'Available in stock'
-                    : 'Currently unavailable',
+              Text(controller.isAvailable ? 'Available in stock' : 'Currently unavailable',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontFamily: 'DMSans',
-                  color: controller.isAvailable
-                      ? Colorstheam.green
-                      : Colorstheam.grey,
+                  color: controller.isAvailable ? Colorstheam.green : Colorstheam.grey,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -865,17 +839,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
 
   String _formattedPrice() {
     final amount = double.tryParse(controller.price);
-
     if (amount == null) {
       return '${controller.currencyCode} ${controller.price}';
     }
-
     final currency = controller.currencyCode;
-
     if (currency == 'USD') {
       return '\$${amount.toStringAsFixed(2)}';
     }
-
     return '$currency ${amount.toStringAsFixed(2)}';
   }
 
@@ -883,13 +853,10 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     return Obx(() {
       final definitions = controller.optionDefinitions;
       final selectedVariant = controller.selectedVariant.value;
-      final selectedOptions =
-          selectedVariant?['selectedOptions'] as List? ?? [];
-
+      final selectedOptions = selectedVariant?['selectedOptions'] as List? ?? [];
       if (definitions.isEmpty) {
         return const SizedBox.shrink();
       }
-
       return Padding(
         padding: EdgeInsets.only(
           left: screenSize.width * 0.04,
@@ -901,17 +868,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           children: definitions.map((definition) {
             final name = definition['name']?.toString() ?? '';
             final values = definition['values'] as List? ?? [];
-
             var selectedValue = '';
-
             for (final option in selectedOptions) {
-              if (option is Map &&
-                  option['name']?.toString() == name) {
+              if (option is Map && option['name']?.toString() == name) {
                 selectedValue = option['value']?.toString() ?? '';
                 break;
               }
             }
-
             return Padding(
               padding: EdgeInsets.only(bottom: 18.h),
               child: Column(
@@ -927,24 +890,16 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                     ),
                   ),
                   SizedBox(height: 10.h),
-
                   if (name.toLowerCase().contains('shade'))...[
                     SizedBox(height: 12.h),
                     Obx(() {
                       final currentVariant = controller.selectedVariant.value;
-                      final currentOptions =
-                          currentVariant?['selectedOptions'] as List? ?? [];
-
-                      final currentOption = currentOptions.cast<Map>().firstWhere(
-                            (option) =>
-                        option['name'].toString().toLowerCase() ==
-                            name.toLowerCase(),
+                      final currentOptions = currentVariant?['selectedOptions'] as List? ?? [];
+                      final currentOption = currentOptions.cast<Map>().firstWhere((option) =>
+                        option['name'].toString().toLowerCase() == name.toLowerCase(),
                         orElse: () => <String, dynamic>{},
                       );
-
-                      final currentValue =
-                          currentOption['value']?.toString() ?? selectedValue;
-
+                      final currentValue = currentOption['value']?.toString() ?? selectedValue;
                       return GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -958,15 +913,12 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                         ),
                         itemBuilder: (context, index) {
                           final value = values[index];
-
                           final shadeIndex = controller.shadeNames.indexWhere(
                                 (shade) =>
                             shade.trim().toLowerCase() ==
                                 value.trim().toLowerCase(),
                           );
-
-                          if (shadeIndex == -1 ||
-                              shadeIndex >= controller.shades.length) {
+                          if (shadeIndex == -1 || shadeIndex >= controller.shades.length) {
                             return GestureDetector(
                               onTap: () => _selectOptionValue(name, value),
                               child: Container(
@@ -990,9 +942,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                               ),
                             );
                           }
-
                           final selected = value == currentValue;
-
                           return GestureDetector(
                             onTap: () => _selectOptionValue(name, value),
                             child: AnimatedContainer(
@@ -1025,7 +975,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                       children: values.map((rawValue) {
                         final value = rawValue.toString();
                         final selected = selectedValue == value;
-
                         return GestureDetector(
                           onTap: () => _selectOptionValue(name, value),
                           child: AnimatedContainer(
@@ -1073,7 +1022,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     return Obx(() {
       final quantity = controller.quantity.value;
       final available = controller.isAvailable;
-
       return Padding(
         padding: EdgeInsets.only(
           left: screenSize.width * 0.04,
@@ -1081,7 +1029,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           top: 8.h,
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             Container(
               width: 116.w,
               height: 40.h,
@@ -1175,9 +1123,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
         top: 9.h,
       ),
       child: AnimatedButton(
-        onTap: () {
-          // Connect this to your checkout flow when ready.
-        },
+        onTap: () {},
         child: Container(
           height: 40.h,
           color: Colorstheam.nobelblack,
@@ -1203,9 +1149,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       title: 'Product Details',
       child: Obx(
             () => Text(
-          controller.description.isNotEmpty
-              ? controller.description
-              : 'No product description available.',
+          controller.description.isNotEmpty ? controller.description : 'No product description available.',
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
@@ -1224,7 +1168,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       title: 'Shipping Info',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           _infoText(
             'Packages ordered Monday–Friday before 3 PM are shipped the same day. Weekend orders are shipped on Monday.',
           ),
@@ -1266,7 +1210,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       title: 'Warranty Info',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           _infoText(
             'At Malia Extensions, each piece of hair is inspected before it leaves our warehouse.',
           ),
@@ -1303,10 +1247,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     required Widget child,
   }) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: screenSize.width * 0.04,
-        right: screenSize.width * 0.04,
-      ),
+      padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04,),
       child: Container(
         decoration: BoxDecoration(
           color: Colorstheam.white,
@@ -1324,14 +1265,9 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             highlightColor: Colors.transparent,
           ),
           child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(
-              horizontal: 0,
-              vertical: 4.h,
-            ),
+            tilePadding: EdgeInsets.symmetric(horizontal: 0, vertical: 4.h),
             childrenPadding: EdgeInsets.only(bottom: 16.h),
-            shape:  Border.all(
-              width: 1
-            ),
+            shape:  Border.all(width: 1),
             collapsedShape: Border(),
             backgroundColor: Colors.transparent,
             collapsedBackgroundColor: Colors.transparent,

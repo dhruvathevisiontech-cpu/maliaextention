@@ -8,14 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/gallary/controller/gallarycontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 class Gallaryview extends GetView<Gallarycontroller> {
-  const Gallaryview({Key? key}) : super(key: key);
-
-  static const List<String> galleryImages = [
-    'asset/image/sliderimage.png',
-    'asset/image/image2.jpg',
-    'asset/image/image3.jpg',
-    'asset/image/sliderimage.png',
-  ];
+  const Gallaryview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,54 +91,96 @@ class Gallaryview extends GetView<Gallarycontroller> {
                 ),
               ),
               SizedBox(height: 25.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          _galleryCard(
-                            image: galleryImages[0],
-                            height: 285.h,
-                            label: '',
-                            index: 0,
-                          ),
-                          SizedBox(height: 12.h),
-                          _galleryCard(
-                            image: galleryImages[1],
-                            height: 215.h,
-                            label: '',
-                            index: 1,
-                          ),
-                        ],
+              Obx(() {
+                final images = controller.galleryImages;
+
+                if (controller.isLoading.value) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 50.h),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colorstheam.nobelblack,
                       ),
                     ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 44.h),
-                          _galleryCard(
-                            image: galleryImages[2],
-                            height: 250.h,
-                            label: '',
-                            index: 2,
-                          ),
-                          SizedBox(height: 12.h),
-                          _galleryCard(
-                            image: galleryImages[3],
-                            height: 250.h,
-                            label: '',
-                            index: 2,
-                          ),
-                        ],
+                  );
+                }
+
+                if (controller.errorMessage.value.isNotEmpty) {
+                  return Center(
+                    child: Text(
+                      controller.errorMessage.value,
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        color: Colorstheam.dimgrey,
+                        fontSize: 13.sp,
                       ),
                     ),
-                  ],
-                ),
-              ),
+                  );
+                }
+
+                if (images.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No gallery images available',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        color: Colorstheam.dimgrey,
+                        fontSize: 13.sp,
+                      ),
+                    ),
+                  );
+                }
+
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // LEFT COLUMN
+                      Expanded(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < images.length; i += 2)
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 12.h),
+                                child: _galleryCard(
+                                  image: images[i],
+                                  height: i == 0 ? 285.h : 215.h,
+                                  label: '',
+                                  index: i,
+                                  images: images,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(width: 12.w),
+
+                      // RIGHT COLUMN
+                      Expanded(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 44.h),
+
+                            for (int i = 1; i < images.length; i += 2)
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 12.h),
+                                child: _galleryCard(
+                                  image: images[i],
+                                  height: i == 1 ? 250.h : 215.h,
+                                  label: '',
+                                  index: i,
+                                  images: images,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               SizedBox(height: 30.h),
             ],
           ),
@@ -154,20 +189,24 @@ class Gallaryview extends GetView<Gallarycontroller> {
     );
   }
 
+
   Widget _galleryCard({
     required String image,
     required double height,
     required String label,
     required int index,
+    required List<String> images,
   }) {
     return GestureDetector(
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.mediumImpact();
+
         Get.to(
               () => _GalleryPreview(
-            images: galleryImages,
+            images: images,
             initialIndex: index,
           ),
+          transition: Transition.fadeIn,
         );
       },
       child: ClipRRect(
@@ -178,7 +217,7 @@ class Gallaryview extends GetView<Gallarycontroller> {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
+              Image.network(
                 image,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
@@ -194,7 +233,6 @@ class Gallaryview extends GetView<Gallarycontroller> {
                 },
               ),
 
-              // Subtle bottom gradient
               Positioned(
                 left: 0,
                 right: 0,
@@ -210,22 +248,6 @@ class Gallaryview extends GetView<Gallarycontroller> {
                         Colorstheam.black.withValues(alpha: 0.55),
                       ],
                     ),
-                  ),
-                ),
-              ),
-
-              Positioned(
-                left: 12.w,
-                right: 10.w,
-                bottom: 13.h,
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontFamily: 'DMSans',
-                    fontSize: 9.sp,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.0,
-                    color: Colorstheam.white,
                   ),
                 ),
               ),
@@ -253,6 +275,7 @@ class Gallaryview extends GetView<Gallarycontroller> {
       ),
     );
   }
+
 
   Widget _backButton() {
     return GestureDetector(
@@ -282,6 +305,7 @@ class Gallaryview extends GetView<Gallarycontroller> {
   }
 }
 
+
 class _GalleryPreview extends StatefulWidget {
   final List<String> images;
   final int initialIndex;
@@ -302,7 +326,9 @@ class _GalleryPreviewState extends State<_GalleryPreview> {
   @override
   void initState() {
     super.initState();
+
     _currentIndex = widget.initialIndex;
+
     _pageController = PageController(
       initialPage: widget.initialIndex,
     );
@@ -327,6 +353,7 @@ class _GalleryPreviewState extends State<_GalleryPreview> {
           style: TextStyle(
             fontFamily: 'DMSans',
             fontSize: 13.sp,
+            color: Colorstheam.white,
           ),
         ),
       ),
@@ -343,10 +370,18 @@ class _GalleryPreviewState extends State<_GalleryPreview> {
             minScale: 1,
             maxScale: 4,
             child: Center(
-              child: Image.asset(
+              child: Image.network(
                 widget.images[index],
                 fit: BoxFit.contain,
                 width: double.infinity,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colorstheam.white,
+                    ),
+                  );
+                },
                 errorBuilder: (context, error, stackTrace) {
                   return Icon(
                     Icons.image_not_supported_outlined,

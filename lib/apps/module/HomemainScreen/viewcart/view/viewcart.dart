@@ -11,7 +11,7 @@ import 'package:maliaextention/apps/module/HomemainScreen/viewcart/controller/vi
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 
 class Viewcart extends GetView<Viewcartcontroller> {
-  const Viewcart({Key? key}) : super(key: key);
+  const Viewcart({super.key});
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -91,7 +91,6 @@ class Viewcart extends GetView<Viewcartcontroller> {
     );
   }
   Widget _buildEmptyCartView(BuildContext context) {
-    Size screensize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       child: Column(
@@ -194,7 +193,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: cartItems.length,
-            separatorBuilder: (_, __) => SizedBox(height: 16.h),
+            separatorBuilder: (_, _) => SizedBox(height: 16.h),
             itemBuilder: (context, index) {
               return _buildCartItemCard(cartItems[index], index,context);
             },
@@ -354,7 +353,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 40.h,
                     child: TextFormField(
                       cursorErrorColor: Colorstheam.errorColor,
@@ -602,7 +601,6 @@ class Viewcart extends GetView<Viewcartcontroller> {
 
     final screensize = MediaQuery.of(context).size;
 
-    // First check the top-level cart item, then nested product data.
     final imageUrl = (
         item["image"] ??
             product["image"] ??
@@ -620,157 +618,155 @@ class Viewcart extends GetView<Viewcartcontroller> {
             imageUrl.startsWith("http://");
     return Padding(
       padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
-      child: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: isValidNetworkImage
-                      ? Image.network(
-                    imageUrl,
-                    width: 120.w,
-                    height: 120.h,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      debugPrint(
-                        "[CART UI] Image loading failed: $error",
-                      );
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: isValidNetworkImage
+                    ? Image.network(
+                  imageUrl,
+                  width: 120.w,
+                  height: 120.h,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    debugPrint(
+                      "[CART UI] Image loading failed: $error",
+                    );
 
-                      return _buildImagePlaceholder();
-                    },
-                    loadingBuilder: (
-                        context,
-                        child,
-                        loadingProgress,
-                        ) {
-                      if (loadingProgress == null) return child;
+                    return _buildImagePlaceholder();
+                  },
+                  loadingBuilder: (
+                      context,
+                      child,
+                      loadingProgress,
+                      ) {
+                    if (loadingProgress == null) return child;
 
-                      return Container(
-                        width: 120.w,
-                        height: 120.h,
-                        color: Colorstheam.lightgrey,
-                        alignment: Alignment.center,
-                        child: const CircularProgressIndicator(),
-                      );
-                    },
-                  )
-                      : _buildImagePlaceholder(),
+                    return Container(
+                      width: 120.w,
+                      height: 120.h,
+                      color: Colorstheam.lightgrey,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(),
+                    );
+                  },
+                )
+                    : _buildImagePlaceholder(),
+              ),
+              Positioned(
+                top: 6.h,
+                left: 6.w,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async{
+                    HapticFeedback.heavyImpact();
+                    await controller.removeItem(index);
+                  },
+                  child: Container(
+                      padding: EdgeInsets.all(5.w),
+                      height: 22.h,
+                      width: 22.w,
+                      decoration:  BoxDecoration(
+                        color: Colorstheam.clusterwhite,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        "asset/svg/bin.svg",
+                        height: 10.5.h,
+                        width: 10.5.w,
+                      )
+                  ),
                 ),
-                Positioned(
-                  top: 6.h,
-                  left: 6.w,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () async{
-                      HapticFeedback.heavyImpact();
-                      await controller.removeItem(index);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.all(5.w),
-                        height: 22.h,
-                        width: 22.w,
-                        decoration:  BoxDecoration(
-                          color: Colorstheam.clusterwhite,
-                          shape: BoxShape.circle,
+              ),
+            ],
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  item["name"]?.toString() ?? item["title"]?.toString() ?? "Product Name",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontFamily: "DMSans",
+                    fontWeight: FontWeight.w600,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
+
+                SizedBox(height: 6.h),
+                Text(
+                  "\$${product["price"] ?? '245'}",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: "DMSans",
+                      fontWeight: FontWeight.w600,
+                      color: Colorstheam.nobelblack
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                SizedBox(
+                  width: 80.w,
+                  height: 30.h,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colorstheam.nobelblack,
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: InkWell(
+                            onTap: () => controller.decrementQuantity(index),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                "asset/svg/minimize.svg",
+                                width: 16.w,
+                                height: 16.h,
+                              ),
+                            ),
+                          ),
                         ),
-                        child: SvgPicture.asset(
-                          "asset/svg/bin.svg",
-                          height: 10.5.h,
-                          width: 10.5.w,
-                        )
+                        SizedBox(
+                          width: 38.w,
+                          child: Center(
+                            child: Text(
+                              "${item["quantity"] ?? 1}",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontFamily: "DMSans",
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.nobelblack,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () => controller.incrementQuantity(index),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                "asset/svg/plus.svg",
+                                width: 16.w,
+                                height: 16.h,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    item["name"]?.toString() ?? item["title"]?.toString() ?? "Product Name",
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontFamily: "DMSans",
-                      fontWeight: FontWeight.w600,
-                      color: Colorstheam.nobelblack,
-                    ),
-                  ),
-
-                  SizedBox(height: 6.h),
-                  Text(
-                    "\$${product["price"] ?? '245'}",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w600,
-                        color: Colorstheam.nobelblack
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  SizedBox(
-                    width: 80.w,
-                    height: 30.h,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colorstheam.nobelblack,
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: InkWell(
-                              onTap: () => controller.decrementQuantity(index),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "asset/svg/minimize.svg",
-                                  width: 16.w,
-                                  height: 16.h,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 38.w,
-                            child: Center(
-                              child: Text(
-                                "${item["quantity"] ?? 1}",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontFamily: "DMSans",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () => controller.incrementQuantity(index),
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  "asset/svg/plus.svg",
-                                  width: 16.w,
-                                  height: 16.h,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -816,7 +812,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
           ),
           scrollDirection: Axis.horizontal,
           itemCount: products.length,
-          separatorBuilder: (_, __) => SizedBox(width: 12.w),
+          separatorBuilder: (_, _) => SizedBox(width: 12.w),
           itemBuilder: (context, index) {
             final item = products[index];
 
@@ -842,7 +838,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                             ? Image.network(
                           image,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Center(
+                          errorBuilder: (_, _, _) => Center(
                             child: Icon(
                               Icons.image_outlined,
                               color: Colorstheam.grey,
@@ -956,7 +952,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: products.length,
-          separatorBuilder: (_, __) => SizedBox(width: 12.w),
+          separatorBuilder: (_, _) => SizedBox(width: 12.w),
           itemBuilder: (context, index) {
             final product = products[index];
 
@@ -996,7 +992,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                             ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
+                          errorBuilder: (_, _, _) =>
                           const Center(
                             child: Icon(Icons.image),
                           ),

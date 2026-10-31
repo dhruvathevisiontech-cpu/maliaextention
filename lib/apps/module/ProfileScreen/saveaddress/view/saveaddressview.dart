@@ -128,6 +128,7 @@
               _headerIcon(
                 icon: "asset/svg/search.svg",
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.search;
@@ -141,6 +142,7 @@
                 child: _headerIcon(
                     icon: "asset/svg/cart.svg",
                     onTap: (){
+                      HapticFeedback.heavyImpact();
                       final bottomNav = Get.find<Bottomnavigationcontroller>();
                       bottomNav.selectedIndex.value = 0;
                       bottomNav.currentPage.value = PageType.viewcart;

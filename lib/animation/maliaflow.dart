@@ -16,8 +16,7 @@ class MaliaFlowLoader extends StatefulWidget {
   State<MaliaFlowLoader> createState() => _MaliaFlowLoaderState();
 }
 
-class _MaliaFlowLoaderState extends State<MaliaFlowLoader>
-    with SingleTickerProviderStateMixin {
+class _MaliaFlowLoaderState extends State<MaliaFlowLoader> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
@@ -58,7 +57,7 @@ class _MaliaFlowLoaderState extends State<MaliaFlowLoader>
               );
             },
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             'M A L I A',
             style: TextStyle(
@@ -99,32 +98,23 @@ class _SilkStrandPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final centerY = size.height / 2;
     final phase = progress * 2 * math.pi;
-
     for (int i = 0; i < 3; i++) {
       final offset = i * 0.65;
       final path = Path();
-
       path.moveTo(4, centerY);
-
       for (int step = 0; step <= 60; step++) {
         final t = step / 60;
         final x = 4 + t * (size.width - 8);
-
         final envelope = math.sin(t * math.pi);
-        final wave = math.sin(
-          t * 2 * math.pi + phase + offset,
-        );
-
-        final y = centerY +
-            wave * envelope * (size.height * 0.32);
-
+        final wave = math.sin(t * 2 * math.pi + phase + offset,);
+        final y = centerY + wave * envelope * (size.height * 0.32);
         path.lineTo(x, y);
       }
 
       final strandPaint = Paint()
         ..color = i == 1
             ? color
-            : secondaryColor.withOpacity(0.55)
+            : secondaryColor.withValues(alpha: 0.55)
         ..style = PaintingStyle.stroke
         ..strokeWidth = i == 1 ? 2.2 : 1.2
         ..strokeCap = StrokeCap.round
@@ -133,7 +123,6 @@ class _SilkStrandPainter extends CustomPainter {
       canvas.drawPath(path, strandPaint);
     }
 
-    // Moving highlight travelling along the strands.
     final t = progress;
     final x = 4 + t * (size.width - 8);
     final y = centerY +
@@ -144,7 +133,7 @@ class _SilkStrandPainter extends CustomPainter {
     canvas.drawCircle(
       Offset(x, y),
       3,
-      Paint()..color = color.withOpacity(0.22),
+      Paint()..color = color.withValues(alpha: 0.22),
     );
 
     canvas.drawCircle(

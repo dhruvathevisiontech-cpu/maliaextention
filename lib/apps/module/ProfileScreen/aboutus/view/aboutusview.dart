@@ -11,18 +11,10 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 
 class Aboutusview extends GetView<Aboutuscontroller> {
   const Aboutusview({super.key});
-
-  static const String _aboutImage =
-      'https://maliaextensions.com/cdn/shop/files/Screenshot_2026-08-08_at_11.00.24_AM.png?v=1786201307&width=2000';
-
-  static const String _founderImage =
-      'https://maliaextensions.com/cdn/shop/files/about-us-updated.png?v=1786453305&width=1200';
-
-  static const String _teamImage =
-      'https://maliaextensions.com/cdn/shop/files/dimitra-w-team.png?v=1785475433&width=1200';
-
-  static const String _classImage =
-      'https://maliaextensions.com/cdn/shop/files/malia_class.jpg?v=1783613096&width=2000';
+  static const String _aboutImage = 'https://maliaextensions.com/cdn/shop/files/Screenshot_2026-08-08_at_11.00.24_AM.png?v=1786201307&width=2000';
+  static const String _founderImage = 'https://maliaextensions.com/cdn/shop/files/about-us-updated.png?v=1786453305&width=1200';
+  static const String _teamImage = 'https://maliaextensions.com/cdn/shop/files/dimitra-w-team.png?v=1785475433&width=1200';
+  static const String _classImage = 'https://maliaextensions.com/cdn/shop/files/malia_class.jpg?v=1783613096&width=2000';
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +68,9 @@ class Aboutusview extends GetView<Aboutuscontroller> {
             padding: EdgeInsets.fromLTRB(20.w, 22.h, 20.w, 40.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 _buildHero(),
-
                 SizedBox(height: 34.h),
-
                 _buildTextSection(
                   eyebrow: 'ABOUT',
                   title: 'MALIA EXTENTIONS',
@@ -88,9 +78,7 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                     'Created by working stylist Dimitra Louro, the brand began out of frustration with overpriced products and overcomplicated methods that didn’t actually serve stylists.',
                   ],
                 ),
-
                 SizedBox(height: 30.h),
-
                 _buildTextSection(
                   eyebrow: 'MODERN STYLISTS WORK',
                   title: 'MALIA STORY',
@@ -101,13 +89,9 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                     'We specialize in innovative methods like the Butterfly Method, designed to prioritize your time, protect your body, and deliver results your clients can’t stop looking at. No unnecessary steps. No outdated techniques. Just modern extension systems that work as hard as you do.',
                   ],
                 ),
-
                 SizedBox(height: 22.h),
-
                 _buildImage(_aboutImage, aspectRatio: 0.9),
-
                 SizedBox(height: 36.h),
-
                 _buildTextSection(
                   eyebrow: '',
                   title: 'VISION',
@@ -115,9 +99,7 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                     'We envision a future where every stylist has access to faster, healthier, and more profitable extension methods that elevate their artistry, grow their business, and transform the client experience.',
                   ],
                 ),
-
                 SizedBox(height: 30.h),
-
                 _buildTextSection(
                   eyebrow: '',
                   title: 'MISSION',
@@ -126,25 +108,15 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                     'By combining modern techniques, luxury materials, and a stylist-first approach, we help professionals save time, protect their bodies, increase profitability, and deliver seamless results their clients love.',
                   ],
                 ),
-
                 SizedBox(height: 36.h),
-
                 _buildFounderSection(),
-
                 SizedBox(height: 38.h),
-
                 _buildQualitySection(),
-
                 SizedBox(height: 38.h),
-
                 _buildWhyMaliaSection(),
-
                 SizedBox(height: 24.h),
-
                 _buildImage(_classImage, aspectRatio: 0.9),
-
                 SizedBox(height: 38.h),
-
                 _buildChallengeSection(),
               ],
             ),
@@ -398,7 +370,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ],
     );
   }
-
   Widget _qualityTag(String title) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -420,8 +391,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ),
     );
   }
-
-  // Why MALIÁ
   Widget _buildWhyMaliaSection() {
     return Container(
       width: double.infinity,
@@ -487,8 +456,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ),
     );
   }
-
-  // The challenge
   Widget _buildChallengeSection() {
     final priorities = [
       'Exceptional customer support',
@@ -559,7 +526,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ],
     );
   }
-
   // Shared image widget
   Widget _buildImage(
       String url, {

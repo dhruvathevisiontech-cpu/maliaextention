@@ -1,12 +1,4 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
-
-/// ------------------------------------------------------------
-/// Change Log
-/// ------------------------------------------------------------
-/// 2026-08-06
-/// - Build This Screen
-/// ------------------------------------------------------------
-
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -125,7 +117,7 @@ class Loginview extends GetView<Logincontroller> {
                            Form(
                              key: controller.formKey,
                              child: Column(
-                               children: [
+                               children: <Widget>[
                                  Padding(
                                      padding: EdgeInsets.only(left: screensize.width * 0.04,top: screensize.height * 0.04),
                                      child: Align(

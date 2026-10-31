@@ -9,7 +9,7 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 import 'package:maliaextention/apps/module/HomemainScreen/orderplace/controller/orderplacecontroller.dart';
 
 class Orderplaceview extends GetView<Orderplacecontroller> {
-  const Orderplaceview({Key? key}) : super(key: key);
+  const Orderplaceview({super.key});
 
   @override
   Widget build(BuildContext context) {

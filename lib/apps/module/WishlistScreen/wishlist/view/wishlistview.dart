@@ -238,7 +238,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
           ],
         ),
         body: Obx(() {
-          final wishlists = controller.wishlists;
           final products = controller.wishlistProducts;
           if (products.isEmpty) {
             return _buildWishlistCollections(controller.wishlists);

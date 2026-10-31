@@ -87,7 +87,7 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                   ),
                 ),
               ),
-              body: Container(
+              body: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
                 child: SingleChildScrollView(
