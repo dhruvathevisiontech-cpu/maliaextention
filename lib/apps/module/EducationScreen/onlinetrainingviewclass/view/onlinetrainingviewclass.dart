@@ -69,7 +69,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
               ],
             ),
@@ -511,10 +511,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -572,10 +572,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -633,10 +633,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -694,10 +694,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -755,10 +755,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -816,10 +816,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -877,10 +877,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(top: 3.h),
                                 child: SvgPicture.asset(
@@ -992,10 +992,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 3.h),
                               child: SvgPicture.asset(
@@ -1053,10 +1053,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 3.h),
                               child: SvgPicture.asset(
@@ -1114,10 +1114,10 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 3.h),
                               child: SvgPicture.asset(
@@ -1199,9 +1199,9 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            children: <Widget>[
                               Stack(
-                                children: [
+                                children: <Widget>[
                                   ClipRRect(
                                     child: Image.asset(
                                       product["image"]!,
@@ -1257,7 +1257,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
+                                children: <Widget>[
                                   Text(
                                     product["Price"]!,
                                     style: TextStyle(
@@ -1268,7 +1268,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                                     ),
                                   ),
                                   Row(
-                                    children: [
+                                    children: <Widget>[
                                       SvgPicture.asset(
                                         "asset/svg/star.svg",
                                         height: 11.h,

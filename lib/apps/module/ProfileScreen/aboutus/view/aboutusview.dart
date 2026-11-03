@@ -126,7 +126,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
     );
   }
 
-  // Main introduction
   Widget _buildHero() {
     return Container(
       width: double.infinity,
@@ -154,8 +153,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ),
     );
   }
-
-  // Reusable text sections
   Widget _buildTextSection({
     required String eyebrow,
     required String title,
@@ -198,8 +195,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ],
     );
   }
-
-  // Founder and team photographs
   Widget _buildFounderSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,8 +263,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
       ],
     );
   }
-
-  // Quality behind every strand
   Widget _buildQualitySection() {
     final features = [
       {

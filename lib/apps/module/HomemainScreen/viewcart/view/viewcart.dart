@@ -144,18 +144,15 @@ class Viewcart extends GetView<Viewcartcontroller> {
           Obx(() {
             final cartController = controller.cartController;
             final products = cartController.recommendedProducts;
-
             if (cartController.isLoadingRecommendations.value &&
                 products.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-
             if (products.isEmpty) {
               return const SizedBox.shrink();
             }
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

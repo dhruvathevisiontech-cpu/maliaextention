@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/profiledetails/controller/profiledetailscontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
@@ -69,8 +70,8 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                           Text(
                             'Your Name',
                             style: TextStyle(
-                              fontFamily: 'Urbanist',
                               fontSize: 17.sp,
+                              fontFamily: 'Urbanist',
                               fontWeight: FontWeight.w700,
                               color: Colorstheam.nobelblack,
                             ),
@@ -79,9 +80,10 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                           Text(
                             'your@email.com',
                             style: TextStyle(
-                              fontFamily: 'DMSans',
                               fontSize: 12.sp,
+                              fontFamily: 'DMSans',
                               color: Colorstheam.grey,
+                              fontWeight: FontWeight.w500
                             ),
                           ),
                         ],
@@ -93,11 +95,11 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                 Text(
                   'PERSONAL INFORMATION',
                   style: TextStyle(
-                    fontFamily: 'DMSans',
                     fontSize: 11.sp,
-                    fontWeight: FontWeight.w600,
                     letterSpacing: 0.8,
+                    fontFamily: 'DMSans',
                     color: Colorstheam.grey,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -113,23 +115,23 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                 SizedBox(
                   width: double.infinity,
                   height: 46.h,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      // Open your Edit Profile screen here.
+                  child: AnimatedButton(
+                    onTap: () {
                     },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colorstheam.nobelblack,
-                      side: BorderSide(color: Colorstheam.lightgrey),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
-                    child: Text(
-                      'Edit profile',
-                      style: TextStyle(
-                        fontFamily: 'DMSans',
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
+                    child: Container(
+                      height: 40.h,
+                      color: Colorstheam.nobelblack,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Edit profile',
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: 'DMSans',
+                            fontWeight: FontWeight.w600,
+                            color: Colorstheam.clusterwhite
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -157,8 +159,9 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                 child: Text(
                   label,
                   style: TextStyle(
-                    fontFamily: 'DMSans',
                     fontSize: 13.sp,
+                    fontFamily: 'DMSans',
+                    fontWeight: FontWeight.w500,
                     color: Colorstheam.nobelblack,
                   ),
                 ),
@@ -168,9 +171,10 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                   value,
                   textAlign: TextAlign.end,
                   style: TextStyle(
-                    fontFamily: 'DMSans',
                     fontSize: 12.sp,
+                    fontFamily: 'DMSans',
                     color: Colorstheam.grey,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
@@ -187,6 +191,7 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
   }
 
   void _handleBack() {
+    HapticFeedback.heavyImpact();
     final bottomController = Get.find<Bottomnavigationcontroller>();
     bottomController.selectedIndex.value = 4;
     bottomController.currentPage.value = PageType.profile;

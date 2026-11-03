@@ -225,9 +225,7 @@ class Blogview extends GetView<Blogcontroller> {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         HapticFeedback.heavyImpact();
-        final Bottomnavigationcontroller bottomNav =
-        Get.find<Bottomnavigationcontroller>();
-
+        final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;
       },

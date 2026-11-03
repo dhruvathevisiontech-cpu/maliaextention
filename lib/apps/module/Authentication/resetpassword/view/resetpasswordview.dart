@@ -56,6 +56,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                       focusColor: Colors.transparent,
                       borderRadius: BorderRadius.circular(100),
                       onTap: () {
+                        HapticFeedback.heavyImpact();
                         Get.offAllNamed(Routes.LOGIN);
                       },
                       child: Container(
@@ -196,7 +197,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                             ? null
                                             : Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          children: [
+                                          children: <Widget>[
                                             Icon(
                                               controller.isPasswordvalid.value
                                                   ? Icons.check_circle_outline
@@ -345,7 +346,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                             ? null
                                             : Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          children: [
+                                          children: <Widget>[
                                             Icon(
                                               controller.isConfirmPasswordValid.value
                                                   ? Icons.check_circle_outline
@@ -451,7 +452,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                                 padding: EdgeInsets.all(20.w),
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.min,
-                                                  children: [
+                                                  children: <Widget>[
                                                     SvgPicture.asset(
                                                         "asset/svg/checkbox.svg",
                                                          height: 40.h,
@@ -525,7 +526,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                                 ? Row(
                                               key: const ValueKey("loading"),
                                               mainAxisSize: MainAxisSize.min,
-                                              children: [
+                                              children: <Widget>[
                                                 const SizedBox(
                                                   width: 18,
                                                   height: 18,

@@ -221,7 +221,7 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                                         },
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          children: [
+                                          children: <Widget>[
                                             Text(
                                               " Resend Code",
                                               style: TextStyle(

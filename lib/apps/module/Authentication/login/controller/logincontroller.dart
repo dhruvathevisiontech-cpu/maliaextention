@@ -16,20 +16,15 @@ class Logincontroller extends GetxController {
     if (!formKey.currentState!.validate()) {
       return;
     }
-
     isLoading(true);
-
     final result = await repository.login(
       inputController.text.trim(),
     );
-
     isLoading(false);
-
     if (!result.success) {
       AppSnackbar.error(result.message);
       return;
     }
-
     if (result.isVerified) {
       AppSnackbar.success("OTP sent successfully.");
       Get.offAllNamed(
@@ -58,20 +53,17 @@ class Logincontroller extends GetxController {
       validateEmailLive(value);
     });
   }
-  //Validation
   void validateEmailLive(String value) {
     if (value.isEmpty) {
       emailError.value = "";
       isEmailValid.value = false;
       return;
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       emailError.value = "Enter a valid email";
       isEmailValid.value = false;
       return;
     }
-
     emailError.value = "";
     isEmailValid.value = true;
   }
@@ -79,11 +71,9 @@ class Logincontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "Email is required";
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       return "Enter a valid email";
     }
-
     return null;
   }
 }

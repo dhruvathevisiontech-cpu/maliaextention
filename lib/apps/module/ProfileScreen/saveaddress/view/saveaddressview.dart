@@ -24,7 +24,7 @@
             ),
           ),
           child: Column(
-            children: [
+            children: <Widget>[
               SizedBox(height: 16.h),
               Container(
                 width: 40.w,
@@ -34,9 +34,7 @@
                   borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
-
               SizedBox(height: 20.h),
-
               Text(
                 "Select Country",
                 style: TextStyle(
@@ -109,7 +107,7 @@
                 left: screensize.width * 0.04,
               ),
               child: Row(
-                children: [
+                children: <Widget>[
                   _backButton(),
                   SizedBox(width: 12.w),
                   Text(
@@ -191,7 +189,7 @@
                             ),
                           ),
                           child: Row(
-                            children: [
+                            children: <Widget>[
                               Expanded(
                                 child: Text(
                                   controller.selectedCountry.value.isEmpty
@@ -249,11 +247,9 @@
                         if (value == null || value.trim().isEmpty) {
                           return "Please enter your first name";
                         }
-
                         if (value.trim().length < 2) {
                           return "First name must be at least 2 characters";
                         }
-
                         return null;
                       },
                       style: TextStyle(
@@ -589,7 +585,7 @@
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     Icon(
                                       Icons.location_on_outlined,
                                       size: 20.sp,
@@ -602,7 +598,7 @@
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                        children: [
+                                        children: <Widget>[
                                           Text(
                                             address["address"] ?? "",
                                             style: TextStyle(
@@ -745,7 +741,6 @@
                         if (value == null || value.trim().isEmpty) {
                           return "Please enter your city";
                         }
-
                         return null;
                       },
                       style: TextStyle(

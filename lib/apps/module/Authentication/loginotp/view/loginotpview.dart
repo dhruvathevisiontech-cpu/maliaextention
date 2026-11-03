@@ -57,7 +57,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                     ),
                     child: Center(
                       child: SvgPicture.asset(
-                        "asset/svg/arrowleft.svg", // Replace with your right icon
+                        "asset/svg/arrowleft.svg",
                         width: 10.w,
                         height: 10.h,
                       ),
@@ -261,7 +261,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                                   ? Row(
                                 key: const ValueKey("loading"),
                                 mainAxisSize: MainAxisSize.min,
-                                children: [
+                                children: <Widget>[
                                   SizedBox(
                                     width: 18.w,
                                     height: 18.h,

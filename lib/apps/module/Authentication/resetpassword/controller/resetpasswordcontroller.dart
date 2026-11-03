@@ -25,8 +25,6 @@ class Resetpasswordcontroller extends GetxController {
       passworderror.value = "";
       isPasswordvalid.value = true;
     }
-
-    // Re-check confirm password
     if (confirmpasswordcontroller.text.isNotEmpty) {
       validateConfirmPasswordLive(
         confirmpasswordcontroller.text,

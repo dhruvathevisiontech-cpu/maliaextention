@@ -4,21 +4,15 @@ class Apptext {
   static const onboardingsubtitle = "Explore premium extensions designed to blend beautifully with your natural hair.";
   static const login = "Sign In";
   static const signup = "Sign Up";
-  static const continueasguest = "Continue as guest";
   //Login
   static const welcometext = "Welcome Back!";
   static const subtitletext = "Luxury Hair. Effortless Beauty.";
-  static const forgotpasowrd = "Forgot Password?";
-  static const google = "Login with Google";
-  static const apple = "Login with Apple";
   //Create Account
-  static const register = "Register";
   static const createaccount = "Create Your Account";
   static const subtitle = "Join our community and get access to the full Malia collection.";
   static const areyouprosytlist = "Are you a professional stylist?";
   //LoginOTP
   static const loginotptitle = "OTP Verification";
-  static const loginotpsubtitle = "Please enter the 6-digit codes sent to";
   //ForgotPassword
   static const forgotpasswordtitle = "Forgot Password?";
   static const forgotpasswordsubtitle = "Enter your email address and we’ll send you a link to reset your password.";

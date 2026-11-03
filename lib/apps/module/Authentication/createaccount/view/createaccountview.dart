@@ -51,6 +51,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                     focusColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       Get.offAllNamed(Routes.ACCOUNTOPTION);
                     },
                     child: Container(

@@ -4,7 +4,6 @@ class AuthRepository {
 
   Future<LoginResponse> login(String email) async {
     await Future.delayed(const Duration(seconds: 2));
-
     if (email == "test@gmail.com") {
       return LoginResponse(
         success: true,
@@ -12,7 +11,6 @@ class AuthRepository {
         message: "OTP sent successfully",
       );
     }
-
     return LoginResponse(
       success: false,
       isVerified: false,

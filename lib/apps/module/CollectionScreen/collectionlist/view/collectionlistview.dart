@@ -34,7 +34,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           title: Padding(
             padding: EdgeInsets.only(left: screenSize.width * 0.04),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: screenSize.width * 0.02),
                 Expanded(
@@ -127,7 +127,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 SizedBox(height: 15.h),
                 _subCollectionSelector(),
                 SizedBox(height: 25.h),
@@ -340,7 +340,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           ),
           SizedBox(height: 4.h),
           Row(
-            children: [
+            children: <Widget>[
               SvgPicture.asset(
                 'asset/svg/star.svg',
                 height: 11.h,
@@ -363,7 +363,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           SizedBox(height: 4.h),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 'LOGIN TO SEE PRICE',
                 style: TextStyle(

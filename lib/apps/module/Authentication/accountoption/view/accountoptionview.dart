@@ -55,6 +55,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                       focusColor: Colors.transparent,
                       borderRadius: BorderRadius.circular(100),
                       onTap: () {
+                        HapticFeedback.heavyImpact();
                         Get.offAllNamed(Routes.ONBOARDING);
                       },
                       child: Container(

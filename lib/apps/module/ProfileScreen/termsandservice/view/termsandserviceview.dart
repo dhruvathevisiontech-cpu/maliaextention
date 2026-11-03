@@ -352,7 +352,6 @@ info@maliaextensions.com
                 padding: EdgeInsets.all(18.w),
                 decoration: BoxDecoration(
                   color: Colorstheam.clusterwhite,
-                  borderRadius: BorderRadius.circular(5.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -290,7 +290,7 @@ class Loginview extends GetView<Logincontroller> {
                                                    ? Row(
                                                  key: const ValueKey("loading"),
                                                  mainAxisSize: MainAxisSize.min,
-                                                 children: [
+                                                 children: <Widget>[
                                                    const SizedBox(
                                                      width: 18,
                                                      height: 18,
@@ -336,7 +336,7 @@ class Loginview extends GetView<Logincontroller> {
                                      vertical: screensize.height * 0.02,
                                    ),
                                    child: Row(
-                                     children: [
+                                     children: <Widget>[
                                        Expanded(
                                          child: Divider(
                                            color: Colorstheam.lightgrey,

@@ -14,7 +14,6 @@ import 'package:marquee/marquee.dart';
 
 class Educationview extends GetView<Educationcontroller> {
   const Educationview({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -33,12 +32,9 @@ class Educationview extends GetView<Educationcontroller> {
           elevation: 0,
           scrolledUnderElevation: 0,
           titleSpacing: 0,
-          title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
+          title: Padding(padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: 10.w),
                 Text(
@@ -53,24 +49,20 @@ class Educationview extends GetView<Educationcontroller> {
               ],
             ),
           ),
-
           actions: [
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
-
             SizedBox(width: 20.w),
-
-            Padding(
-              padding: EdgeInsets.only(
-                right: screensize.width * 0.04,
-              ),
+            Padding(padding: EdgeInsets.only(right: screensize.width * 0.04),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -80,691 +72,390 @@ class Educationview extends GetView<Educationcontroller> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Image.asset(
-                "asset/image/education.png",
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-              _sectionTitle(
-                "The Butterfly Method",
-                screensize,
-              ),
-              _bodyText(
-                "We don’t just teach the Butterfly Method, we created it.",
-                screensize,
-                maxLines: 1,
-              ),
-              _bodyText(
-                "The Butterfly Method is a modern hair extension method designed to prioritize your time, protect your body, and deliver results your clients can't stop looking at.",
-                screensize,
-                maxLines: 4,
-              ),
-              _bodyText(
-                "No unnecessary steps. No outdated techniques. Just a smarter hair extension training system that works as hard as you do.",
-                screensize,
-                maxLines: 3,
-              ),
-              SizedBox(height: 8.h),
-              _divider(screensize),
-              _benefitItem(
-                number: "01",
-                text:
-                "Certificate of Completion from Malia EDU, complete with full brand kit",
-                screensize: screensize,
-              ),
-              _divider(screensize),
-              _benefitItem(
-                number: "02",
-                text:
-                "Get more time back in your day with rows installed in as little as 15 minutes",
-                screensize: screensize,
-              ),
-              _divider(screensize),
-              _benefitItem(
-                number: "03",
-                text:
-                "A hair extension method that protects natural hair",
-                screensize: screensize,
-              ),
-              _divider(screensize),
-              _benefitItem(
-                number: "04",
-                text:
-                "Pro pricing on Butterfly Wefts & exclusive access to product drops",
-                screensize: screensize,
-              ),
-              _divider(screensize),
-              _benefitItem(
-                number: "05",
-                text:
-                "A community of Malia EDU-certified stylists who actually have your back",
-                screensize: screensize,
-              ),
-              SizedBox(height: 12.h),
-              _primaryButton(
-                title: "Unlock The Method",
-                screensize: screensize,
-                onTap: () {},
-              ),
-              _sectionTitle(
-                "Hair Extension Training",
-                screensize,
-              ),
-              SizedBox(height: 8.h),
-              _educationCard(
-                image: "asset/image/image01.png",
-                title: "In-Person Education",
-                bullets: const [
-                  "One Day at Malia HQ.",
-                  "Hands-On.",
-                  "Full Kit Included",
-                  "Leave Certified",
-                ],
-                buttonText: "Reserve your seat",
-                screensize: screensize,
-              ),
-              SizedBox(height: 16.h),
-              _educationCard1(
-                image: "asset/image/image02.png",
-                title: "Online Education",
-                bullets: const [
-                  "Learn on your own time.",
-                  "Lifetime Access.",
-                  "Become Certified From Anywhere",
-                ],
-                buttonText: "Start Learning",
-                screensize: screensize,
-              ),
-              SizedBox(height: 15.h),
-              Container(
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (controller.errorMessage.value.isNotEmpty) {
+            return Center(
+              child: Text(controller.errorMessage.value),
+            );
+          }
+          return SingleChildScrollView(
+            physics:  ClampingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Image.network(
+                  controller.getImage('hero_image'),
                   width: double.infinity,
-                  color: Colorstheam.nobelblack,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screensize.width * 0.04,
-                    vertical: 24.h,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "WHY MALIA?",
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            fontFamily: "Urbanist",
-                            fontWeight: FontWeight.bold,
-                            color: Colorstheam.clusterwhite,
-                          ),
+                  fit: BoxFit.cover,
+                ),
+                _sectionTitle(
+                  controller.getText('method_title'),
+                  screensize,
+                ),
+                _bodyText(
+                  controller.getText('method_subtitle'),
+                  screensize,
+                  maxLines: 1,
+                ),
+                _bodyText(
+                  controller.getText('method_description'),
+                  screensize,
+                  maxLines: 4,
+                ),
+                _bodyText(
+                  controller.getText('method_additional_description'),
+                  screensize,
+                  maxLines: 3,
+                ),
+                SizedBox(height: 8.h),
+                Obx(() {
+                  final benefits = controller.getList('benefits');
+                  return Column(
+                    children: [
+                      for (int i = 0; i < benefits.length; i++) ...[
+                        _divider(screensize),
+                        _benefitItem(
+                          number: benefits[i]['number']?.toString() ?? '',
+                          text: benefits[i]['text']?.toString() ?? '',
+                          screensize: screensize,
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "I built Malia because I was tired of overpriced products and overcomplicated methods that didn't actually serve stylists. Extension work should be faster, smarter, and built for real salon life.",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w500,
-                            color: Colorstheam.clusterwhite,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screensize.height * 0.005),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "― Dimitra Louro, Founder",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FontStyle.italic,
-                            color: Colorstheam.clusterwhite,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screensize.height * 0.005),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "We don’t just sell wefts and wish you luck. We help stylists build successful hair extension businesses through:",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontFamily: "DMSans",
-                            fontWeight: FontWeight.w500,
-                            color: Colorstheam.clusterwhite,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: screensize.height * 0.02
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              color: Colorstheam.clusterwhite,
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Text(
-                              "Sales & Consultation Training",
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w600,
-                                color: Colorstheam.clusterwhite,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: screensize.height * 0.02
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              color: Colorstheam.clusterwhite,
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Text(
-                              "Consistent Product",
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w600,
-                                color: Colorstheam.clusterwhite,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: screensize.height * 0.02
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              color: Colorstheam.clusterwhite,
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Text(
-                              "A Community That Shows Up",
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.w600,
-                                color: Colorstheam.clusterwhite,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: screensize.height * 0.02,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              colorFilter: ColorFilter.mode(
-                                Colorstheam.clusterwhite,
-                                BlendMode.srcIn,
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: Text(
-                                "Shipping & Customer Support You Can Build A Business On",
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontFamily: "DMSans",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colorstheam.clusterwhite,
-                                  height: 1.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: screensize.height * 0.02,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              colorFilter: ColorFilter.mode(
-                                Colorstheam.clusterwhite,
-                                BlendMode.srcIn,
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: Text(
-                                "Guidance From Malia Certified Mentors",
-                                maxLines: 2,
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontFamily: "DMSans",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colorstheam.clusterwhite,
-                                  height: 1.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: screensize.height * 0.02,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              "asset/svg/verified.svg",
-                              width: 30.w,
-                              height: 30.w,
-                              colorFilter: ColorFilter.mode(
-                                Colorstheam.clusterwhite,
-                                BlendMode.srcIn,
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                            SizedBox(width: 16.w),
-                            Expanded(
-                              child: Text(
-                                "Continuing Hair Extension Education",
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontFamily: "DMSans",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colorstheam.clusterwhite,
-                                  height: 1.2,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
+                      if (benefits.isNotEmpty)
+                        _divider(screensize),
                     ],
-                  )
-              ),
-              Container(
-                height: 45.h,
-                color: Colorstheam.clusterwhite,
-                child: Marquee(
-                  text: '✦   Your Chair. Your Skills.',
-                  style: TextStyle(
-                    fontFamily: 'Urbanist',
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
+                  );
+                }),
+                SizedBox(height: 12.h),
+                _primaryButton(
+                  title: "Unlock The Method",
+                  screensize: screensize,
+                  onTap: () {},
+                ),
+                _sectionTitle(
+                  "Hair Extension Training",
+                  screensize,
+                ),
+                SizedBox(height: 8.h),
+                Obx(() {
+                  return _educationCard(
+                    image: controller.getImage('in_person_image'),
+                    title: controller.getText('in_person_title'),
+                    bullets: controller.getList('in_person_bullets')
+                        .map((item) => item.toString())
+                        .toList(),
+                    buttonText: controller.getText('in_person_button_text'),
+                    screensize: screensize,
+                  );
+                }),
+                SizedBox(height: 16.h),
+                Obx(() {
+                  return _educationCard1(
+                    image: controller.getImage('online_image'),
+                    title: controller.getText('online_title'),
+                    bullets: controller.getList('online_bullets')
+                        .map((item) => item.toString())
+                        .toList(),
+                    buttonText: controller.getText('online_button_text'),
+                    screensize: screensize,
+                  );
+                }),
+                SizedBox(height: 15.h),
+                Container(
+                    width: double.infinity,
                     color: Colorstheam.nobelblack,
-                  ),
-                  velocity: 40,
-                  blankSpace: 15,
-                  startPadding: 0,
-                  pauseAfterRound: Duration.zero,
-                  showFadingOnlyWhenScrolling: true,
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                color: Colorstheam.nobelblack,
-                padding: EdgeInsets.symmetric(
-                  horizontal: screensize.width * 0.04,
-                  vertical: 24.h,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Become a Malia Pro",
-                        style: TextStyle(
-                          fontSize: 22.sp,
-                          fontFamily: "Urbanist",
-                          fontWeight: FontWeight.bold,
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screensize.width * 0.04,
+                      vertical: 24.h,
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Join thousands of stylists who switched to faster installs, better pricing, and a support team that actually gets it.",
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: "DMSans",
-                          fontWeight: FontWeight.w500,
-                          color: Colorstheam.clusterwhite,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: screensize.height * 0.02
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF5F2ED),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "asset/svg/Group.svg",
-                              width: 18.w,
-                              height: 18.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Pro Pricing",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.2,
-                                  ),
-                                ),
-
-                                SizedBox(height: 4.h),
-
-                                Text(
-                                  "Upgrade to Pro and unlock more value, tools, and flexibility.",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w300,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: screensize.height * 0.02
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF5F2ED),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "asset/svg/education.svg",
-                              width: 18.w,
-                              height: 18.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "In-Person & Online Education",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.2,
-                                  ),
-                                ),
-
-                                SizedBox(height: 4.h),
-
-                                Text(
-                                  "Access professional education through  In-Person and Online Education.",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w300,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: screensize.height * 0.02
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF5F2ED),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "asset/svg/lock.svg",
-                              width: 18.w,
-                              height: 18.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Full Access to Malia Extensions",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.2,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  "Unlock full access to Malia Extensions with exclusive features and benefits.",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w300,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: screensize.height * 0.02
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFF5F2ED),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: SvgPicture.asset(
-                              "asset/svg/gift.svg",
-                              width: 18.w,
-                              height: 18.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          SizedBox(width: 16.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Exclusive Promotions",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w600,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.2,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  "Discover limited offers and premium benefits available only here.",
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontFamily: "DMSans",
-                                    fontWeight: FontWeight.w300,
-                                    color: Colorstheam.clusterwhite,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: screensize.width * 0.01,
-                        right: screensize.width * 0.01,
-                        top: screensize.height * 0.02
-                      ),
-                      child: AnimatedButton(
-                        onTap: (){},
-                        child: Container(
-                          width: 362.w,
-                          height: 40.h,
-                          margin: EdgeInsets.zero,
-                          padding: EdgeInsets.zero,
-                          decoration: BoxDecoration(
-                            color: Colorstheam.clusterwhite,
-                            border: Border.all(
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.getText('why_malia_title'),
+                            style: TextStyle(
+                              fontSize: 22.sp,
+                              fontFamily: "Urbanist",
+                              fontWeight: FontWeight.bold,
                               color: Colorstheam.clusterwhite,
-                              width: 1,
                             ),
                           ),
-                          child: Center(
-                            child: Text(
-                              "Unlock your free pro account",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontFamily: "DMSans",
-                                fontWeight: FontWeight.bold,
-                                color: Colorstheam. nobelblack,
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.getText('founder_description'),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w500,
+                              color: Colorstheam.clusterwhite,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screensize.height * 0.005),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.getText('founder_name'),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.italic,
+                              color: Colorstheam.clusterwhite,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screensize.height * 0.005),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "We don’t just sell wefts and wish you luck. We help stylists build successful hair extension businesses through:",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w500,
+                              color: Colorstheam.clusterwhite,
+                            ),
+                          ),
+                        ),
+                        Obx(() {
+                          final founderBenefits = controller.getList('founder_benefits');
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: List.generate(
+                              founderBenefits.length, (index) {
+                                final item = founderBenefits[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    top: screensize.height * 0.02,
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      SvgPicture.asset(
+                                        "asset/svg/verified.svg",
+                                        width: 30.w,
+                                        height: 30.w,
+                                        colorFilter: ColorFilter.mode(
+                                          Colorstheam.clusterwhite,
+                                          BlendMode.srcIn,
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                      SizedBox(width: 16.w),
+                                      Expanded(
+                                        child: Text(
+                                          item['title']?.toString() ?? '',
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            fontFamily: "DMSans",
+                                            fontWeight: FontWeight.w600,
+                                            color: Colorstheam.clusterwhite,
+                                            height: 1.2,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }),
+                      ],
+                    )
+                ),
+                Container(
+                  height: 45.h,
+                  color: Colorstheam.clusterwhite,
+                  child: Marquee(
+                    text: controller.getText('marquee_text'),
+                    style: TextStyle(
+                      fontFamily: 'Urbanist',
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colorstheam.nobelblack,
+                    ),
+                    velocity: 40,
+                    blankSpace: 15,
+                    startPadding: 0,
+                    pauseAfterRound: Duration.zero,
+                    showFadingOnlyWhenScrolling: true,
+                  ),
+                ),
+                Obx(() {
+                  final proBenefits = controller.getList('pro_benefits');
+                  return Container(
+                    width: double.infinity,
+                    color: Colorstheam.nobelblack,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screensize.width * 0.04,
+                      vertical: 24.h,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.getText(
+                              'become_pro_title',
+                              fallback: 'Become a Malia Pro',
+                            ),
+                            style: TextStyle(
+                              fontSize: 22.sp,
+                              fontFamily: "Urbanist",
+                              fontWeight: FontWeight.bold,
+                              color: Colorstheam.clusterwhite,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            controller.getText('become_pro_description'),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontFamily: "DMSans",
+                              fontWeight: FontWeight.w500,
+                              color: Colorstheam.clusterwhite,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        ...proBenefits.map((item) {
+                          final String title = item['title']?.toString() ?? '';
+                          final String description = item['description']?.toString() ?? '';
+                          final String icon = item['icon']?.toString() ?? '';
+                          return Padding(padding: EdgeInsets.only(top: screensize.height * 0.02),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 30.w,
+                                  height: 30.h,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFF5F2ED),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    'asset/svg/$icon',
+                                    width: 18.w,
+                                    height: 18.w,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        title,
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontFamily: "DMSans",
+                                          fontWeight: FontWeight.w600,
+                                          color: Colorstheam.clusterwhite,
+                                          height: 1.2,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        description,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          fontFamily: "DMSans",
+                                          fontWeight: FontWeight.w300,
+                                          color: Colorstheam.clusterwhite,
+                                          height: 1.4,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                        Padding(padding: EdgeInsets.only(left: screensize.width * 0.01,right: screensize.width * 0.01,top: screensize.height * 0.02),
+                          child: AnimatedButton(
+                            onTap: (){},
+                            child: Container(
+                              width: 362.w,
+                              height: 40.h,
+                              margin: EdgeInsets.zero,
+                              padding: EdgeInsets.zero,
+                              decoration: BoxDecoration(
+                                color: Colorstheam.clusterwhite,
+                                border: Border.all(
+                                  color: Colorstheam.clusterwhite,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  controller.getText(
+                                    'pro_button_text',
+                                    fallback: 'Unlock your free pro account',
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontFamily: "DMSans",
+                                    fontWeight: FontWeight.bold,
+                                    color: Colorstheam. nobelblack,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: screensize.height * 0.01,),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      decoration:  BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Colorstheam.clusterwhite,
-                            width: 1,
+                        SizedBox(height: screensize.height * 0.01),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Obx(
+                                () => Container(
+                              padding: EdgeInsets.only(bottom: 2),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colorstheam.clusterwhite,
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                controller.getText(
+                                  'license_text',
+                                  fallback: 'Malia is only available to licensed stylist',
+                                ),
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontFamily: "DMSans",
+                                  color: Colorstheam.clusterwhite,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      child:  Text(
-                        "Malia is only available to licensed stylist",
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontFamily: "DMSans",
-                          color: Colorstheam.clusterwhite,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
-                  ],
-                )
-              ),
-            ],
-          ),
-        ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+              ],
+            ),
+          );
+        })
+
       ),
     );
   }
@@ -772,12 +463,7 @@ class Educationview extends GetView<Educationcontroller> {
       String title,
       Size screensize,
       ) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: screensize.width * 0.04,
-        right: screensize.width * 0.04,
-        top: screensize.height * 0.02,
-      ),
+    return Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.02),
       child: Text(
         title,
         style: TextStyle(
@@ -794,12 +480,7 @@ class Educationview extends GetView<Educationcontroller> {
       Size screensize, {
         int? maxLines,
       }) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: screensize.width * 0.04,
-        right: screensize.width * 0.04,
-        top: screensize.height * 0.015,
-      ),
+    return Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.015,),
       child: AutoSizeText(
         text,
         maxLines: maxLines,
@@ -818,12 +499,7 @@ class Educationview extends GetView<Educationcontroller> {
   }
 
   Widget _divider(Size screensize) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: screensize.width * 0.04,
-        right: screensize.width * 0.04,
-        top: 12.h,
-      ),
+    return Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, right: screensize.width * 0.04, top: 12.h,),
       child: Divider(
         color: Colorstheam.clusterwhite,
         height: 1,
@@ -835,15 +511,10 @@ class Educationview extends GetView<Educationcontroller> {
     required String text,
     required Size screensize,
   }) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: screensize.width * 0.04,
-        right: screensize.width * 0.04,
-        top: 14.h,
-      ),
+    return Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04, top: 14.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             number,
             style: TextStyle(
@@ -879,18 +550,13 @@ class Educationview extends GetView<Educationcontroller> {
     required String buttonText,
     required Size screensize,
   }) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: screensize.width * 0.04,
-      ),
-      padding: EdgeInsets.only(
-        bottom: 20.h,
-      ),
+    return Container(margin: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
+      padding: EdgeInsets.only(bottom: 20.h),
       color: Colorstheam.clusterwhite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
+          Image.network(
             image,
             width: double.infinity,
             height: 190.h,
@@ -922,7 +588,7 @@ class Educationview extends GetView<Educationcontroller> {
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     "•",
                     style: TextStyle(
@@ -954,6 +620,7 @@ class Educationview extends GetView<Educationcontroller> {
             title: buttonText,
             screensize: screensize,
             onTap: () {
+              HapticFeedback.heavyImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 3;
               bottomNav.currentPage.value = PageType.inperson;
@@ -972,31 +639,19 @@ class Educationview extends GetView<Educationcontroller> {
     required Size screensize,
   }) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: screensize.width * 0.04,
-      ),
-
-      padding: EdgeInsets.only(
-        bottom: 20.h,
-      ),
-
+      margin: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
+      padding: EdgeInsets.only(bottom: 20.h),
       color: Colorstheam.clusterwhite,
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
+          Image.network(
             image,
             width: double.infinity,
             height: 190.h,
             fit: BoxFit.cover,
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-              right: screensize.width * 0.04,
-              top: 16.h,
-            ),
+          Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, right: screensize.width * 0.04, top: 16.h),
             child: Text(
               title,
               style: TextStyle(
@@ -1010,14 +665,10 @@ class Educationview extends GetView<Educationcontroller> {
           SizedBox(height: 8.h),
           ...bullets.map(
                 (bullet) => Padding(
-              padding: EdgeInsets.only(
-                left: screensize.width * 0.07,
-                right: screensize.width * 0.04,
-                top: 7.h,
-              ),
+              padding: EdgeInsets.only(left: screensize.width * 0.07,right: screensize.width * 0.04,top: 7.h),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     "•",
                     style: TextStyle(
@@ -1049,6 +700,7 @@ class Educationview extends GetView<Educationcontroller> {
             title: buttonText,
             screensize: screensize,
             onTap: () {
+              HapticFeedback.heavyImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 3;
               bottomNav.currentPage.value = PageType.onlinetraing;
@@ -1064,10 +716,7 @@ class Educationview extends GetView<Educationcontroller> {
     required Size screensize,
     required VoidCallback onTap,
   }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: screensize.width * 0.04,
-      ),
+    return Padding(padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
       child: AnimatedButton(
         onTap: onTap,
         child: Container(
@@ -1128,13 +777,10 @@ class Educationview extends GetView<Educationcontroller> {
   }) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-
       onTap: onTap,
-
       child: SizedBox(
         width: 22.w,
         height: 22.w,
-
         child: SvgPicture.asset(
           icon,
           width: 22.w,

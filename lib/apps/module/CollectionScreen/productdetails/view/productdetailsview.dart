@@ -80,7 +80,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Center(
                   child: Container(
                     width: 40.w,
@@ -261,7 +261,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                 padding: EdgeInsets.all(24.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     Text(
                       controller.productError.value,
                       textAlign: TextAlign.center,
@@ -432,7 +432,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
-                                            children: [
+                                            children: <Widget>[
                                               Text(
                                                 "Locate Certified Maliá Stylists Near You",
                                                 style: TextStyle(
@@ -473,7 +473,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                 padding: EdgeInsets.symmetric(vertical: 20.h),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                                       child: Text(
@@ -571,7 +571,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       height: 402.h,
       width: double.infinity,
       child: Stack(
-        children: [
+        children: <Widget>[
           Obx(() {
             final images = controller.productImages.toList();
             if (images.isEmpty) {
@@ -730,7 +730,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Expanded(
             child: Text(
               controller.productName,
@@ -879,7 +879,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               padding: EdgeInsets.only(bottom: 18.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     '$name: $selectedValue',
                     style: TextStyle(
@@ -1039,7 +1039,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                 ),
               ),
               child: Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: InkWell(
                       onTap: quantity > 1 ? controller.decreaseQty : null,
@@ -1285,7 +1285,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               width: 18.w,
               height: 18.h,
             ),
-            children: [
+            children: <Widget>[
               Align(
                 alignment: Alignment.centerLeft,
                 child: child,

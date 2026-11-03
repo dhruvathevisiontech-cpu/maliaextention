@@ -41,7 +41,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
               ],
             ),
@@ -73,10 +73,10 @@ class Viewclass extends GetView<Viewclasscontroller> {
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: [
+            children: <Widget>[
               Stack(
                 clipBehavior: Clip.none,
-                children: [
+                children: <Widget>[
                   Container(
                     width: double.infinity,
                     height: 402.h,
@@ -157,7 +157,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Evolve Salon Systems",
                             style: TextStyle(
@@ -312,7 +312,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.005),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -340,7 +340,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.001),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -368,7 +368,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.001),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -396,7 +396,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.001),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -424,7 +424,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.001),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -467,7 +467,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.005),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -495,7 +495,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.005),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "•",
                       style: TextStyle(
@@ -567,7 +567,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -605,7 +605,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -643,7 +643,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -681,7 +681,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -719,7 +719,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -757,7 +757,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 3.h),
                             child: SvgPicture.asset(
@@ -866,7 +866,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                     height: 347.h,
                     width: double.infinity,
                     child: Stack(
-                      children: [
+                      children: <Widget>[
                         PageView.builder(
                           controller: controller.carouselController,
                           itemCount: controller.carouselImages.length,

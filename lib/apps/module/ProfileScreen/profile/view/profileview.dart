@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +19,7 @@ class Profileview extends GetView<Profilecontroller> {
       backgroundColor: Colorstheam.white,
       body: SafeArea(
         child: Column(
-          children: [
+          children: <Widget>[
             _buildAppBar(bottomController),
             Expanded(
               child: SingleChildScrollView(
@@ -25,7 +27,7 @@ class Profileview extends GetView<Profilecontroller> {
                   padding: EdgeInsets.symmetric(horizontal: 22.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       SizedBox(height: 30.h),
                       _buildWelcomeSection(),
                       SizedBox(height: 22.h),
@@ -34,17 +36,13 @@ class Profileview extends GetView<Profilecontroller> {
                       _menuItem(
                         title: 'Salon Locator',
                         asset: 'asset/svg/salonlocator.svg',
-                        onTap: () =>
-                            _navigate(bottomController, PageType.salonlocator),
+                        onTap: () => _navigate(bottomController, PageType.salonlocator),
                       ),
                       _divider(),
                       _menuItem(
                         title: 'Profile Details',
                         asset: 'asset/svg/profile.svg',
-                        onTap: () => _navigate(
-                          bottomController,
-                          PageType.profiledetails,
-                        ),
+                        onTap: () => _navigate(bottomController, PageType.profiledetails,),
                       ),
                       _divider(),
                       _menuItem(
@@ -56,15 +54,13 @@ class Profileview extends GetView<Profilecontroller> {
                       _menuItem(
                         title: 'Address Book',
                         asset: 'asset/svg/address.svg',
-                        onTap: () =>
-                            _navigate(bottomController, PageType.addresslist),
+                        onTap: () => _navigate(bottomController, PageType.addresslist),
                       ),
                       _divider(),
                       _menuItem(
                         title: 'Order History',
                         asset: 'asset/svg/orders.svg',
-                        onTap: () =>
-                            _navigate(bottomController, PageType.orderhistory),
+                        onTap: () => _navigate(bottomController, PageType.orderhistory),
                       ),
                       _divider(),
                       _buildInformationSection(bottomController),
@@ -112,36 +108,50 @@ class Profileview extends GetView<Profilecontroller> {
       ),
       child: Row(
         children: [
-          _headerIcon(
-            asset: 'asset/svg/arrowleft.svg',
-            onTap: () => _navigate(bottomController, PageType.home, index: 0),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              HapticFeedback.heavyImpact();
+              final bottomNav = Get.find<Bottomnavigationcontroller>();
+              bottomNav.selectedIndex.value = 0;
+              bottomNav.currentPage.value = PageType.home;
+            },
+            child: Container(
+              width: 32.w,
+              height: 32.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colorstheam.nobelblack,
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  "asset/svg/arrowleft.svg",
+                  width: 10.w,
+                  height: 10.h,
+                ),
+              ),
+            ),
           ),
-
           SizedBox(width: 18.w),
-
           Expanded(
             child: Text(
               Apptext.profileappbartitle,
               style: TextStyle(
-                fontFamily: 'Urbanist',
                 fontSize: 19.sp,
+                fontFamily: 'Urbanist',
                 fontWeight: FontWeight.w600,
                 color: Colorstheam.nobelblack,
               ),
             ),
           ),
-
           _headerIcon(
             asset: 'asset/svg/search.svg',
             onTap: () => _navigate(bottomController, PageType.search, index: 0),
           ),
-
           SizedBox(width: 18.w),
-
           _headerIcon(
             asset: 'asset/svg/cart.svg',
-            onTap: () =>
-                _navigate(bottomController, PageType.viewcart, index: 0),
+            onTap: () => _navigate(bottomController, PageType.viewcart, index: 0),
           ),
         ],
       ),
@@ -204,7 +214,8 @@ class Profileview extends GetView<Profilecontroller> {
   Widget _buildProfileButton() {
     return GestureDetector(
       onTap: () {
-        // Add your preferred profile action here.
+        HapticFeedback.heavyImpact();
+        Get.offAllNamed(Routes.ONBOARDING);
       },
       child: Container(
         width: double.infinity,
@@ -347,7 +358,7 @@ class Profileview extends GetView<Profilecontroller> {
                     title: 'FAQs',
                     onTap: () => _navigate(bottomController, PageType.faqlist),
                   ),
-                  _informationLink(title: 'Blog', onTap: () {}),
+                  _informationLink(title: 'Blog', onTap: () => _navigate(bottomController, PageType.blog)),
                 ],
               ),
             ),
@@ -412,6 +423,7 @@ class Profileview extends GetView<Profilecontroller> {
     PageType page, {
     int index = 4,
   }) {
+    HapticFeedback.heavyImpact();
     bottomController.selectedIndex.value = index;
     bottomController.currentPage.value = page;
   }

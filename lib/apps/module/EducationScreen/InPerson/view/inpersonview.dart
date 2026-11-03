@@ -43,7 +43,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
               ],
             ),
@@ -85,7 +85,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Text(
                     controller.educationError.value.isNotEmpty
                         ? controller.educationError.value
@@ -179,7 +179,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                     height: 152.h,
                     width: double.infinity,
                     child: Column(
-                      children: [
+                      children: <Widget>[
                         Expanded(
                           flex: 3,
                           child: Container(
@@ -211,7 +211,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                               color: Colorstheam.clusterwhite,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -348,7 +348,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                     right: screensize.width * 0.04,
                   ),
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       for (int i = 0; i < 3; i++) ...[
                         if (i > 0)
                           SizedBox(width: screensize.width * 0.02),
@@ -404,7 +404,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                         child: CircularProgressIndicator(),
                       )
                           : Stack(
-                        children: [
+                        children: <Widget>[
                           PageView.builder(
                             controller: controller.carouselController,
                             itemCount: controller.carouselImages.length,
@@ -572,7 +572,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                 SizedBox(height: screensize.height * 0.01),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Expanded(
                       child: GestureDetector(
                         onTap: (){

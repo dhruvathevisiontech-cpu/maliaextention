@@ -402,8 +402,6 @@ class Homeview extends GetView<Homecontroller> {
                                     Colorstheam.lightgrey,
                                   ),
                                 ),
-
-                                // Wishlist
                                 Positioned(
                                   top: 10.h,
                                   right: 10.w,
@@ -514,11 +512,7 @@ class Homeview extends GetView<Homecontroller> {
                     },
                   );
                 }),
-
                 SizedBox(height: screensize.height * 0.02),
-
-                // ---------------- SHOP BY LENGTH ----------------
-
                 Padding(
                   padding: EdgeInsets.only(
                     left: screensize.width * 0.04,
@@ -608,11 +602,7 @@ class Homeview extends GetView<Homecontroller> {
                     ),
                   );
                 }),
-
                 SizedBox(height: screensize.height * 0.02),
-
-                // ---------------- EDUCATION SECTION ----------------
-
                 Padding(
                   padding: EdgeInsets.only(
                     left: screensize.width * 0.04,
@@ -703,8 +693,6 @@ class Homeview extends GetView<Homecontroller> {
                                     color: Colorstheam.white,
                                   ),
                                 ),
-
-                                // Education buttons
                                 Obx(() {
                                   return Column(
                                     children: [

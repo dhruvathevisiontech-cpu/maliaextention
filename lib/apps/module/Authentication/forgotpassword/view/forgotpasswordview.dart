@@ -55,6 +55,7 @@ class Forgotpasswordview extends GetView<Forgotpasswordcontroller> {
                     focusColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
+                      HapticFeedback.heavyImpact();
                       Get.offAllNamed(Routes.LOGIN);
                     },
                     child: Container(

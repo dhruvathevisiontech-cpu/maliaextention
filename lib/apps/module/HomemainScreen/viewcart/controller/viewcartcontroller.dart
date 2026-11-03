@@ -64,9 +64,7 @@ class Viewcartcontroller extends GetxController {
 
     final uri = Uri.tryParse(checkout);
 
-    if (uri == null ||
-        uri.scheme != 'https' ||
-        uri.host.isEmpty) {
+    if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) {
       AppSnackbar.error('The Shopify checkout URL is invalid.',);
       return;
     }

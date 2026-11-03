@@ -7,16 +7,12 @@ class Searchdatacontroller extends GetxController {
   final RxString searchText = ''.obs;
   final RxList<Map<String, String>> products = <Map<String, String>>[].obs;
   final RxList<Map<String, String>> collections = <Map<String, String>>[].obs;
-
   final RxList<String> suggestions = <String>[].obs;
   final RxList<String> recentSearches = <String>[].obs;
-
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
-
   Worker? _searchWorker;
   int _requestId = 0;
-
   static const String _searchQuery = r'''
   query SearchProductsAndCollections($query: String!) {
     products(first: 6, query: $query) {
@@ -126,21 +122,15 @@ class Searchdatacontroller extends GetxController {
 
   Future<void> searchProducts([String? value]) async {
     final term = (value ?? searchText.value).trim();
-
     if (term.isEmpty) return;
-
     final requestId = ++_requestId;
-
     isLoading.value = true;
     errorMessage.value = '';
-
     try {
       final data = await ShopifyCollectionService.query(
         _searchQuery,
         variables: {'query': term},
       );
-
-      // Ignore results from an older search request.
       if (requestId != _requestId) return;
 
       final productNodes =
@@ -174,8 +164,6 @@ class Searchdatacontroller extends GetxController {
           productResults.add(product);
         }
       }
-
-      // Include predictive products without duplicating products.
       for (final node in predictiveProducts) {
         if (node is! Map) continue;
 
@@ -195,26 +183,18 @@ class Searchdatacontroller extends GetxController {
         ...predictiveCollections,
       ]) {
         if (node is! Map) continue;
-
         final collection = _mapCollection(node);
         final id = collection['id'] ?? '';
-
         if (id.isNotEmpty && seenCollectionIds.add(id)) {
           collectionResults.add(collection);
         }
       }
-
       final suggestionResults = <String>[];
       final seenSuggestions = <String>{};
-
       for (final node in queryNodes) {
         if (node is! Map) continue;
-
         final text = node['text']?.toString().trim() ?? '';
-
-        if (text.isNotEmpty &&
-            text.toLowerCase() != term.toLowerCase() &&
-            seenSuggestions.add(text.toLowerCase())) {
+        if (text.isNotEmpty && text.toLowerCase() != term.toLowerCase() && seenSuggestions.add(text.toLowerCase())) {
           suggestionResults.add(text);
         }
       }
@@ -251,10 +231,7 @@ class Searchdatacontroller extends GetxController {
       'id': node['id']?.toString() ?? '',
       'name': node['title']?.toString() ?? '',
       'handle': node['handle']?.toString() ?? '',
-      'image': image is Map
-          ? image['url']?.toString() ?? ''
-          : '',
-      // Do not expose prices in the search preview.
+      'image': image is Map ? image['url']?.toString() ?? '' : '',
       'price': '',
       'priceLabel': 'Login to See Price',
       'rating': '',
@@ -268,9 +245,7 @@ class Searchdatacontroller extends GetxController {
       'id': node['id']?.toString() ?? '',
       'name': node['title']?.toString() ?? '',
       'handle': node['handle']?.toString() ?? '',
-      'image': image is Map
-          ? image['url']?.toString() ?? ''
-          : '',
+      'image': image is Map ? image['url']?.toString() ?? '' : '',
     };
   }
 

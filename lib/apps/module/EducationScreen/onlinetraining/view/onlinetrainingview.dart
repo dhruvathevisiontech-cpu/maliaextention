@@ -41,7 +41,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
               ],
             ),
@@ -191,7 +191,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   SvgPicture.asset(
                                     "asset/svg/rating.svg",
                                     width: 18.w,
@@ -318,7 +318,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   SvgPicture.asset(
                                     "asset/svg/rating.svg",
                                     width: 18.w,
@@ -445,7 +445,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
+                                children: <Widget>[
                                   SvgPicture.asset(
                                     "asset/svg/rating.svg",
                                     width: 18.w,
@@ -593,7 +593,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(
                       width: 44.w,
                       height: 44.h,
@@ -613,7 +613,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Expert Instruction",
                             style: TextStyle(
@@ -649,7 +649,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(
                       width: 44.w,
                       height: 44.h,
@@ -669,7 +669,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Premium Products",
                             style: TextStyle(
@@ -698,14 +698,10 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    top: screensize.height * 0.02,
-                    left: screensize.width * 0.04,
-                    right: screensize.width * 0.04
-                ),
+                padding: EdgeInsets.only(top: screensize.height * 0.02, left: screensize.width * 0.04, right: screensize.width * 0.04),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Container(
                       width: 44.w,
                       height: 44.h,
@@ -725,7 +721,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Ongoing Support",
                             style: TextStyle(

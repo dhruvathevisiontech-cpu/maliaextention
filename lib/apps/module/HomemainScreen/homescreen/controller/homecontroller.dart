@@ -8,38 +8,21 @@ import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 
 class Homecontroller extends GetxController {
   final ScrollController homeScrollController = ScrollController();
-
-  // Shopify home-page data
-  final RxMap<String, dynamic> homeContent =
-      <String, dynamic>{}.obs;
-
-  final RxList<Map<String, dynamic>> categories =
-      <Map<String, dynamic>>[].obs;
-
-  final RxList<Map<String, dynamic>> featuredProducts =
-      <Map<String, dynamic>>[].obs;
-
-  final RxList<String> lengthOptions =
-      <String>[].obs;
-
+  final RxMap<String, dynamic> homeContent = <String, dynamic>{}.obs;
+  final RxList<Map<String, dynamic>> categories = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> featuredProducts = <Map<String, dynamic>>[].obs;
+  final RxList<String> lengthOptions = <String>[].obs;
   final RxBool isHomeLoading = false.obs;
   final RxString homeErrorMessage = ''.obs;
-
-  // Existing selection logic
-  final RxString selectedLength = '16'.obs;
+  final RxString selectedLength = '14'.obs;
   final RxInt selectedEducation = 0.obs;
-
   void selectLength(String length) {
     selectedLength.value = length;
   }
-
   void selectEducation(int index) {
     selectedEducation.value = index;
   }
-
-  // Existing wishlist logic
   final RxSet<int> wishlistItems = <int>{}.obs;
-
   void toggleWishlist(int index) {
     if (wishlistItems.contains(index)) {
       wishlistItems.remove(index);
@@ -47,34 +30,11 @@ class Homecontroller extends GetxController {
       wishlistItems.add(index);
     }
   }
-  List<String> _parseListField(Map<String, dynamic>? field) {
-    if (field == null) return [];
-
-    final value = field['value']?.toString() ?? '';
-
-    if (value.isEmpty) return [];
-
-    try {
-      final decoded = jsonDecode(value);
-
-      if (decoded is List) {
-        return decoded.map((item) => item.toString()).toList();
-      }
-    } catch (_) {
-      // Shopify may return a single value rather than a JSON list.
-    }
-
-    return [value];
-  }
-
   bool isWishlisted(int index) {
     return wishlistItems.contains(index);
   }
-
-  // Existing video logic
   late VideoPlayerController butterflyVideoController;
   final RxBool isButterflyVideoInitialized = false.obs;
-
   static const String _homePageQuery = r'''
     query GetHomePage {
       metaobjects(type: "home_page", first: 10) {
@@ -144,20 +104,15 @@ class Homecontroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     butterflyVideoController = VideoPlayerController.asset(
       'asset/video/video1.mp4',
     );
-
     butterflyVideoController.initialize().then((_) {
       isButterflyVideoInitialized.value = true;
     }).catchError((error) {
     });
-
     fetchHomePage();
   }
-
-  // Fetch the single active home_page entry
   Future<void> fetchHomePage() async {
     if (isHomeLoading.value) return;
     isHomeLoading.value = true;
@@ -166,25 +121,18 @@ class Homecontroller extends GetxController {
       final data = await ShopifyCollectionService.query(
         _homePageQuery,
       );
-
-      final entries =
-          data['metaobjects']?['nodes'] as List? ?? [];
-
+      final entries = data['metaobjects']?['nodes'] as List? ?? [];
       Map<String, dynamic>? activeEntry;
-
       for (final entry in entries) {
         final fields = entry['fields'] as List? ?? [];
         final fieldMap = <String, dynamic>{};
-
         for (final field in fields) {
           fieldMap[field['key'].toString()] = field;
         }
-
         final isActive = fieldMap['is_active']?['value']
             ?.toString()
             .toLowerCase() ==
             'true';
-
         if (isActive) {
           activeEntry = {
             'id': entry['id'],
@@ -194,21 +142,16 @@ class Homecontroller extends GetxController {
           break;
         }
       }
-
       if (activeEntry == null) {
         throw Exception(
           'No active home_page entry found. '
               'Check the is_active field and Storefront API access.',
         );
       }
-
-      final fields =
-      activeEntry['fields'] as Map<String, dynamic>;
-
+      final fields = activeEntry['fields'] as Map<String, dynamic>;
       dynamic fieldValue(String key) {
         return fields[key]?['value'];
       }
-
       Map<String, dynamic>? fieldReference(String key) {
         final value = fields[key]?['reference'];
         return value is Map
@@ -254,100 +197,56 @@ class Homecontroller extends GetxController {
                 .toList();
           }
         } catch (_) {
-          // A regular text value isn't a JSON list.
         }
 
         return [rawValue.toString()];
       }
 
-      // Banner and button content
       homeContent.assignAll({
         'id': activeEntry['id'],
         'handle': activeEntry['handle'],
         'hero_image': imageUrl('hero_image'),
         'hero_eyebrow': fieldValue('hero_eyebrow') ?? '',
         'hero_title': fieldValue('hero_title') ?? '',
-        'hero_description':
-        fieldValue('hero_description') ?? '',
-        'hero_button_label':
-        fieldValue('hero_button_label') ?? '',
-        'hero_button_link':
-        fieldValue('hero_button_link') ?? '',
+        'hero_description': fieldValue('hero_description') ?? '',
+        'hero_button_label': fieldValue('hero_button_label') ?? '',
+        'hero_button_link': fieldValue('hero_button_link') ?? '',
         'education_image': imageUrl('education_image'),
         'best_seller_title': fieldValue('best_seller_title') ?? '',
         'shop_by_category_title': fieldValue('shop_by_category_title') ?? '',
         'shop_by_length_title': fieldValue('shop_by_length_title') ?? '',
-        'education_title':
-        fieldValue('education_title') ?? '',
-        'education_description':
-        fieldValue('education_description') ?? '',
-        'in_person_button_label':
-        fieldValue('in_person_button_label') ?? '',
-        'in_person_button_link':
-        fieldValue('in_person_button_link') ?? '',
-        'online_button_label':
-        fieldValue('online_button_label') ?? '',
-        'online_button_link':
-        fieldValue('online_button_link') ?? '',
-        'featured_collection':
-        fieldReference('featured_collection'),
+        'education_title': fieldValue('education_title') ?? '',
+        'education_description': fieldValue('education_description') ?? '',
+        'in_person_button_label': fieldValue('in_person_button_label') ?? '',
+        'in_person_button_link': fieldValue('in_person_button_link') ?? '',
+        'online_button_label': fieldValue('online_button_label') ?? '',
+        'online_button_link': fieldValue('online_button_link') ?? '',
+        'featured_collection': fieldReference('featured_collection'),
       });
-
-      // Categories: match titles, images and collections by index.
-      // ---------------- CATEGORY DATA ----------------
-
-
-      // ---------------- CATEGORY DATA ----------------
-
       final categoryData = await ShopifyCollectionService.query(
         _categoriesQuery,
       );
-
-      final categoryEntries =
-          categoryData['metaobjects']?['nodes'] as List? ?? [];
-
+      final categoryEntries = categoryData['metaobjects']?['nodes'] as List? ?? [];
       final List<Map<String, dynamic>> activeCategories = [];
-
       for (final entry in categoryEntries) {
         final entryFields = entry['fields'] as List? ?? [];
         final fieldMap = <String, dynamic>{};
-
         for (final field in entryFields) {
           fieldMap[field['key'].toString()] = field;
         }
-
-        final isActive =
-            fieldMap['is_active']?['value']
-                ?.toString()
-                .toLowerCase() == 'true';
-
+        final isActive = fieldMap['is_active']?['value']?.toString().toLowerCase() == 'true';
         if (!isActive) continue;
-
-        final title =
-            fieldMap['title']?['value']?.toString().trim() ?? '';
-
+        final title = fieldMap['title']?['value']?.toString().trim() ?? '';
         final imageReference = fieldMap['image']?['reference'];
-        final imageData = imageReference is Map
-            ? imageReference['image']
-            : null;
-
-        final collectionReference =
-        fieldMap['collection']?['reference'];
-
-        final collection = collectionReference is Map
-            ? collectionReference
-            : <String, dynamic>{};
-
+        final imageData = imageReference is Map ? imageReference['image'] : null;
+        final collectionReference = fieldMap['collection']?['reference'];
+        final collection = collectionReference is Map ? collectionReference : <String, dynamic>{};
         if (title.isEmpty) continue;
-
         activeCategories.add({
           'title': title,
-          'image': imageData is Map
-              ? imageData['url']?.toString() ?? ''
-              : '',
+          'image': imageData is Map ? imageData['url']?.toString() ?? '' : '',
           'collectionId': collection['id']?.toString() ?? '',
-          'collectionTitle':
-          collection['title']?.toString() ?? '',
+          'collectionTitle': collection['title']?.toString() ?? '',
           'handle': collection['handle']?.toString() ?? '',
         });
       }
@@ -378,14 +277,10 @@ class Homecontroller extends GetxController {
   Future<void> fetchFeaturedProducts() async {
     final collection =
     homeContent['featured_collection'];
-
-    if (collection is! Map ||
-        collection['handle'] == null ||
-        collection['handle'].toString().isEmpty) {
+    if (collection is! Map || collection['handle'] == null || collection['handle'].toString().isEmpty) {
       featuredProducts.clear();
       return;
     }
-
     const productsQuery = r'''
       query GetFeaturedProducts($handle: String!) {
         collection(handle: $handle) {

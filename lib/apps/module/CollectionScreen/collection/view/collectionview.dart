@@ -34,7 +34,7 @@ class Collectionview extends GetView<Collectioncontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: screensize.width * 0.02),
                 Text(
@@ -80,31 +80,8 @@ class Collectionview extends GetView<Collectioncontroller> {
           top: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               SizedBox(height: 10.h),
-              // Expanded(
-              //   child: GridView.builder(
-              //     physics: const BouncingScrollPhysics(),
-              //     padding: EdgeInsets.only(
-              //       left: screensize.width * 0.055,
-              //       right: screensize.width * 0.055,
-              //       bottom: 40.h,
-              //     ),
-              //     itemCount: mainCategories.length,
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 2,
-              //       crossAxisSpacing: 14.w,
-              //       mainAxisSpacing: 24.h,
-              //       childAspectRatio: 0.72,
-              //     ),
-              //     itemBuilder: (context, index) {
-              //       return v(
-              //         title: mainCategories[index],
-              //         index: index,
-              //       );
-              //     },
-              //   ),
-              // ),
               Expanded(
                 child: Obx(() {
                   if (controller.isMetaobjectsLoading.value) {
@@ -112,7 +89,6 @@ class Collectionview extends GetView<Collectioncontroller> {
                       child: CircularProgressIndicator(),
                     );
                   }
-
                   if (controller.metaobjectsErrorMessage.value.isNotEmpty) {
                     return Center(
                       child: Padding(
@@ -130,9 +106,7 @@ class Collectionview extends GetView<Collectioncontroller> {
                       ),
                     );
                   }
-
                   final categories = controller.metaobjectCollections;
-
                   if (categories.isEmpty) {
                     return Center(
                       child: Text(
@@ -208,39 +182,25 @@ class Collectionview extends GetView<Collectioncontroller> {
         );
       },
       child: Obx(() {
-        final bool selected =
-            controller.selectedCollection.value == index;
-
+        final bool selected = controller.selectedCollection.value == index;
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-
           onTap: () {
             HapticFeedback.heavyImpact();
-            debugPrint('Collection tapped: ${category['title']}');
-            debugPrint('Collection data: $category');
-
             final title = category['title']?.toString().trim() ?? '';
-
             if (title.isEmpty) {
               AppSnackbar.error('This collection has no title.',);
               return;
             }
-
             final bottomNav = Get.find<Bottomnavigationcontroller>();
-
             controller.selectedCollection.value = index;
-
-            // Collectionlistcontroller looks up the metaobject by this title.
             bottomNav.selectedCollectionName.value = title;
             bottomNav.selectedIndex.value = 1;
             bottomNav.currentPage.value = PageType.collectionlist;
-
-            debugPrint('Opening collection list: $title');
-            debugPrint('Current page: ${bottomNav.currentPage.value}');
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Expanded(
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -308,11 +268,6 @@ class Collectionview extends GetView<Collectioncontroller> {
       }),
     );
   }
-
-  // ============================================================
-  // BACK BUTTON
-  // ============================================================
-
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -345,11 +300,6 @@ class Collectionview extends GetView<Collectioncontroller> {
       ),
     );
   }
-
-  // ============================================================
-  // HEADER ICON
-  // ============================================================
-
   Widget _headerIcon({
     required String icon,
     VoidCallback? onTap,

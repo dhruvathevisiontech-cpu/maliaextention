@@ -46,7 +46,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: screensize.width * 0.02),
                 Text(
@@ -749,14 +749,14 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.salonRoles.map((role) {
                               final isSelected =
                               controller.selectedSalonRoles.contains(role);
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();
@@ -874,13 +874,13 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.howmanystylistwork.map((role) {
                               final isSelected = controller.selecthowmanystylist.contains(role);
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();
@@ -994,7 +994,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.howmanystylistwork1.map((role) {
                               final isSelected =
                               controller.selecthowmanystylist1.contains(role);
@@ -1002,7 +1002,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();
@@ -1120,7 +1120,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.extentionmenthod.map((role) {
                               final isSelected =
                               controller.selectextentionmethod.contains(role);
@@ -1128,7 +1128,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();
@@ -1246,15 +1246,13 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.education.map((role) {
-                              final isSelected =
-                              controller.selecteducation.contains(role);
-
+                              final isSelected = controller.selecteducation.contains(role);
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();
@@ -1466,15 +1464,13 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       child: Obx(
                             () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: <Widget>[
                             ...controller.previously.map((role) {
-                              final isSelected =
-                              controller.selectpreviously.contains(role);
-
+                              final isSelected = controller.selectpreviously.contains(role);
                               return SizedBox(
                                 height: 32.h,
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
                                         HapticFeedback.heavyImpact();

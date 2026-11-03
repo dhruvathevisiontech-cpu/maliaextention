@@ -42,7 +42,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 'REMOVE WISHLIST',
                 style: TextStyle(
@@ -89,7 +89,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
               SizedBox(height: 16.h),
 
               Row(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: SizedBox(
                       height: 44.h,
@@ -195,7 +195,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: 12.w),
                 Text(
@@ -248,16 +248,16 @@ class Wishlistview extends GetView<Wishlistcontroller> {
           final wishlistName = activeWishlist?['name']?.toString() ?? 'My Wishlist';
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Padding(
                 padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             wishlistName.toUpperCase(),
                             maxLines: 2,
@@ -271,7 +271,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                           ),
                           SizedBox(height: 6.h),
                           Row(
-                            children: [
+                            children: <Widget>[
                               Icon(
                                 Icons.lock,
                                 size: 14.sp,
@@ -462,7 +462,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Container(
                           width: 28.w,
                           height: 28.h,
@@ -571,7 +571,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                             SizedBox(width: 4.w),
                             Expanded(
                               child: Column(
-                                children: [
+                                children: <Widget>[
                                   Expanded(
                                     child: Container(
                                       width: double.infinity,
@@ -594,7 +594,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                       SizedBox(height: 4.h),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           Expanded(
                             child: Text(
                               name,
@@ -657,12 +657,12 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                 height: 65.h,
                                 padding: EdgeInsets.fromLTRB(14.w, 8.h, 14.w, 8.h),
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
+                                        children: <Widget>[
                                           Text(
                                             'YOUR COLLECTION',
                                             style: TextStyle(
@@ -792,7 +792,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
     required bool showArrow,
   }) {
     return Row(
-      children: [
+      children: <Widget>[
         Container(
           width: 38.w,
           height: 38.h,
@@ -812,7 +812,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 title,
                 maxLines: 1,
@@ -1035,7 +1035,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+                  children: <Widget>[
                     Text(
                       "Move to Bag",
                       style: TextStyle(
@@ -1176,7 +1176,7 @@ class _CreateWishlistSheetState
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Center(
                 child: Container(
                   width: 40.w,
@@ -1335,9 +1335,9 @@ class _RenameWishlistDialogState
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Container(
                   width: 38.w,
                   height: 38.w,
@@ -1423,11 +1423,9 @@ class _RenameWishlistDialogState
                 ),
               ),
             ),
-
             SizedBox(height: 24.h),
-
             Row(
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: TextButton(
                     onPressed: () => Get.back<void>(),

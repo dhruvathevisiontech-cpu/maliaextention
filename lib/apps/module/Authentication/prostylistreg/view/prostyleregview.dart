@@ -1,12 +1,4 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
-
-/// ------------------------------------------------------------
-/// Change Log
-/// ------------------------------------------------------------
-/// 2026-08-06
-/// - Build This Screen
-/// ------------------------------------------------------------
-
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +112,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                       Form(
                         key: controller.formKey,
                         child: Column(
-                          children: [
+                          children: <Widget>[
                             SizedBox(height: screensize.height * 0.025),
                             Padding(
                                 padding: EdgeInsets.only(left: screensize.width * 0.04),
@@ -621,7 +613,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                               child: Obx(() {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     TextFormField(
                                       controller: controller.addresscontroller,
                                       onChanged: controller.onAddressChanged,
@@ -730,20 +722,17 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                                   vertical: 12.h,
                                                 ),
                                                 child: Row(
-                                                  children: [
+                                                  children: <Widget>[
                                                     Icon(
                                                       Icons.location_on_outlined,
                                                       size: 20.sp,
                                                       color: Colorstheam.black,
                                                     ),
-
                                                     SizedBox(width: 10.w),
-
                                                     Expanded(
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: <Widget>[
                                                           Text(
                                                             suggestion.address,
                                                             style: TextStyle(
@@ -828,34 +817,24 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                 ),
                                 child: TextFormField(
                                   controller: controller.citycontroller,
-
-                                  // City is filled automatically from selected address.
                                   readOnly: true,
-
                                   cursorColor: Colorstheam.black,
-
                                   selectionControls: Textselect(),
-
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "DMSans",
                                     color: Colorstheam.black,
                                   ),
-
                                   decoration: InputDecoration(
                                     hintText: "City",
-
                                     hintStyle: TextStyle(
                                       fontSize: 14.sp,
                                       fontFamily: "DMSans",
                                       fontWeight: FontWeight.w500,
                                       color: Colorstheam.lightgrey,
                                     ),
-
-                                    suffixIcon: controller.citycontroller.text.isEmpty
-                                        ? null
-                                        : Icon(
+                                    suffixIcon: controller.citycontroller.text.isEmpty ? null : Icon(
                                       Icons.check_circle_outline,
                                       color: Colorstheam.green,
                                     ),
@@ -925,19 +904,10 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                 right: screensize.width * 0.04,
                               ),
                               child: Obx(() {
-                                // =====================================================
-                                // STATES DROPDOWN
-                                // =====================================================
-
                                 if (controller.isStateDropdown.value) {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      // -------------------------------------------------
-                                      // SELECT STATE BUTTON
-                                      // -------------------------------------------------
-
+                                    children: <Widget>[
                                       InkWell(
                                         onTap: () {
                                           controller.isStateMenuOpen.toggle();
@@ -959,7 +929,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             ),
                                           ),
                                           child: Row(
-                                            children: [
+                                            children: <Widget>[
 
                                               Expanded(
                                                 child: Text(
@@ -995,11 +965,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                           ),
                                         ),
                                       ),
-
-                                      // -------------------------------------------------
-                                      // STATE LIST
-                                      // -------------------------------------------------
-
                                       if (controller.isStateMenuOpen.value)
                                         Container(
                                           width: double.infinity,
@@ -1030,17 +995,11 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             padding: EdgeInsets.zero,
                                             itemCount: controller.states.length,
                                             itemBuilder: (context, index) {
-
                                               final state = controller.states[index];
-
-                                              final bool isSelected =
-                                                  controller.selectedState.value == state;
-
+                                              final bool isSelected = controller.selectedState.value == state;
                                               return InkWell(
                                                 onTap: () {
                                                   controller.selectState(state);
-
-                                                  // Close menu
                                                   controller.isStateMenuOpen.value = false;
                                                 },
                                                 child: Container(
@@ -1071,14 +1030,8 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                     ],
                                   );
                                 }
-
-                                // =====================================================
-                                // OTHER COUNTRIES
-                                // =====================================================
-
                                 return TextFormField(
                                   controller: controller.statecontroller,
-
                                   onChanged: (value) {
                                     controller.selectedState.value = value;
                                   },
@@ -1089,21 +1042,16 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                     fontFamily: "DMSans",
                                     color: Colorstheam.black,
                                   ),
-
                                   decoration: InputDecoration(
-                                    hintText:
-                                    "Enter ${controller.stateFieldTitle.value}",
-
+                                    hintText: "Enter ${controller.stateFieldTitle.value}",
                                     hintStyle: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "DMSans",
                                       color: Colorstheam.lightgrey,
                                     ),
-
                                     filled: true,
                                     fillColor: Colorstheam.white,
-
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(7),
                                       borderSide: BorderSide(
@@ -1112,7 +1060,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             : Colorstheam.green,
                                       ),
                                     ),
-
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(7),
                                       borderSide: BorderSide(
@@ -1120,12 +1067,10 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                       ),
                                     ),
                                   ),
-
                                   validator: (value) {
                                     if (value == null || value.trim().isEmpty) {
                                       return "${controller.stateFieldTitle.value} is required";
                                     }
-
                                     return null;
                                   },
                                 );
@@ -1299,12 +1244,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                               child: Obx(() {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-
-                                    // =====================================================
-                                    // COUNTRY SELECT BUTTON
-                                    // =====================================================
-
+                                  children: <Widget>[
                                     InkWell(
                                       onTap: () {
                                         controller.isCountryMenuOpen.toggle();
@@ -1326,9 +1266,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                           ),
                                         ),
                                         child: Row(
-                                          children: [
-
-                                            // Country name
+                                          children: <Widget>[
                                             Expanded(
                                               child: Text(
                                                 controller.selectedCountry.value.isEmpty
@@ -1345,8 +1283,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                                 ),
                                               ),
                                             ),
-
-                                            // Arrow
                                             AnimatedRotation(
                                               turns: controller.isCountryMenuOpen.value
                                                   ? 0.5
@@ -1364,11 +1300,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                         ),
                                       ),
                                     ),
-
-                                    // =====================================================
-                                    // COUNTRY LIST
-                                    // =====================================================
-
                                     if (controller.isCountryMenuOpen.value)
                                       Container(
                                         width: double.infinity,
@@ -1399,20 +1330,11 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                           padding: EdgeInsets.zero,
                                           itemCount: controller.countryList.length,
                                           itemBuilder: (context, index) {
-
-                                            final country =
-                                            controller.countryList[index];
-
-                                            final bool isSelected =
-                                                controller.selectedCountry.value ==
-                                                    country;
-
+                                            final country = controller.countryList[index];
+                                            final bool isSelected = controller.selectedCountry.value == country;
                                             return InkWell(
                                               onTap: () {
-                                                // Select country
                                                 controller.selectCountry(country);
-
-                                                // Close dropdown
                                                 controller.isCountryMenuOpen.value = false;
                                               },
                                               child: Container(
@@ -1590,19 +1512,10 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                 right: screensize.width * 0.04,
                               ),
                               child: Obx(() {
-                                // =====================================================
-                                // STATES DROPDOWN
-                                // =====================================================
-
                                 if (controller.isStateDropdown.value) {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-
-                                      // -------------------------------------------------
-                                      // SELECT STATE BUTTON
-                                      // -------------------------------------------------
-
+                                    children: <Widget>[
                                       InkWell(
                                         onTap: () {
                                           controller.isStateMenuOpen.toggle();
@@ -1624,7 +1537,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             ),
                                           ),
                                           child: Row(
-                                            children: [
+                                            children: <Widget>[
 
                                               Expanded(
                                                 child: Text(
@@ -1660,11 +1573,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                           ),
                                         ),
                                       ),
-
-                                      // -------------------------------------------------
-                                      // STATE LIST
-                                      // -------------------------------------------------
-
                                       if (controller.isStateMenuOpen.value)
                                         Container(
                                           width: double.infinity,
@@ -1695,17 +1603,11 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             padding: EdgeInsets.zero,
                                             itemCount: controller.states.length,
                                             itemBuilder: (context, index) {
-
                                               final state = controller.states[index];
-
-                                              final bool isSelected =
-                                                  controller.selectedState.value == state;
-
+                                              final bool isSelected = controller.selectedState.value == state;
                                               return InkWell(
                                                 onTap: () {
                                                   controller.selectState(state);
-
-                                                  // Close menu
                                                   controller.isStateMenuOpen.value = false;
                                                 },
                                                 child: Container(
@@ -1736,11 +1638,6 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                     ],
                                   );
                                 }
-
-                                // =====================================================
-                                // OTHER COUNTRIES
-                                // =====================================================
-
                                 return TextFormField(
                                   controller: controller.statecontroller,
 
@@ -1838,13 +1735,11 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
 
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     GestureDetector(
                                       onTap: controller.pickCosmetologyLicense,
                                       child: DottedBorder(
                                         options: RectDottedBorderOptions(
-                                          // borderType: BorderType.RRect,
-                                          // radius: Radius.circular(8),
                                           color: controller.cosmetologyLicenseError.value.isEmpty
                                               ? Colorstheam.nobelblack
                                               : Colorstheam.Racingred,
@@ -1862,7 +1757,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                             borderRadius: BorderRadius.circular(8),
                                           ),
                                           child: Column(
-                                            children: [
+                                            children: <Widget>[
                                               SvgPicture.asset(
                                                   "asset/svg/arrowshape.svg",
                                                   height: screensize.height * 0.035,
@@ -1964,7 +1859,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                   ),
                                   child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         Icons.error_outline,
                                         size: 18.sp,
@@ -2001,7 +1896,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                     controller.isAccepted.toggle();
                                   },
                                   child: Row(
-                                    children: [
+                                    children: <Widget>[
                                       AnimatedContainer(
                                         duration: const Duration(milliseconds: 150),
                                         width: 22.w,
@@ -2055,7 +1950,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                     controller.isAccepted1.toggle();
                                   },
                                   child: Row(
-                                    children: [
+                                    children: <Widget>[
                                       AnimatedContainer(
                                         duration: const Duration(milliseconds: 150),
                                         width: 22.w,
@@ -2116,7 +2011,7 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                                               ? Row(
                                             key: const ValueKey("loading"),
                                             mainAxisSize: MainAxisSize.min,
-                                            children: [
+                                            children: <Widget>[
                                               const SizedBox(
                                                 width: 18,
                                                 height: 18,
@@ -2200,5 +2095,4 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
         )
     );
   }
-
 }
