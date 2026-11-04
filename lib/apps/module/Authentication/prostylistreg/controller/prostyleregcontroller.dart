@@ -166,9 +166,6 @@ class Prostyleregcontroller extends GetxController {
   final zipcodecontroller = TextEditingController();
   final countrycontroller = TextEditingController();
   final cosmetologylicensenumbercontroller = TextEditingController();
-
-
-
   var firstnameerror = "".obs;
   var isFirstnamevalid = false.obs;
   var lastnameerror = "".obs;
@@ -198,7 +195,6 @@ class Prostyleregcontroller extends GetxController {
   final RxBool isAccepted1 = false.obs;
   RxBool isLoading = false.obs;
   final List<AddressSuggestion> allAddresses = [
-    // USA
     AddressSuggestion(
       address: "123 Main Street",
       city: "New York",
@@ -207,7 +203,6 @@ class Prostyleregcontroller extends GetxController {
       zipCode: "10001",
       country: "United States",
     ),
-
     AddressSuggestion(
       address: "456 Market Street",
       city: "San Francisco",
@@ -216,7 +211,6 @@ class Prostyleregcontroller extends GetxController {
       zipCode: "94105",
       country: "United States",
     ),
-
     AddressSuggestion(
       address: "789 Congress Avenue",
       city: "Austin",
@@ -225,8 +219,6 @@ class Prostyleregcontroller extends GetxController {
       zipCode: "73301",
       country: "United States",
     ),
-
-    // Canada
     AddressSuggestion(
       address: "123 Queen Street",
       city: "Toronto",
@@ -235,7 +227,6 @@ class Prostyleregcontroller extends GetxController {
       zipCode: "M5H 2N2",
       country: "Canada",
     ),
-
     AddressSuggestion(
       address: "456 Rue Sainte-Catherine",
       city: "Montreal",
@@ -247,7 +238,6 @@ class Prostyleregcontroller extends GetxController {
   ];
   void loadStates() {
     final country = selectedCountry.value.trim();
-
     if (country.isEmpty) {
       states.clear();
       selectedState.value = "";
@@ -256,7 +246,6 @@ class Prostyleregcontroller extends GetxController {
       stateFieldTitle.value = "State / Province / Region";
       return;
     }
-
     if (countryStates.containsKey(country)) {
       states.value = List<String>.from(countryStates[country]!);
       isStateDropdown.value = true;
@@ -264,28 +253,22 @@ class Prostyleregcontroller extends GetxController {
       states.clear();
       isStateDropdown.value = false;
     }
-
     switch (country) {
       case "United States":
         stateFieldTitle.value = "State";
         break;
-
       case "Canada":
         stateFieldTitle.value = "Province";
         break;
-
       case "United Kingdom":
         stateFieldTitle.value = "Region";
         break;
-
       case "Australia":
         stateFieldTitle.value = "State";
         break;
-
       default:
         stateFieldTitle.value = "State / Province / Region";
     }
-
     if (!states.contains(selectedState.value)) {
       selectedState.value = "";
       statecontroller.clear();
@@ -296,7 +279,6 @@ class Prostyleregcontroller extends GetxController {
 
   Future<void> pickLicenseFile() async {
     licenseError.value = '';
-
     try {
       final result = await FilePicker.pickFiles(
         type: FileType.custom,
@@ -307,36 +289,25 @@ class Prostyleregcontroller extends GetxController {
           'pdf',
         ],
       );
-
       if (result.isEmpty) {
         return;
       }
-
       final file = result.first;
-
-      // Make sure we have a path
       if (file.path == null || file.path!.isEmpty) {
         licenseError.value = 'Unable to access the selected file.';
         return;
       }
-
       final pickedFile = File(file.path!);
-
-      // Check file size
       final fileSize = await pickedFile.length();
-
-      const maxSize = 10 * 1024 * 1024; // 10 MB
-
+      const maxSize = 10 * 1024 * 1024;
       if (fileSize > maxSize) {
         licenseFile.value = null;
         licenseError.value = 'File size must be less than 10 MB.';
         return;
       }
-
       licenseFile.value = file;
     } catch (e) {
-      licenseError.value =
-      'Unable to select the license. Please try again.';
+      licenseError.value = 'Unable to select the license. Please try again.';
     }
   }
   Future<void> pickCosmetologyLicense() async {
@@ -350,70 +321,46 @@ class Prostyleregcontroller extends GetxController {
           'pdf',
         ],
       );
-
       if (file == null) {
         return;
       }
-
-      // --------------------------------
-      // Get extension from file name
-      // --------------------------------
-
       final String fileName = file.name.toLowerCase();
-
       final String extension = fileName.contains('.')
           ? fileName.split('.').last
           : '';
-
       const allowedExtensions = [
         'jpg',
         'jpeg',
         'png',
         'pdf',
       ];
-
       if (!allowedExtensions.contains(extension)) {
-        cosmetologyLicenseError.value =
-        "Only JPG, PNG or PDF files are allowed";
-
+        cosmetologyLicenseError.value = "Only JPG, PNG or PDF files are allowed";
         cosmetologyLicenseFile.value = null;
         return;
       }
-
-      // --------------------------------
-      // Store selected file
-      // --------------------------------
-
       cosmetologyLicenseFile.value = file;
-
       cosmetologyLicenseError.value = '';
-
     } catch (e, stackTrace) {
-      cosmetologyLicenseError.value =
-      "Unable to select license file. Please try again.";
+      cosmetologyLicenseError.value = "Unable to select license file. Please try again.";
     }
   }
 
   @override
   void onInit() {
     super.onInit();
-
     loadStates();
   }
   var addressSuggestions = <AddressSuggestion>[].obs;
 
   void onAddressChanged(String value) {
     final query = value.trim().toLowerCase();
-
     if (query.isEmpty) {
       addressSuggestions.clear();
-
       addresserror.value = "";
       isaddressvalid.value = false;
-
       return;
     }
-
     addressSuggestions.value = allAddresses.where((item) {
       final fullAddress =
           "${item.address}, "
@@ -421,18 +368,10 @@ class Prostyleregcontroller extends GetxController {
           "${item.state}, "
           "${item.zipCode}, "
           "${item.country}";
-
-      final matchesQuery =
-      fullAddress.toLowerCase().contains(query);
-
-      final matchesCountry =
-          selectedCountry.value.isEmpty ||
-              item.country.toLowerCase() ==
-                  selectedCountry.value.toLowerCase();
-
+      final matchesQuery = fullAddress.toLowerCase().contains(query);
+      final matchesCountry = selectedCountry.value.isEmpty || item.country.toLowerCase() == selectedCountry.value.toLowerCase();
       return matchesQuery && matchesCountry;
     }).take(5).toList();
-
     if (value.trim().length < 5) {
       addresserror.value = "Enter a valid address";
       isaddressvalid.value = false;
@@ -443,27 +382,19 @@ class Prostyleregcontroller extends GetxController {
   }
   void selectAddress(AddressSuggestion suggestion) {
     addresscontroller.text = suggestion.address;
-
     citycontroller.text = suggestion.city;
-
     zipcodecontroller.text = suggestion.zipCode;
-
     countrycontroller.text = suggestion.country;
     selectedCountry.value = suggestion.country;
-
-    // Load state options for the selected country
     if (countryStates.containsKey(suggestion.country)) {
       states.value = List<String>.from(
         countryStates[suggestion.country]!,
       );
-
       isStateDropdown.value = true;
     } else {
       states.clear();
       isStateDropdown.value = false;
     }
-
-    // Set title
     switch (suggestion.country) {
       case "United States":
         stateFieldTitle.value = "State";
@@ -484,17 +415,12 @@ class Prostyleregcontroller extends GetxController {
       default:
         stateFieldTitle.value = "State / Province / Region";
     }
-
     statecontroller.text = suggestion.state;
     selectedState.value = suggestion.state;
-
     isAddressSelected.value = true;
-
     addressSuggestions.clear();
-
     addresserror.value = "";
     isaddressvalid.value = true;
-
     addresscontroller.selection = TextSelection.fromPosition(
       TextPosition(
         offset: addresscontroller.text.length,
@@ -503,42 +429,30 @@ class Prostyleregcontroller extends GetxController {
   }
   void selectCountry(String? value) {
     if (value == null || value.isEmpty) return;
-
     selectedCountry.value = value;
     countrycontroller.text = value;
-
-    // Clear previous state
     selectedState.value = "";
     statecontroller.clear();
     states.clear();
-
-    // Check whether this country has predefined states
     if (countryStates.containsKey(value)) {
       states.value = List<String>.from(countryStates[value]!);
       isStateDropdown.value = true;
     } else {
-      // Other countries use normal text field
       isStateDropdown.value = false;
     }
-
-    // Change title
     switch (value) {
       case "United States":
         stateFieldTitle.value = "State";
         break;
-
       case "Canada":
         stateFieldTitle.value = "Province";
         break;
-
       case "United Kingdom":
         stateFieldTitle.value = "Region";
         break;
-
       case "Australia":
         stateFieldTitle.value = "State";
         break;
-
       default:
         stateFieldTitle.value = "State / Province / Region";
     }
@@ -546,7 +460,6 @@ class Prostyleregcontroller extends GetxController {
 
   void selectState(String? value) {
     if (value == null || value.isEmpty) return;
-
     selectedState.value = value;
     statecontroller.text = value;
   }
@@ -564,20 +477,17 @@ class Prostyleregcontroller extends GetxController {
     cosmetologylicensenumbercontroller.dispose();
     super.onClose();
   }
-  //Validation
   void validateFirstnameLive(String value) {
     if (value.isEmpty) {
       firstnameerror.value = "";
       isFirstnamevalid.value = false;
       return;
     }
-
     if (!GetUtils.isUsername(value.trim())) {
       firstnameerror.value = "Enter a valid name";
       isFirstnamevalid.value = false;
       return;
     }
-
     firstnameerror.value = "";
     isFirstnamevalid.value = true;
   }
@@ -585,11 +495,9 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "First Name is required";
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       return "Enter a valid First Name";
     }
-
     return null;
   }
   void validatelastnameLive(String value) {
@@ -598,13 +506,11 @@ class Prostyleregcontroller extends GetxController {
       isLastnamevalid.value = false;
       return;
     }
-
     if (!GetUtils.isUsername(value.trim())) {
       lastnameerror.value = "Enter a valid name";
       isLastnamevalid.value = false;
       return;
     }
-
     lastnameerror.value = "";
     isLastnamevalid.value = true;
   }
@@ -612,11 +518,9 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "Last Name is required";
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       return "Enter a valid Last Name";
     }
-
     return null;
   }
   void validateemailLive(String value) {
@@ -625,13 +529,11 @@ class Prostyleregcontroller extends GetxController {
       isemailvalid.value = false;
       return;
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       emailerror.value = "Enter a valid email";
       isemailvalid.value = false;
       return;
     }
-
     emailerror.value = "";
     isemailvalid.value = true;
   }
@@ -639,28 +541,23 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "Email is required";
     }
-
     if (!GetUtils.isEmail(value.trim())) {
       return "Enter a valid email";
     }
-
     return null;
   }
   void validatephoneLive(String value) {
     final digits = value.replaceAll(RegExp(r'\D'), '');
-
     if (digits.isEmpty) {
       phoneerror.value = "";
       isphonevalid.value = false;
       return;
     }
-
     if (digits.length != 10) {
       phoneerror.value = "Enter a valid phone number";
       isphonevalid.value = false;
       return;
     }
-
     phoneerror.value = "";
     isphonevalid.value = true;
   }
@@ -668,13 +565,10 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "Phone number is required";
     }
-
     final digits = value.replaceAll(RegExp(r'\D'), '');
-
     if (digits.length != 10) {
       return "Enter a valid phone number";
     }
-
     return null;
   }
   void validateaddressLive(String value) {
@@ -683,13 +577,11 @@ class Prostyleregcontroller extends GetxController {
       isaddressvalid.value = false;
       return;
     }
-
     if (value.trim().length < 5) {
       addresserror.value = "Enter a valid address";
       isaddressvalid.value = false;
       return;
     }
-
     addresserror.value = "";
     isaddressvalid.value = true;
   }
@@ -697,28 +589,23 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "Address is required";
     }
-
     if (value.trim().length < 5) {
       return "Enter a valid address";
     }
-
     return null;
   }
   void validateZipcodeLive(String value) {
     final zip = value.trim();
-
     if (zip.isEmpty) {
       zipcodeerror.value = "";
       iszipcodevalid.value = false;
       return;
     }
-
     if (!RegExp(r'^\d{5}$').hasMatch(zip)) {
       zipcodeerror.value = "Enter a valid ZIP code";
       iszipcodevalid.value = false;
       return;
     }
-
     zipcodeerror.value = "";
     iszipcodevalid.value = true;
   }
@@ -726,53 +613,38 @@ class Prostyleregcontroller extends GetxController {
     if (value == null || value.trim().isEmpty) {
       return "ZIP Code is required";
     }
-
     if (!RegExp(r'^\d{5}$').hasMatch(value.trim())) {
       return "Enter a valid ZIP code";
     }
-
     return null;
   }
   void validatecosmetologyLive(String value) {
     final licenseNumber = value.trim();
-
-    // Empty
     if (licenseNumber.isEmpty) {
       cosmetologyerror.value = "";
       iscosmetologyvalid.value = false;
       return;
     }
-
-    // Remove spaces only for validation
     final normalizedLicense = licenseNumber.replaceAll(' ', '');
-
-    // Allow letters, numbers, hyphen and slash
     final licenseRegex = RegExp(r'^[A-Za-z0-9/-]{4,20}$');
-
     if (!licenseRegex.hasMatch(normalizedLicense)) {
       cosmetologyerror.value = "Enter a valid cosmetology license number";
       iscosmetologyvalid.value = false;
       return;
     }
-
     cosmetologyerror.value = "";
     iscosmetologyvalid.value = true;
   }
   String? validateCosmetologyField(String? value) {
     final licenseNumber = value?.trim() ?? '';
-
     if (licenseNumber.isEmpty) {
       return "Cosmetology license number is required";
     }
-
     final normalizedLicense = licenseNumber.replaceAll(' ', '');
-
     final licenseRegex = RegExp(r'^[A-Za-z0-9/-]{4,20}$');
-
     if (!licenseRegex.hasMatch(normalizedLicense)) {
       return "Enter a valid cosmetology license number";
     }
-
     return null;
   }
 }

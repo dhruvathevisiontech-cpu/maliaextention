@@ -39,7 +39,7 @@ class Vieworder extends GetView<Viewordercontroller> {
           title: Padding(
             padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: 12.w),
                 Expanded(
@@ -126,7 +126,7 @@ class Vieworder extends GetView<Viewordercontroller> {
                 Obx(
                       () => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Text(
                         'Total Pay',
                         style: TextStyle(
@@ -280,10 +280,10 @@ class Vieworder extends GetView<Viewordercontroller> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(
                 item.title,
                 style: TextStyle(

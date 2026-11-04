@@ -13,12 +13,9 @@ import 'package:maliaextention/typo/apptext.dart';
 
 class Hostclassview extends GetView<Hostclasscontroller> {
   const Hostclassview({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-    final bottomNav = Get.find<Bottomnavigationcontroller>();
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -204,7 +201,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -318,7 +314,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -430,7 +425,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -521,7 +515,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -616,7 +609,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -711,7 +703,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -765,8 +756,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selectedSalonRoles.add(role);
                                         }
-
-                                        // Remove error once user selects a role
                                         if (controller.selectedSalonRoles.isNotEmpty) {
                                           controller.salonRoleError.value = '';
                                         }
@@ -813,8 +802,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                 ),
                               );
                             }),
-
-                            // Error message
                             if (controller.salonRoleError.value.isNotEmpty)
                               Padding(
                                 padding: EdgeInsets.only(
@@ -836,7 +823,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -889,7 +875,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selecthowmanystylist.add(role);
                                         }
-                                        // Remove error immediately after selection
                                         if (controller.selecthowmanystylist.isNotEmpty) {
                                           controller.stylistCountError.value = '';
                                         }
@@ -956,7 +941,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1011,8 +995,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selecthowmanystylist1.add(role);
                                         }
-
-                                        // Clear validation error after selecting
                                         if (controller.selecthowmanystylist1.isNotEmpty) {
                                           controller.stylistExtensionError.value = '';
                                         }
@@ -1059,8 +1041,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                 ),
                               );
                             }),
-
-                            // Validation error
                             if (controller.stylistExtensionError.value.isNotEmpty)
                               Padding(
                                 padding: EdgeInsets.only(
@@ -1082,7 +1062,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1137,8 +1116,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selectextentionmethod.add(role);
                                         }
-
-                                        // Clear error when user selects an option
                                         if (controller.selectextentionmethod.isNotEmpty) {
                                           controller.extensionMethodError.value = '';
                                         }
@@ -1185,8 +1162,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                 ),
                               );
                             }),
-
-                            // Validation error
                             if (controller.extensionMethodError.value.isNotEmpty)
                               Padding(
                                 padding: EdgeInsets.only(
@@ -1208,7 +1183,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1261,8 +1235,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selecteducation.add(role);
                                         }
-
-                                        // Clear error after selecting
                                         if (controller.selecteducation.isNotEmpty) {
                                           controller.educationError.value = '';
                                         }
@@ -1307,8 +1279,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                 ),
                               );
                             }),
-
-                            // Validation error
                             if (controller.educationError.value.isNotEmpty)
                               Padding(
                                 padding: EdgeInsets.only(
@@ -1330,7 +1300,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1426,7 +1395,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1479,8 +1447,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                         } else {
                                           controller.selectpreviously.add(role);
                                         }
-
-                                        // Clear error after selecting
                                         if (controller.selectpreviously.isNotEmpty) {
                                           controller.previouslyError.value = '';
                                         }
@@ -1527,8 +1493,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                 ),
                               );
                             }),
-
-                            // Validation error
                             if (controller.previouslyError.value.isNotEmpty)
                               Padding(
                                 padding: EdgeInsets.only(
@@ -1550,7 +1514,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1646,7 +1609,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
@@ -1742,7 +1704,6 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                         )
                     ),
                     SizedBox(height: screensize.height * 0.015),
-
                     Padding(
                       padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.009),
                       child: AnimatedButton(

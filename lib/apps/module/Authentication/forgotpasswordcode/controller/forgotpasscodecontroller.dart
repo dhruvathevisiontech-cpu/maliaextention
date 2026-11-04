@@ -10,7 +10,6 @@ class Forgotpasscodecontroller extends GetxController {
   late final String email;
   final otpController = TextEditingController();
   final otpFocusNode = FocusNode();
-
   final isLoading = false.obs;
   final canResend = false.obs;
   final seconds = 30.obs;
@@ -23,9 +22,7 @@ class Forgotpasscodecontroller extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     final args = Get.arguments;
-
     if (args is String) {
       email = args;
     } else if (args is Map && args['email'] is String) {
@@ -37,10 +34,8 @@ class Forgotpasscodecontroller extends GetxController {
   Timer? _timer;
   void startTimer() {
     _timer?.cancel();
-
     canResend.value = false;
     seconds.value = 30;
-
     _timer = Timer.periodic(
       const Duration(seconds: 1),
           (timer) {
@@ -54,18 +49,15 @@ class Forgotpasscodecontroller extends GetxController {
       },
     );
   }
+
   Future<void> verifyOtp() async {
     if (otpController.text.length != 6) {
       AppSnackbar.error("Please enter a 6-digit OTP",);
       return;
     }
-
     isLoading.value = true;
-
     await Future.delayed(const Duration(seconds: 2));
-
     isLoading.value = false;
-
     if (otpController.text == staticOtp) {
       AppSnackbar.success("OTP Verified Successfully",);
       Get.offAllNamed(Routes.RESETPASSWORD);
@@ -73,15 +65,12 @@ class Forgotpasscodecontroller extends GetxController {
       AppSnackbar.error("Invalid OTP",);
     }
   }
+
   Future<void> resendOtp() async {
     if (!canResend.value) return;
-
     otpController.clear();
-
     otpFocusNode.requestFocus();
-
     startTimer();
-
     AppSnackbar.success("OTP resent successfully\nStatic OTP: $staticOtp",);
   }
 }

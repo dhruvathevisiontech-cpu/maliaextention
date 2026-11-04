@@ -9,7 +9,6 @@ class Resetpasswordcontroller extends GetxController {
   var isPasswordvalid = false.obs;
   var isPasswordVisible = false.obs;
   final confirmpasswordcontroller = TextEditingController();
-
   var confirmpassworderror = "".obs;
   var isConfirmPasswordValid = false.obs;
   var isConfirmPasswordVisible = false.obs;
@@ -36,11 +35,9 @@ class Resetpasswordcontroller extends GetxController {
     if (value == null || value.isEmpty) {
       return "Password is required";
     }
-
     if (value.length < 8) {
       return "Password must be at least 8 characters";
     }
-
     return null;
   }
   void validateConfirmPasswordLive(String value) {
@@ -49,13 +46,11 @@ class Resetpasswordcontroller extends GetxController {
       isConfirmPasswordValid.value = false;
       return;
     }
-
     if (value != passwordcontroller.text) {
       confirmpassworderror.value = "Passwords do not match";
       isConfirmPasswordValid.value = false;
       return;
     }
-
     confirmpassworderror.value = "";
     isConfirmPasswordValid.value = true;
   }
@@ -63,18 +58,15 @@ class Resetpasswordcontroller extends GetxController {
     if (value == null || value.isEmpty) {
       return "Confirm password is required";
     }
-
     if (value != passwordcontroller.text) {
       return "Passwords do not match";
     }
-
     return null;
   }
   @override
   void onClose() {
     passwordcontroller.dispose();
     confirmpasswordcontroller.dispose();
-
     super.onClose();
   }
 }

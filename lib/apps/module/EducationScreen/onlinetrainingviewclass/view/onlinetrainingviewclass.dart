@@ -9,7 +9,6 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>{
-
   final List<Map<String, String>> products = [
     {
       "image": "asset/image/image2.png",
@@ -36,7 +35,6 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
       "rating": "4.9",
     },
   ];
-
   Onlinetrainingviewclass({super.key});
   @override
   Widget build(BuildContext context) {
@@ -78,6 +76,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.search;
@@ -90,6 +89,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -118,7 +118,6 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                       right: 16.w,
                       child: Obx(() {
                         final selected = controller.isWishlisted.value;
-
                         return GestureDetector(
                           onTap: controller.toggleWishlist,
                           child: AnimatedContainer(

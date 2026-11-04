@@ -42,6 +42,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                   focusColor: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     Get.offAllNamed(Routes.LOGIN);
                   },
                   child: Container(

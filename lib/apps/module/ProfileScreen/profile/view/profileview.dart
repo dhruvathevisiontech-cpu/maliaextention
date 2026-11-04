@@ -77,7 +77,7 @@ class Profileview extends GetView<Profilecontroller> {
                         ),
                       ),
                       SizedBox(height: 10.h),
-                      _accountAction(title: 'Delete Account', onTap: () {}),
+                      _accountAction(title: 'Delete Account', onTap: () => _navigate(bottomController, PageType.deleteaccount)),
                       _divider(),
                       _accountAction(
                         title: 'Log Out',

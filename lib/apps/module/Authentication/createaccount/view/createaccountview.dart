@@ -48,7 +48,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
-                    focusColor: Colors.transparent,
+                     focusColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
                       HapticFeedback.heavyImpact();
@@ -145,8 +145,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                   ),
                                 )
                             ),
-                            Padding(
-                                padding: EdgeInsets.only(left: screensize.width * 0.04,top: screensize.height * 0.01,right: screensize.width * 0.04),
+                            Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,top: screensize.height * 0.01,right: screensize.width * 0.04),
                               child: Obx((){
                                 return Theme(
                                   data: Theme.of(context).copyWith(
@@ -474,12 +473,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                   ),
                                 )
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: screensize.width * 0.04,
-                                top: screensize.height * 0.01,
-                                right: screensize.width * 0.04,
-                              ),
+                            Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, top: screensize.height * 0.01, right: screensize.width * 0.04),
                               child: Obx(() {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
@@ -507,18 +501,15 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                     ),
                                     decoration: InputDecoration(
                                       hintText: "(123) 456-7890",
-
                                       hintStyle: TextStyle(
                                         fontSize: 14.sp,
                                         fontFamily: "DMSans",
                                         fontWeight: FontWeight.w500,
                                         color: Colorstheam.lightgrey,
                                       ),
-
                                       errorText: controller.phoneError.value.isEmpty
                                           ? null
                                           : controller.phoneError.value,
-
                                       suffixIcon: controller.phoneController.text.isEmpty
                                           ? null
                                           : Icon(
@@ -529,7 +520,6 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                             ? Colorstheam.green
                                             : Colorstheam.Racingred,
                                       ),
-
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: controller.phoneController.text.isEmpty
@@ -539,7 +529,6 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                               : Colorstheam.Racingred,
                                         ),
                                       ),
-
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: controller.isPhoneValid.value
@@ -547,26 +536,22 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                               : Colorstheam.black,
                                         ),
                                       ),
-
                                       errorStyle: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "DMSans",
                                         color: Colorstheam.Racingred,
                                       ),
-
                                       errorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colorstheam.Racingred,
                                         ),
                                       ),
-
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colorstheam.Racingred,
                                         ),
                                       ),
-
                                       filled: true,
                                       fillColor: Colorstheam.white,
                                     ),
@@ -629,12 +614,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                               }),
                             ),
                             SizedBox(height: screensize.height * 0.001),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: screensize.width * 0.04,
-                                top: screensize.height * 0.01,
-                                right: screensize.width * 0.04,
-                              ),
+                            Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, top: screensize.height * 0.01, right: screensize.width * 0.04),
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {

@@ -24,8 +24,9 @@ class Collectionlistcontroller extends GetxController {
   final RxSet<String> appliedAvailability = <String>{}.obs;
   final RxSet<String> appliedCollections = <String>{}.obs;
   final RxSet<String> appliedLength = <String>{}.obs;
-  final Wishlistcontroller wishlistController =
-  Get.find<Wishlistcontroller>();
+  final Wishlistcontroller wishlistController = Get.find<Wishlistcontroller>();
+  bool _isLoadingParentProducts = false;
+  bool _hasLoadedParentProducts = false;
   String? _loadedParentId;
   String? _loadedSubCollectionId;
 
@@ -281,8 +282,6 @@ class Collectionlistcontroller extends GetxController {
       isLoadingCollections.value = false;
     }
   }
-
-
   Future<void> loadSubCollectionsForParent(String parentTitle) async {
     final parent = metaobjectCollections.firstWhereOrNull(
           (item) =>
@@ -291,53 +290,149 @@ class Collectionlistcontroller extends GetxController {
     );
 
     if (parent == null) {
-      subCollections.clear();
+      allProducts.clear();
       products.clear();
+      errorMessage.value = 'No matching collection found.';
       return;
     }
 
     final parentId = parent['id']?.toString() ?? '';
 
-    if (_loadedParentId == parentId && subCollections.isNotEmpty) {
+    // Prevent repeated API calls.
+    if (_loadedParentId == parentId &&
+        (_isLoadingParentProducts || _hasLoadedParentProducts)) {
       return;
     }
 
     _loadedParentId = parentId;
-    _loadedSubCollectionId = null;
-    selectedSubCollection.value = 0;
+    _hasLoadedParentProducts = false;
 
-    subCollections.clear();
+    allProducts.clear();
     products.clear();
-    isLoadingSubCollections.value = true;
+
+    _isLoadingParentProducts = true;
+    isLoadingProducts.value = true;
     errorMessage.value = '';
 
     try {
-      final children =
-      (parent['subcollections'] as List<dynamic>? ?? [])
-          .cast<Map<String, dynamic>>();
+      final collection = parent['collection'];
 
-      // Show only subcollections. Do not add the parent collection or "All".
-      subCollections.assignAll(
-        children.map(
-              (child) => {
-            ...child,
-            'is_all': false,
-          },
-        ),
-      );
-      if (subCollections.isNotEmpty) {
-        await loadProductsForSelectedSubCollection(0);
-      } else {
-        errorMessage.value = 'No subcollections found.';
+      final handle = collection is Map
+          ? collection['handle']?.toString() ?? ''
+          : '';
+
+      if (handle.isEmpty) {
+        errorMessage.value = 'Shopify collection handle is missing.';
+        return;
       }
+
+      final data = await _shopifyRequest(
+        _productsQuery,
+        variables: {'handle': handle},
+      );
+
+      final collectionData = data['collection'];
+
+      if (collectionData == null) {
+        errorMessage.value = 'Shopify collection not found.';
+        return;
+      }
+
+      final nodes =
+          collectionData['products']?['nodes'] as List? ?? [];
+
+      final loadedProducts = <Map<String, String>>[];
+
+      for (final node in nodes) {
+        if (node is! Map<String, dynamic>) continue;
+
+        final imageUrl =
+            node['featuredImage']?['url']?.toString() ?? '';
+
+        final variants =
+            node['variants']?['nodes'] as List? ?? [];
+
+        String price = '';
+        final lengthValues = <String>[];
+        final variantAvailability = <String>[];
+
+        for (final variant in variants) {
+          if (variant is! Map<String, dynamic>) continue;
+
+          final priceData = variant['price'];
+
+          if (price.isEmpty && priceData is Map<String, dynamic>) {
+            price = priceData['amount']?.toString() ?? '';
+          }
+
+          variantAvailability.add(
+            variant['availableForSale'] == true ? 'true' : 'false',
+          );
+
+          final options =
+              variant['selectedOptions'] as List? ?? [];
+
+          for (final option in options) {
+            if (option is! Map<String, dynamic>) continue;
+
+            final optionName =
+                option['name']?.toString().toLowerCase() ?? '';
+
+            final optionValue =
+                option['value']?.toString() ?? '';
+
+            if (optionName.contains('length') &&
+                optionValue.isNotEmpty) {
+              lengthValues.add(optionValue);
+            }
+          }
+        }
+
+        final collectionNodes =
+            node['collections']?['nodes'] as List? ?? [];
+
+        final collectionHandles = collectionNodes
+            .whereType<Map>()
+            .map((item) => item['handle']?.toString() ?? '')
+            .where((handle) => handle.isNotEmpty)
+            .toSet()
+            .toList();
+
+        loadedProducts.add({
+          'id': node['id']?.toString() ?? '',
+          'name': node['title']?.toString() ?? '',
+          'handle': node['handle']?.toString() ?? '',
+          'image': imageUrl,
+          'rating': '',
+          'price': price,
+          '_availableForSale':
+          node['availableForSale'] == true ? 'true' : 'false',
+          '_collectionHandles': jsonEncode(collectionHandles),
+          '_lengthOptions': jsonEncode(lengthValues.toSet().toList()),
+          '_variantAvailability': jsonEncode(variantAvailability),
+          '_createdAt': node['createdAt']?.toString() ?? '',
+        });
+      }
+
+      allProducts.assignAll(loadedProducts);
+
+      applyProductFilters();
+
+      _hasLoadedParentProducts = true;
+
     } catch (e, stackTrace) {
-      errorMessage.value = 'Unable to load subcollections.';
+      debugPrint('PARENT PRODUCTS ERROR: $e');
+      debugPrintStack(stackTrace: stackTrace);
+
+      errorMessage.value = 'Unable to load products.';
+
+      // Allow retry after an API failure.
+      _loadedParentId = null;
     } finally {
-      isLoadingSubCollections.value = false;
+      _isLoadingParentProducts = false;
+      isLoadingProducts.value = false;
     }
   }
-
-
   Future<void> selectSubCollection(int index) async {
     if (index < 0 || index >= subCollections.length) return;
 

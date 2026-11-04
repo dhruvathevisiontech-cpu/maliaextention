@@ -34,29 +34,14 @@ class FilterOption {
 }
 
 class Filtercontroller extends GetxController {
-  // ============================================================
-  // SELECTED CATEGORY
-  // ============================================================
-
   final RxInt selectedCategoryIndex = 0.obs;
-
   final RxInt selectedButton = 1.obs;
-
-  // ============================================================
-  // CATEGORIES
-  // ============================================================
-
   final RxList<FilterCategory> categories = <FilterCategory>[
     FilterCategory(title: 'Sort By', type: FilterType.sortBy),
     FilterCategory(title: 'Availability', type: FilterType.availability),
     FilterCategory(title: 'Collections', type: FilterType.collections),
     FilterCategory(title: 'Length', type: FilterType.length),
   ].obs;
-
-  // ============================================================
-  // FILTER OPTIONS
-  // ============================================================
-
   final RxMap<FilterType, List<FilterOption>> filterOptions =
       <FilterType, List<FilterOption>>{
         FilterType.sortBy: [
@@ -77,36 +62,22 @@ class Filtercontroller extends GetxController {
         FilterType.collections: [],
         FilterType.length: [],
       }.obs;
-
-  // ============================================================
-  // SELECTED FILTERS
-  // ============================================================
-
   final RxSet<String> selectedSortBy = <String>{
     'featured',
   }.obs;
-
   final RxSet<String> selectedAvailability = <String>{
     'in_stock',
   }.obs;
-
   final RxSet<String> selectedCollections = <String>{
     'skinny_butterfly',
   }.obs;
-
   final RxSet<String> selectedLength = <String>{
     '16_inch',
   }.obs;
-
-  // ============================================================
-  // GET SELECTED SET
-  // ============================================================
-
   RxSet<String> getSelectedSet(FilterType type) {
     switch (type) {
       case FilterType.sortBy:
         return selectedSortBy;
-
       case FilterType.availability:
         return selectedAvailability;
 
@@ -159,38 +130,23 @@ class Filtercontroller extends GetxController {
   Future<void> fetchDynamicFilters() async {
     try {
       final data = await ShopifyCollectionService.query(_filterQuery);
-
-      // Dynamic collections
-      // Dynamic collections
-      final collectionNodes =
-          data['collections']?['nodes'] as List? ?? [];
-
-      final productNodes =
-          data['products']?['nodes'] as List? ?? [];
-
-// Count products belonging to each collection.
+      final collectionNodes = data['collections']?['nodes'] as List? ?? [];
+      final productNodes = data['products']?['nodes'] as List? ?? [];
       final Map<String, Set<String>> collectionProductIds = {};
-
       for (final product in productNodes) {
         final productId = product['id']?.toString() ?? '';
-        final productCollections =
-            product['collections']?['nodes'] as List? ?? [];
-
+        final productCollections = product['collections']?['nodes'] as List? ?? [];
         for (final collection in productCollections) {
           final handle = collection['handle']?.toString() ?? '';
-
           if (handle.isEmpty || productId.isEmpty) continue;
-
           collectionProductIds
               .putIfAbsent(handle, () => <String>{})
               .add(productId);
         }
       }
-
       final collectionOptions = collectionNodes.map((item) {
         final handle = item['handle']?.toString() ?? '';
         final title = item['title']?.toString() ?? '';
-
         return FilterOption(
           id: handle,
           label: title,
@@ -199,70 +155,47 @@ class Filtercontroller extends GetxController {
       }).where((option) {
         return option.id.isNotEmpty && option.label.isNotEmpty;
       }).toList();
-
       filterOptions[FilterType.collections] = collectionOptions;
-
-      // Dynamic availability and length data
-
       var inStockCount = 0;
       var outOfStockCount = 0;
-
       final Map<String, Map<String, dynamic>> lengths = {};
-
       for (final product in productNodes) {
-        final variants =
-            product['variants']?['nodes'] as List? ?? [];
-
+        final variants = product['variants']?['nodes'] as List? ?? [];
         final productAvailable = product['availableForSale'] == true;
-
         if (productAvailable) {
           inStockCount++;
         } else {
           outOfStockCount++;
         }
-
         for (final variant in variants) {
-          final options =
-              variant['selectedOptions'] as List? ?? [];
-
+          final options = variant['selectedOptions'] as List? ?? [];
           String length = '';
           String weight = '';
-
           for (final option in options) {
-            final name =
-                option['name']?.toString().toLowerCase() ?? '';
+            final name = option['name']?.toString().toLowerCase() ?? '';
             final value = option['value']?.toString().trim() ?? '';
-
             if (name.contains('length')) {
               length = value;
             } else if (name.contains('weight')) {
               weight = value;
             }
           }
-
           if (length.isEmpty) continue;
-
           final id = length
               .toLowerCase()
               .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
               .replaceAll(RegExp(r'^_|_$'), '');
-
           final label = [
             length.toUpperCase(),
             if (weight.isNotEmpty) weight,
           ].join(' ');
-
           lengths.putIfAbsent(id, () => {
             'label': label,
             'count': <String>{},
           });
-
-          (lengths[id]!['count'] as Set<String>)
-              .add(product['id']?.toString() ?? '');
+          (lengths[id]!['count'] as Set<String>).add(product['id']?.toString() ?? '');
         }
       }
-
-      // Update availability counts
       filterOptions[FilterType.availability] = [
         FilterOption(
           id: 'in_stock',
@@ -275,8 +208,6 @@ class Filtercontroller extends GetxController {
           count: outOfStockCount,
         ),
       ];
-
-      // Update lengths
       filterOptions[FilterType.length] = lengths.entries.map((entry) {
         return FilterOption(
           id: entry.key,
@@ -284,23 +215,11 @@ class Filtercontroller extends GetxController {
           count: (entry.value['count'] as Set<String>).length,
         );
       }).toList();
-
-      debugPrint('Dynamic collections: ${collectionOptions.length}');
-      debugPrint('Dynamic lengths: ${lengths.keys.toList()}');
-      debugPrint('In-stock products: $inStockCount');
-      debugPrint('Out-of-stock products: $outOfStockCount');
     } catch (error, stackTrace) {
-      debugPrint('Failed to fetch dynamic filters: $error');
-      debugPrintStack(stackTrace: stackTrace);
     }
   }
-  // ============================================================
-  // TOGGLE OPTION
-  // ============================================================
-
   void toggleOption(FilterType type, String id) {
     final selectedSet = getSelectedSet(type);
-
     if (type == FilterType.sortBy) {
       selectedSet
         ..clear()
@@ -312,55 +231,28 @@ class Filtercontroller extends GetxController {
         selectedSet.add(id);
       }
     }
-
     selectedSet.refresh();
   }
-  // ============================================================
-  // CHECK IF OPTION IS SELECTED
-  // ============================================================
-
   bool isOptionSelected(
       FilterType type,
       String id,
       ) {
     return getSelectedSet(type).contains(id);
   }
-
-  // ============================================================
-  // RESET FILTERS
-  // ============================================================
-
   void resetFilters() {
     selectedSortBy.clear();
     selectedAvailability.clear();
     selectedCollections.clear();
     selectedLength.clear();
-
     selectedButton.value = 0;
   }
-
-  // ============================================================
-// APPLY FILTERS
-// ============================================================
   void applyFilters() {
-    final collectionController =
-    Get.find<Collectionlistcontroller>();
-
+    final collectionController = Get.find<Collectionlistcontroller>();
     collectionController.appliedSortBy.assignAll(selectedSortBy);
-    collectionController.appliedAvailability
-        .assignAll(selectedAvailability);
-    collectionController.appliedCollections
-        .assignAll(selectedCollections);
+    collectionController.appliedAvailability.assignAll(selectedAvailability);
+    collectionController.appliedCollections.assignAll(selectedCollections);
     collectionController.appliedLength.assignAll(selectedLength);
-
-    // Actually filter the products currently loaded in the list.
     collectionController.applyProductFilters();
-
-    debugPrint('Applied sort: ${selectedSortBy.toList()}');
-    debugPrint('Applied availability: ${selectedAvailability.toList()}');
-    debugPrint('Applied collections: ${selectedCollections.toList()}');
-    debugPrint('Applied lengths: ${selectedLength.toList()}');
-
     Get.find<Bottomnavigationcontroller>()
         .currentPage
         .value = PageType.collectionlist;

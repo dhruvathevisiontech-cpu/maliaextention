@@ -120,18 +120,14 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
                 'No Shopify collection matches "$collectionName".',
               );
             }
-
-            // The controller caches the currently loaded parent, so
-            // this does not repeatedly reload the same parent.
             controller.loadSubCollectionsForParent(collectionName);
-
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 15.h),
-                _subCollectionSelector(),
-                SizedBox(height: 25.h),
-                Expanded(child: _productsSection()),
+                Expanded(
+                  child: _productsSection(),
+                ),
               ],
             );
           }),

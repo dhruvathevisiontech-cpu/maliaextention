@@ -244,7 +244,7 @@ info@maliaextensions.com
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: screensize.width * 0.02),
                 Text(
@@ -274,7 +274,7 @@ info@maliaextensions.com
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       'MALIA EXTENSIONS',
                       style: TextStyle(

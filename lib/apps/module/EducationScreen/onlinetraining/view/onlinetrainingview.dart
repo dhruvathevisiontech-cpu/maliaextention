@@ -50,6 +50,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.search;
@@ -62,6 +63,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -177,10 +179,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                       ),
                     ),
                     SizedBox(height: screensize.height * 0.01),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: screensize.width * 0.04,
-                      ),
+                    Padding(padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -942,14 +941,10 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: screensize.width * 0.04,
-                          right: screensize.width * 0.04,
-                          top: screensize.height * 0.02
-                      ),
+                    Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, right: screensize.width * 0.04, top: screensize.height * 0.02),
                       child: AnimatedButton(
                         onTap: (){
+                          HapticFeedback.heavyImpact();
                           Get.offAllNamed(Routes.PROSTYLISTREGISTRATION);
                         },
                         child: Container(
@@ -1017,13 +1012,10 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
   Widget _headerIcon({required String icon, VoidCallback? onTap,}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-
       onTap: onTap,
-
       child: SizedBox(
         width: 22.w,
         height: 22.w,
-
         child: SvgPicture.asset(
           icon,
           width: 22.w,

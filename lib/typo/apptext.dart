@@ -113,5 +113,6 @@ class Apptext {
   static const blogtitle = "Blog";
   //lib/apps/module/ProfileScreen/aboutus/view/aboutusview.dart
   static const aboutustitle = "About US";
-
+  //lib/apps/module/ProfileScreen/deleteaccount/view/deleteaccountview.dart
+  static const deleteaccounttitle = "Delete Account";
 }

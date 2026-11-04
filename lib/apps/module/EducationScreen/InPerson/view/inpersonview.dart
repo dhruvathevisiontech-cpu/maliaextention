@@ -38,10 +38,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
               color: Colorstheam.clusterwhite,
             ),
           ),
-          title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
+          title: Padding(padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
               children: <Widget>[
                 _backButton(),
@@ -77,7 +74,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
         ),
         body: Obx(() {
           if (controller.isLoadingEducation.value) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(),
             );
           }

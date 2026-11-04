@@ -50,6 +50,7 @@ abstract class Routes {
   static const PROFILEDETAILS = _Paths.PROFILEDETAILS;
   static const GALLARY = _Paths.GALLARY;
   static const BLOG = _Paths.BLOG;
+  static const DELETEACCOUNT = _Paths.DELETEACCOUNT;
 }
 
 abstract class _Paths {
@@ -99,4 +100,5 @@ abstract class _Paths {
   static const PROFILEDETAILS = '/profiledetails';
   static const GALLARY = '/gallary';
   static const BLOG = '/blog';
+  static const DELETEACCOUNT = '/deleteaccount';
 }

@@ -49,6 +49,7 @@ class Filterview extends GetView<Filtercontroller> {
               child: _headerIcon(
                 icon: "asset/svg/close.svg",
                 onTap: () {
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 1;
                   bottomNav.currentPage.value = PageType.collectionlist;

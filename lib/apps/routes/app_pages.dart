@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/blog/view/blogview.dart';
 import 'package:maliaextention/apps/module/Authentication/login/view/loginview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/bindings/deleteaccountbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/view/deleteaccountview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/policy/view/policyview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
@@ -390,6 +392,13 @@ class AppPages {
         name: _Paths.BLOG,
         page: () => Blogview(),
         binding: Blogbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.DELETEACCOUNT,
+        page: () => Deleteaccountview(),
+        binding: Deleteaccountbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),

@@ -36,10 +36,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
               color: Colorstheam.clusterwhite,
             ),
           ),
-          title: Padding(
-            padding: EdgeInsets.only(
-              left: screensize.width * 0.04,
-            ),
+          title: Padding(padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
               children: <Widget>[
                 _backButton(),
@@ -50,6 +47,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
+                HapticFeedback.heavyImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.search;
@@ -62,6 +60,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
               ),
               child: _headerIcon(
                 onTap: (){
+                  HapticFeedback.heavyImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -213,12 +212,10 @@ class Viewclass extends GetView<Viewclasscontroller> {
                           height: 10.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-
                           ),
                         ),
                       ),
                     ),
-
                     SizedBox(width: 6.w),
                     Text(
                       "Available in stock",
@@ -636,11 +633,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       child: Divider(height: 1,color: Colorstheam.arabiangrey,),
                     ),
                     SizedBox(height: screensize.height * 0.01),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: screensize.width * 0.04,
-                        right: screensize.width * 0.04,
-                      ),
+                    Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, right: screensize.width * 0.04),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -674,11 +667,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       child: Divider(height: 1,color: Colorstheam.arabiangrey,),
                     ),
                     SizedBox(height: screensize.height * 0.01),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: screensize.width * 0.04,
-                        right: screensize.width * 0.04,
-                      ),
+                    Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -712,11 +701,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       child: Divider(height: 1,color: Colorstheam.arabiangrey,),
                     ),
                     SizedBox(height: screensize.height * 0.01),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: screensize.width * 0.04,
-                        right: screensize.width * 0.04,
-                      ),
+                    Padding(padding: EdgeInsets.only(left: screensize.width * 0.04, right: screensize.width * 0.04),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -750,11 +735,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                       child: Divider(height: 1,color: Colorstheam.arabiangrey,),
                     ),
                     SizedBox(height: screensize.height * 0.01),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: screensize.width * 0.04,
-                        right: screensize.width * 0.04,
-                      ),
+                    Padding(padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -857,11 +838,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                 ),
               ),
               SizedBox(height: screensize.height * 0.01),
-              Obx(
-                    () => Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screensize.width * 0.04,
-                  ),
+              Obx(() => Padding(padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
                   child: SizedBox(
                     height: 347.h,
                     width: double.infinity,
@@ -896,9 +873,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
                             children: List.generate(
                               controller.carouselImages.length,
                                   (index) {
-                                final bool isActive =
-                                    controller.currentCarouselIndex.value == index;
-
+                                final bool isActive = controller.currentCarouselIndex.value == index;
                                 return AnimatedContainer(
                                   duration: const Duration(milliseconds: 250),
                                   curve: Curves.easeInOut,
@@ -961,13 +936,10 @@ class Viewclass extends GetView<Viewclasscontroller> {
   }) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-
       onTap: onTap,
-
       child: SizedBox(
         width: 22.w,
         height: 22.w,
-
         child: SvgPicture.asset(
           icon,
           width: 22.w,

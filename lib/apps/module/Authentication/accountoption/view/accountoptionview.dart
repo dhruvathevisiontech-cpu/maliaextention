@@ -332,5 +332,4 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
         )
     );
   }
-
 }

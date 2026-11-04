@@ -50,6 +50,7 @@ class Loginview extends GetView<Logincontroller> {
                   focusColor: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
                   onTap: () {
+                    HapticFeedback.heavyImpact();
                     Get.offAllNamed(Routes.ONBOARDING);
                   },
                   child: Container(
@@ -330,11 +331,7 @@ class Loginview extends GetView<Logincontroller> {
                                      })
                                  ),
                                  SizedBox(height: screensize.height * 0.01),
-                                 Padding(
-                                   padding: EdgeInsets.symmetric(
-                                     horizontal: screensize.width * 0.04,
-                                     vertical: screensize.height * 0.02,
-                                   ),
+                                 Padding(padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04, vertical: screensize.height * 0.02),
                                    child: Row(
                                      children: <Widget>[
                                        Expanded(
@@ -429,6 +426,7 @@ class Loginview extends GetView<Logincontroller> {
                              ),
                              recognizer: TapGestureRecognizer()
                                ..onTap = () {
+                                 HapticFeedback.heavyImpact();
                                  Get.offAllNamed(Routes.ACCOUNTOPTION);
                                },
                            ),

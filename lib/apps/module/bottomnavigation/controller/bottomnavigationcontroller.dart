@@ -35,6 +35,8 @@ import 'package:maliaextention/apps/module/ProfileScreen/blog/controller/blogcon
 import 'package:maliaextention/apps/module/ProfileScreen/blog/view/blogview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/controller/contactuscontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/contactus/view/contactusview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/controller/deleteaccountcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/view/deleteaccountview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/controller/educationfaqcontroller.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/educationfaq/view/educationfaqview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/faqlist/controller/faqlistcontroller.dart';
@@ -65,7 +67,7 @@ import 'package:maliaextention/apps/module/ProfileScreen/vieworder/controller/vi
 import 'package:maliaextention/apps/module/ProfileScreen/vieworder/view/vieworder.dart';
 import 'package:maliaextention/apps/module/WishlistScreen/wishlist/view/wishlistview.dart';
 
-enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary,blog,aboutus}
+enum PageType {home, list, search, collection, collectionlist,productdetails,education,inperson,viewclass,onlinetraing,onlinetrainingviewclass,hostclass,profile,wishlist,viewcart,addresslist,saveaddress,orderplace,orderhistory,vieworder,salonlocator,filter,contactus,faqlist,educationfaq,policy,privacypolicy,shippingpolicy,returnandrefundpolicy,termsandservice,educationbundle,profiledetails,gallary,blog,aboutus,deleteaccount}
 enum NavigationSource {
   productList,
   settings,
@@ -278,6 +280,12 @@ class Bottomnavigationcontroller extends GetxController {
           Get.put(Profiledetailscontroller());
         }
         return Profiledetailsview();
+
+      case PageType.deleteaccount:
+        if (!Get.isRegistered<Deleteaccountcontroller>()) {
+          Get.put(Deleteaccountcontroller());
+        }
+        return Deleteaccountview();
 
       case PageType.blog:
         if (!Get.isRegistered<Blogcontroller>()) {

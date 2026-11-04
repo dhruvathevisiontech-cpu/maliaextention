@@ -213,7 +213,6 @@ class Blogview extends GetView<Blogcontroller> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
