@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:maliaextention/animation/animated_button.dart';
@@ -12,78 +11,95 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark,
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colorstheam.white,
+      appBar: AppBar(
         backgroundColor: Colorstheam.white,
-        appBar: AppBar(
-          backgroundColor: Colorstheam.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          leading: IconButton(
-            onPressed: _handleBack,
-            icon: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 18.sp,
-              color: Colorstheam.nobelblack,
-            ),
-          ),
-          title: Text(
-            'Profile details',
-            style: TextStyle(
-              fontFamily: 'Urbanist',
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w700,
-              color: Colorstheam.nobelblack,
-            ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(1.h),
-            child: Container(
-              height: 1.h,
-              color: Colorstheam.clusterwhite,
-            ),
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: _backButton,
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colorstheam.black,
+            size: 18.sp,
           ),
         ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(20.w),
+        title: Text(
+          'My Profile',
+          style: TextStyle(
+            fontFamily: 'Urbanist',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w700,
+            color: Colorstheam.black,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Form(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
+                SizedBox(height: 26.h),
+
+                // Profile identity
                 Row(
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 30.r,
-                      backgroundColor: Colorstheam.clusterwhite,
+                  children: [
+                    Container(
+                      height: 82.w,
+                      width: 82.w,
+                      decoration: BoxDecoration(
+                        color: Colorstheam.white,
+                        border: Border.all(
+                          color: Colorstheam.clusterwhite,
+                          width: 1,
+                        ),
+                      ),
+                      alignment: Alignment.center,
                       child: Icon(
-                        Icons.person_outline_rounded,
-                        size: 30.sp,
-                        color: Colorstheam.nobelblack,
+                        Icons.person_outline,
+                        size: 40.sp,
+                        color: Colorstheam.grey,
                       ),
                     ),
-                    SizedBox(width: 14.w),
+                    SizedBox(width: 17.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Your Name',
+                            'Dhruva Chavda',
                             style: TextStyle(
-                              fontSize: 17.sp,
                               fontFamily: 'Urbanist',
+                              fontSize: 19.sp,
                               fontWeight: FontWeight.w700,
-                              color: Colorstheam.nobelblack,
+                              color: Colorstheam.black,
                             ),
                           ),
-                          SizedBox(height: 4.h),
+                          SizedBox(height: 6.h),
                           Text(
-                            'your@email.com',
+                            'jemish.thevision@gmail.com',
                             style: TextStyle(
-                              fontSize: 12.sp,
                               fontFamily: 'DMSans',
+                              fontSize: 11.sp,
                               color: Colorstheam.grey,
-                              fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Text(
+                              'CHANGE PHOTO',
+                              style: TextStyle(
+                                fontFamily: 'Urbanist',
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.8,
+                                color: Colorstheam.black,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ),
                         ],
@@ -91,51 +107,87 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
                     ),
                   ],
                 ),
-                SizedBox(height: 32.h),
+
+                SizedBox(height: 34.h),
+
                 Text(
-                  'PERSONAL INFORMATION',
+                  'PERSONAL DETAILS',
                   style: TextStyle(
-                    fontSize: 11.sp,
-                    letterSpacing: 0.8,
-                    fontFamily: 'DMSans',
-                    color: Colorstheam.grey,
-                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Urbanist',
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1,
+                    color: Colorstheam.black,
                   ),
                 ),
-                SizedBox(height: 12.h),
-                _detailRow('Full name', 'Your Name'),
-                _detailRow('Email address', 'your@email.com'),
-                _detailRow('Phone number', 'Add phone number'),
-                _detailRow(
-                  'Date of birth',
-                  'Add date of birth',
-                  showDivider: false,
+
+                SizedBox(height: 8.h),
+
+                Text(
+                  'Update your personal information below.',
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 12.sp,
+                    color: Colorstheam.grey,
+                  ),
                 ),
+
                 SizedBox(height: 24.h),
-                SizedBox(
-                  width: double.infinity,
-                  height: 46.h,
-                  child: AnimatedButton(
-                    onTap: () {
-                    },
-                    child: Container(
-                      height: 40.h,
-                      color: Colorstheam.nobelblack,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Edit profile',
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                            fontFamily: 'DMSans',
-                            fontWeight: FontWeight.w600,
-                            color: Colorstheam.clusterwhite
-                          ),
-                        ),
+
+                _editableField(
+                  label: 'Full Name',
+                  initialValue: 'Dhruva Chavda',
+                  textInputType: TextInputType.name,
+                ),
+
+                SizedBox(height: 20.h),
+
+                _editableField(
+                  label: 'Email Address',
+                  initialValue: 'jemish.thevision@gmail.com',
+                  textInputType: TextInputType.emailAddress,
+                ),
+
+                SizedBox(height: 20.h),
+
+                _editableField(
+                  label: 'Phone Number',
+                  initialValue: '+91 00000 00000',
+                  textInputType: TextInputType.phone,
+                ),
+
+                SizedBox(height: 20.h),
+
+                _editableField(
+                  label: 'Date of Birth',
+                  initialValue: '',
+                  hintText: 'Enter your date of birth',
+                  textInputType: TextInputType.datetime,
+                ),
+
+                SizedBox(height: 32.h),
+
+                AnimatedButton(
+                  onTap: () {},
+                  child: Container(
+                    height: 48.h,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    color: Colorstheam.nobelblack,
+                    child: Text(
+                      'SAVE CHANGES',
+                      style: TextStyle(
+                        fontFamily: 'Urbanist',
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1,
+                        color: Colorstheam.white,
                       ),
                     ),
                   ),
                 ),
+
+                SizedBox(height: 30.h),
               ],
             ),
           ),
@@ -144,57 +196,68 @@ class Profiledetailsview extends GetView<Profiledetailscontroller> {
     );
   }
 
-  Widget _detailRow(
-      String label,
-      String value, {
-        bool showDivider = true,
-      }) {
+  Widget _editableField({
+    required String label,
+    required String initialValue,
+    required TextInputType textInputType,
+    String? hintText,
+  }) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.h),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 13.sp,
-                    fontFamily: 'DMSans',
-                    fontWeight: FontWeight.w500,
-                    color: Colorstheam.nobelblack,
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Text(
-                  value,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontFamily: 'DMSans',
-                    color: Colorstheam.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Urbanist',
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+            color: Colorstheam.black,
           ),
         ),
-        if (showDivider)
-          Container(
-            height: 1.h,
-            color: Colorstheam.clusterwhite,
+        SizedBox(height: 9.h),
+        TextFormField(
+          initialValue: initialValue,
+          keyboardType: textInputType,
+          style: TextStyle(
+            fontFamily: 'DMSans',
+            fontSize: 13.sp,
+            color: Colorstheam.black,
           ),
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyle(
+              fontFamily: 'DMSans',
+              fontSize: 13.sp,
+              color: Colorstheam.grey,
+            ),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 15.h,
+            ),
+            filled: false,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(
+                color: Colorstheam.clusterwhite,
+                width: 1,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.zero,
+              borderSide: BorderSide(
+                color: Colorstheam.nobelblack,
+                width: 1,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  void _handleBack() {
-    HapticFeedback.heavyImpact();
+  void _backButton() {
     final bottomController = Get.find<Bottomnavigationcontroller>();
     bottomController.selectedIndex.value = 4;
-    bottomController.currentPage.value = PageType.profile;
-    Get.back();
+    bottomController.currentPage.value = PageType.policy;
   }
 }

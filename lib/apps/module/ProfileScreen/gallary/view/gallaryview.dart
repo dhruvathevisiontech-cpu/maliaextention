@@ -275,8 +275,6 @@ class Gallaryview extends GetView<Gallarycontroller> {
       ),
     );
   }
-
-
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

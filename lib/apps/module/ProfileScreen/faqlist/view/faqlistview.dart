@@ -13,7 +13,6 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 
 class Faqlistview extends GetView<Faqlistcontroller> {
   final TextEditingController searchController = TextEditingController();
-
   final RxInt expandedIndex = (-1).obs;
   final RxString searchQuery = ''.obs;
 

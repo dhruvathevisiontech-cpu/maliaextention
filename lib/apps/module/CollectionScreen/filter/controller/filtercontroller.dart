@@ -97,7 +97,6 @@ class Filtercontroller extends GetxController {
       handle
     }
   }
-
   products(first: 100) {
     nodes {
       id

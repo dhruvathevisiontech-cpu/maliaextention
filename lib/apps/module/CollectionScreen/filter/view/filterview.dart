@@ -12,7 +12,6 @@ import 'package:maliaextention/typo/apptext.dart';
 
 class Filterview extends GetView<Filtercontroller> {
   const Filterview({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;

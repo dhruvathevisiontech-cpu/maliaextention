@@ -290,29 +290,26 @@ class Policyview extends GetView<Policycontoller> {
   }
 
   Widget _backButton() {
-    return Material(
-      color: _text,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: () {
-          final bottomNav = Get.find<Bottomnavigationcontroller>();
-          bottomNav.selectedIndex.value = 4;
-          bottomNav.currentPage.value = PageType.profile;
-        },
-        child: SizedBox(
-          width: 38.w,
-          height: 38.w,
-          child: Center(
-            child: SvgPicture.asset(
-              'asset/svg/arrowleft.svg',
-              width: 12.w,
-              height: 12.h,
-              colorFilter: const ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
-              ),
-            ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        HapticFeedback.heavyImpact();
+        final bottomNav = Get.find<Bottomnavigationcontroller>();
+        bottomNav.selectedIndex.value = 4;
+        bottomNav.currentPage.value = PageType.profile;
+      },
+      child: Container(
+        width: 32.w,
+        height: 32.w,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colorstheam.nobelblack,
+        ),
+        child: Center(
+          child: SvgPicture.asset(
+            "asset/svg/arrowleft.svg",
+            width: 10.w,
+            height: 10.h,
           ),
         ),
       ),

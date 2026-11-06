@@ -229,38 +229,56 @@ class Contactusview extends GetView<Contactuscontroller> {
                   textInputAction: TextInputAction.newline,
                 ),
                 SizedBox(height: 26.h),
-                AnimatedButton(
-                  child: Container(
-                    width: double.infinity,
-                    height: 54.h,
-                    decoration: BoxDecoration(
-                      color: Colorstheam.nobelblack,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Send Message',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontFamily: 'Urbanist',
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.2,
-                            color: Colors.white,
+                Obx(
+                      () => AnimatedButton(
+                    onTap: controller.isSubmitting.value
+                        ? () {}
+                        : () {
+                      controller.submitContactForm();
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 54.h,
+                      decoration: BoxDecoration(
+                        color: Colorstheam.nobelblack,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            controller.isSubmitting.value
+                                ? 'Sending...'
+                                : 'Send Message',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.2,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white,
-                          size: 18.sp,
-                        ),
-                      ],
+                          SizedBox(width: 10.w),
+                          if (controller.isSubmitting.value)
+                            SizedBox(
+                              height: 16.h,
+                              width: 16.w,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          else
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white,
+                              size: 18.sp,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(height: 18.h),
-                // FOOTER NOTE
                 Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -431,7 +449,6 @@ class Contactusview extends GetView<Contactuscontroller> {
       onTap: () {
         HapticFeedback.heavyImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
-
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;
       },
