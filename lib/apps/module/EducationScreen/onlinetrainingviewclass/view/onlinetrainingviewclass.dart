@@ -23,7 +23,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
       "rating": "4.9",
     },
     {
-      "image": "asset/image/image02.png",
+      "image": "asset/image/image02.webp",
       "name": "Online Education for The Freestyle It Method Tape Wefts",
       "Price": "\$299.00",
       "rating": "4.9",
@@ -109,7 +109,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                   children: <Widget>[
                     Positioned.fill(
                       child: Image.asset(
-                        "asset/image/image02.png",
+                        "asset/image/image02.webp",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -464,7 +464,7 @@ class Onlinetrainingviewclass extends GetView<Onlinetrainingviewclasscontroller>
                 );
               }),
               Image.asset(
-                "asset/image/frame.png",
+                "asset/image/frame.webp",
                 height: 402.h,
                 width: 402.w,
               ),

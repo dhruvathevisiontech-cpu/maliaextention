@@ -129,14 +129,7 @@ class Inpersoncontroller extends GetxController {
               education[key] = value;
             }
           }
-
-          print('FIELD: $key');
-          print('VALUE: $value');
         }
-
-        print('Education Data: $education');
-        print('Carousel Images: $carouselImages');
-        print('Gallery Images: $galleryImages');
       } else {
         education.clear();
         galleryImages.clear();
@@ -145,7 +138,6 @@ class Inpersoncontroller extends GetxController {
       }
     } catch (e) {
       educationError.value = e.toString();
-      print('Education Error: $e');
     } finally {
       isLoadingEducation.value = false;
     }

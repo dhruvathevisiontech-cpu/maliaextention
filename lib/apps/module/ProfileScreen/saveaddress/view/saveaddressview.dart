@@ -13,6 +13,7 @@
 
   class Saveaddressview extends GetView<Saveaddresscontroller> {
     const Saveaddressview({super.key});
+
     void _showCountryPicker() {
       Get.bottomSheet(
         Container(
@@ -26,6 +27,7 @@
           child: Column(
             children: <Widget>[
               SizedBox(height: 16.h),
+
               Container(
                 width: 40.w,
                 height: 4.h,
@@ -34,7 +36,9 @@
                   borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
+
               SizedBox(height: 20.h),
+
               Text(
                 "Select Country",
                 style: TextStyle(
@@ -46,37 +50,73 @@
               SizedBox(height: 15.h),
 
               Expanded(
-                child: ListView.builder(
-                  itemCount: controller.countries.length,
-                  itemBuilder: (context, index) {
-                    final country = controller.countries[index];
-
-                    return Obx(
-                          () => ListTile(
-                        title: Text(country.name),
-
-                        trailing:
-                        controller.selectedCountry.value == country.name
-                            ? Icon(
-                          Icons.check_rounded,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Obx(() {
+                    if (controller.isCountriesLoading.value) {
+                      return Center(
+                        child: CircularProgressIndicator(
                           color: Colorstheam.nobelblack,
-                        )
-                            : null,
+                        ),
+                      );
+                    }
 
-                        onTap: () {
-                          controller.selectCountry(country.name);
-                          Get.back();
-                        },
-                      ),
+                    if (controller.countryError.value.isNotEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(controller.countryError.value),
+                            SizedBox(height: 12.h),
+                            TextButton(
+                              onPressed: controller.fetchCountries,
+                              child: Text("Retry"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    if (controller.availableCountries.isEmpty) {
+                      return Center(
+                        child: Text("No countries available"),
+                      );
+                    }
+
+                    return ListView.builder(
+                      itemCount: controller.availableCountries.length,
+                      itemBuilder: (context, index) {
+                        final country =
+                        controller.availableCountries[index];
+
+                        final countryName = country['name'] as String;
+
+                        return ListTile(
+                          title: Text(countryName),
+                          trailing:
+                          controller.selectedCountry.value == countryName
+                              ? Icon(
+                            Icons.check_rounded,
+                            color: Colorstheam.nobelblack,
+                          )
+                              : null,
+                          onTap: () {
+                            controller.selectCountry(countryName);
+                            Get.back();
+                          },
+                        );
+                      },
                     );
-                  },
+                  }),
                 ),
               ),
             ],
           ),
         ),
+        isScrollControlled: true,
       );
     }
+
     @override
     Widget build(BuildContext context) {
       final Size screensize = MediaQuery.of(context).size;

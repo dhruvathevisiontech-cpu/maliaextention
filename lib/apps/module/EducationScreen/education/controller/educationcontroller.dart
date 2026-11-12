@@ -79,17 +79,12 @@ class Educationcontroller extends GetxController {
           try {
             result[key] = jsonDecode(value);
           } catch (e) {
-            print('[EDUCATION JSON ERROR] $key: $e');
           }
         }
       }
-
       education.assignAll(result);
-
-      print('[EDUCATION DATA] $education');
     } catch (e) {
       errorMessage.value = e.toString();
-      print('[EDUCATION FETCH ERROR] $e');
     } finally {
       isLoading.value = false;
     }

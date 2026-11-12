@@ -91,28 +91,14 @@ class Collectioncontroller extends GetxController {
       }
 
       final data = decoded['data'] as Map<String, dynamic>?;
-      final nodes =
-          data?['metaobjects']?['nodes'] as List? ?? [];
-      print('Metaobject nodes received: ${nodes.length}');
-
+      final nodes = data?['metaobjects']?['nodes'] as List? ?? [];
       for (final item in nodes) {
         final node = item as Map<String, dynamic>;
-
-        print('Entry handle: ${node['handle']}');
-
         final fields = node['fields'] as List? ?? [];
-
         for (final field in fields) {
           final entry = field as Map<String, dynamic>;
-
-          print(
-            'FIELD: ${entry['key']} '
-                '| VALUE: ${entry['value']} '
-                '| REFERENCE: ${entry['reference']}',
-          );
         }
       }
-
       final result = <Map<String, dynamic>>[];
 
       for (final item in nodes) {
@@ -150,18 +136,10 @@ class Collectioncontroller extends GetxController {
                 mediaImage?['url'] ?? reference['url'];
           }
         }
-
-        final activeValue =
-        values['is_active']?.toString().toLowerCase();
-
-        print('Metaobject is_active: $activeValue');
-
+        final activeValue = values['is_active']?.toString().toLowerCase();
         // Skip inactive entries. Empty values are not treated as active.
         if (activeValue == 'false') continue;
-
-        final title =
-            values['title']?.toString().trim() ?? '';
-
+        final title = values['title']?.toString().trim() ?? '';
         result.add({
           'id': node['id'] ?? '',
           'handle': node['handle'] ?? '',
@@ -186,24 +164,10 @@ class Collectioncontroller extends GetxController {
       );
 
       metaobjectCollections.assignAll(result);
-      print('Result count before assignAll: ${result.length}');
-      print('Result data: $result');
-      print('Active metaobjects: ${result.length}');
-      print(
-        'Observable list count after assignAll: '
-            '${metaobjectCollections.length}',
-      );
       for (final item in result) {
-        print(
-          '${item['title']} | '
-              'collection: ${item['collectionHandle']} | '
-              'image: ${item['imageUrl']}',
-        );
       }
     } catch (e, stackTrace) {
       metaobjectsErrorMessage.value = e.toString();
-      print('Metaobjects error: $e');
-      print(stackTrace);
     } finally {
       isMetaobjectsLoading.value = false;
     }

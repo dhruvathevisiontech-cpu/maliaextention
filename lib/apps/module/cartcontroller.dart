@@ -176,8 +176,6 @@ class Cartcontroller extends GetxController {
   }
 ''';
 
-
-
   Future<void> fetchCartRecommendations() async {
     isLoadingRecommendations.value = true;
     try {
@@ -280,7 +278,6 @@ class Cartcontroller extends GetxController {
     loadCart();
   }
 
-
   String _errorMessage(Object error) {
     return error.toString().replaceFirst('Exception: ', '');
   }
@@ -316,7 +313,6 @@ class Cartcontroller extends GetxController {
   Future<void> _clearCartId() async {
     await _storage.remove('malia_shopify_cart_id');
   }
-
 
   List<Map<String, String>> _buildAttributes({
     required String shade,

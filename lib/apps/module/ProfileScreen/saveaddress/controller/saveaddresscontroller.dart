@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 
 import '../../../../model/countrymodel.dart';
 
@@ -14,7 +15,64 @@ class Saveaddresscontroller extends GetxController {
   final addressController = TextEditingController();
   final apartmentController = TextEditingController();
   final cityController = TextEditingController();
+  final RxList<Map<String, dynamic>> availableCountries =
+      <Map<String, dynamic>>[].obs;
 
+  final RxBool isCountriesLoading = false.obs;
+
+  final RxString countryError = ''.obs;
+
+  Future<void> fetchCountries() async {
+    try {
+      isCountriesLoading.value = true;
+      countryError.value = '';
+
+      const query = r'''
+      query {
+        localization {
+          availableCountries {
+            isoCode
+            name
+            currency {
+              isoCode
+              symbol
+            }
+          }
+        }
+      }
+    ''';
+
+      final response = await ShopifyCollectionService.query(query);
+
+      final countryData =
+          response['localization']?['availableCountries'] as List? ?? [];
+
+      availableCountries.value = countryData
+          .map((country) => Map<String, dynamic>.from(country))
+          .toList();
+
+      // Keep United States selected by default if available.
+      final defaultCountry = availableCountries.firstWhereOrNull(
+            (country) => country['isoCode'] == 'US',
+      );
+
+      if (defaultCountry != null) {
+        selectedCountry.value = defaultCountry['name'];
+      } else if (availableCountries.isNotEmpty) {
+        selectedCountry.value = availableCountries.first['name'];
+      }
+    } catch (e) {
+      countryError.value = 'Unable to load countries. Please try again.';
+      debugPrint('Shopify country error: $e');
+    } finally {
+      isCountriesLoading.value = false;
+    }
+  }
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCountries();
+  }
   final List<Map<String, String>> dummyAddresses = [
     {
       "address": "1254 Sunset Boulevard",

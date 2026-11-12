@@ -50,7 +50,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
     },
     {
       'question': "Do I need to bring a model?",
-      'answer': "Do I need to bring a model?",
+      'answer': "No. A live model is not required. You’ll practice the method on a mannequin during the class.",
     },
     {
       'question': "Do I need to bring anything with me?",
@@ -147,459 +147,463 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
         ),
         body: SafeArea(
           top: false,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.fromLTRB(
-                    20.w,
-                    26.h,
-                    20.w,
-                    28.h,
+          child: Obx((){
+            if (controller.isLoading.value &&
+                controller.faqList.isEmpty &&
+                controller.faqList1.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (controller.errorMessage.value.isNotEmpty &&
+                controller.faqList.isEmpty &&
+                controller.faqList1.isEmpty) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Unable to load FAQs',
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        controller.errorMessage.value,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 12.sp,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      SizedBox(height: 15.h),
+                      TextButton(
+                        onPressed: controller.fetchEducationFaqs,
+                        child: const Text('Try Again'),
+                      ),
+                    ],
                   ),
-                  children: <Widget>[
-                    Text(
-                      'WE’RE HERE TO HELP',
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontFamily: 'Urbanist',
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 2.0,
-                        color: Colorstheam.Racingred,
-                      ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      "EDUCATION FAQ'S",
-                      style: TextStyle(
-                        fontSize: 31.sp,
-                        fontFamily: 'Urbanist',
-                        fontWeight: FontWeight.w800,
-                        height: 1.13,
-                        letterSpacing: -0.8,
-                        color: Colorstheam.nobelblack,
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
-                    Text(
-                      "Find helpful answers to common questions about our educational resources, programs, courses, and learning opportunities. Explore the FAQs to learn more and get the information you need.",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: 'Urbanist',
-                        fontWeight: FontWeight.w400,
-                        height: 1.65,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(height: 25.h),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Online Education',
-                          style: TextStyle(
-                            fontFamily: 'Urbanist',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w800,
-                            color: Colorstheam.nobelblack,
-                          ),
-                        ),
-                        const Spacer(),
-                        Obx(() {
-                          final filteredCount = faqList.where((faq) {
-                            final query = searchQuery.value;
-                            return faq['question']!
-                                .toLowerCase()
-                                .contains(query) ||
-                                faq['answer']!
-                                    .toLowerCase()
-                                    .contains(query);
-                          }).length;
-
-                          return Text(
-                            '$filteredCount ARTICLES',
-                            style: TextStyle(
-                              fontFamily: 'Urbanist',
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1,
-                              color: Colors.grey.shade500,
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Obx(() {
-                      final filteredFaqs = faqList.where((faq) {
-                        final query = searchQuery.value;
-                        return faq['question']!
-                            .toLowerCase()
-                            .contains(query) ||
-                            faq['answer']!
-                                .toLowerCase()
-                                .toLowerCase()
-                                .contains(query);
-                      }).toList();
-                      if (filteredFaqs.isEmpty) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 45.h,
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.search_off_rounded,
-                                size: 42.sp,
-                                color: Colors.grey.shade400,
-                              ),
-                              SizedBox(height: 12.h),
-                              Text(
-                                'No questions found',
-                                style: TextStyle(
-                                  fontFamily: 'Urbanist',
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(height: 6.h),
-                              Text(
-                                'Try searching with different keywords.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Urbanist',
-                                  fontSize: 13.sp,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return Column(
-                        children: List.generate(
-                          filteredFaqs.length,
-                              (index) {
-                            final faq = filteredFaqs[index];
-                            final isExpanded = expandedIndex.value == index;
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 12.h),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: isExpanded
-                                      ? Colorstheam.nobelblack.withValues(alpha: 0.20)
-                                      : const Color(0xFFEAEAEA),
-                                ),
-                              ),
-                              child: Material(
-                                color: Colorstheam.white,
-                                clipBehavior: Clip.antiAlias,
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    dividerColor: Colors.transparent,
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                  ),
-                                  child: ExpansionTile(
-                                    key: ValueKey(faq['question']),
-                                    initiallyExpanded: isExpanded,
-                                    backgroundColor: Colors.transparent,
-                                    collapsedBackgroundColor: Colors.transparent,
-                                    onExpansionChanged: (expanded) {
-                                      expandedIndex.value = expanded ? index : -1;
-                                    },
-                                    tilePadding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                      vertical: 5.h,
-                                    ),
-                                    childrenPadding: EdgeInsets.fromLTRB(
-                                      16.w,
-                                      0,
-                                      16.w,
-                                      18.h,
-                                    ),
-                                    trailing: AnimatedRotation(
-                                      turns: isExpanded ? 0.5 : 0,
-                                      duration: const Duration(milliseconds: 200),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        size: 23.sp,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      faq['question']!,
-                                      style: TextStyle(
-                                        fontFamily: 'Urbanist',
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.4,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          faq['answer']!,
-                                          style: TextStyle(
-                                            fontFamily: 'Urbanist',
-                                            fontSize: 13.sp,
-                                            height: 1.75,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }),
-                    SizedBox(height: 18.h),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'In-Person Education',
-                          style: TextStyle(
-                            fontFamily: 'Urbanist',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w800,
-                            color: Colorstheam.nobelblack,
-                          ),
-                        ),
-                        const Spacer(),
-                        Obx(() {
-                          final filteredCount = faqList1.where((faq) {
-                            final query = searchQuery.value;
-                            return faq['question']!
-                                .toLowerCase()
-                                .contains(query) ||
-                                faq['answer']!
-                                    .toLowerCase()
-                                    .contains(query);
-                          }).length;
-
-                          return Text(
-                            '$filteredCount ARTICLES',
-                            style: TextStyle(
-                              fontFamily: 'Urbanist',
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1,
-                              color: Colors.grey.shade500,
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Obx(() {
-                      final filteredFaqs = faqList1.where((faq) {
-                        final query = searchQuery.value;
-                        return faq['question']!
-                            .toLowerCase()
-                            .contains(query) ||
-                            faq['answer']!
-                                .toLowerCase()
-                                .toLowerCase()
-                                .contains(query);
-                      }).toList();
-                      if (filteredFaqs.isEmpty) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 45.h,
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.search_off_rounded,
-                                size: 42.sp,
-                                color: Colors.grey.shade400,
-                              ),
-                              SizedBox(height: 12.h),
-                              Text(
-                                'No questions found',
-                                style: TextStyle(
-                                  fontFamily: 'Urbanist',
-                                  fontSize: 17.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colorstheam.nobelblack,
-                                ),
-                              ),
-                              SizedBox(height: 6.h),
-                              Text(
-                                'Try searching with different keywords.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: 'Urbanist',
-                                  fontSize: 13.sp,
-                                  color: Colors.grey.shade600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return Column(
-                        children: List.generate(
-                          filteredFaqs.length,
-                              (index) {
-                            final faq = filteredFaqs[index];
-                            final isExpanded = expandedIndex.value == index;
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 12.h),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                border: Border.all(
-                                  color: isExpanded
-                                      ? Colorstheam.nobelblack.withValues(alpha: 0.20)
-                                      : const Color(0xFFEAEAEA),
-                                ),
-                              ),
-                              child: Material(
-                                color: Colorstheam.white,
-                                clipBehavior: Clip.antiAlias,
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    dividerColor: Colors.transparent,
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                  ),
-                                  child: ExpansionTile(
-                                    key: ValueKey(faq['question']),
-                                    initiallyExpanded: isExpanded,
-                                    backgroundColor: Colors.transparent,
-                                    collapsedBackgroundColor: Colors.transparent,
-                                    onExpansionChanged: (expanded) {
-                                      expandedIndex.value = expanded ? index : -1;
-                                    },
-                                    tilePadding: EdgeInsets.symmetric(
-                                      horizontal: 16.w,
-                                      vertical: 5.h,
-                                    ),
-                                    childrenPadding: EdgeInsets.fromLTRB(
-                                      16.w,
-                                      0,
-                                      16.w,
-                                      18.h,
-                                    ),
-                                    trailing: AnimatedRotation(
-                                      turns: isExpanded ? 0.5 : 0,
-                                      duration: const Duration(milliseconds: 200),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        size: 23.sp,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      faq['question']!,
-                                      style: TextStyle(
-                                        fontFamily: 'Urbanist',
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.4,
-                                        color: Colorstheam.nobelblack,
-                                      ),
-                                    ),
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          faq['answer']!,
-                                          style: TextStyle(
-                                            fontFamily: 'Urbanist',
-                                            fontSize: 13.sp,
-                                            height: 1.75,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }),
-                    Container(
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        color: Colorstheam.clusterwhite,
-                          borderRadius: BorderRadius.circular(5.r)
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "DISCOVER MORE IN FAQ’S?",
-                            style: TextStyle(
-                              fontSize: 19.sp,
-                              fontFamily: 'Urbanist',
-                              fontWeight: FontWeight.w800,
-                              color: Colorstheam.nobelblack,
-                            ),
-                          ),
-                          SizedBox(height: 7.h),
-                          Text(
-                            "Have more questions? Feel free to contact us at info@maliaextensions.com",
-                            style: TextStyle(
-                              height: 1.6,
-                              fontSize: 13.sp,
-                              color: Colors.black54,
-                              fontFamily: 'Urbanist',
-                              fontWeight: FontWeight.w400
-                            ),
-                          ),
-                          SizedBox(height: 17.h),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 48.h,
-                            child: AnimatedButton(
-                              onTap: () {
-                                AppSnackbar.error('Connect your Contact Us page here.',);
-                              },
-                              child: Container(
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  color: Colorstheam.nobelblack,
-                                  borderRadius: BorderRadius.circular(5.r)
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'CONTACT US',
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      letterSpacing: 1.2,
-                                      fontFamily: 'Urbanist',
-                                      color: Colorstheam.white,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  ],
                 ),
-              ),
-            ],
-          ),
+              );
+            }
+            return RefreshIndicator(
+              onRefresh: controller.refreshFaqs,
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(
+                  20.w,
+                  26.h,
+                  20.w,
+                  28.h,
+                ),
+                children: <Widget>[
+                  Text(
+                    'WE’RE HERE TO HELP',
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontFamily: 'Urbanist',
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2.0,
+                      color: Colorstheam.Racingred,
+                    ),
+                  ),
+
+                  SizedBox(height: 10.h),
+                  Text(
+                    "EDUCATION FAQ'S",
+                    style: TextStyle(
+                      fontSize: 31.sp,
+                      fontFamily: 'Urbanist',
+                      fontWeight: FontWeight.w800,
+                      height: 1.13,
+                      letterSpacing: -0.8,
+                      color: Colorstheam.nobelblack,
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
+                  Text(
+                    "Find helpful answers to common questions about our educational resources, programs, courses, and learning opportunities. Explore the FAQs to learn more and get the information you need.",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: 'Urbanist',
+                      fontWeight: FontWeight.w400,
+                      height: 1.65,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 25.h),
+                  _sectionHeader(
+                    title: 'Online Education',
+                    isInPerson: false,
+                  ),
+                  SizedBox(height: 15.h),
+                  _faqList(
+                    context: context,
+                    isInPerson: false,
+                  ),
+                  SizedBox(height: 18.h),
+                  _sectionHeader(
+                    title: 'In-Person Education',
+                    isInPerson: true,
+                  ),
+                  SizedBox(height: 15.h),
+                  _faqList(
+                    context: context,
+                    isInPerson: true,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20.w),
+                    decoration: BoxDecoration(
+                      color: Colorstheam.clusterwhite,
+                      borderRadius: BorderRadius.circular(5.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "DISCOVER MORE IN FAQ’S?",
+                          style: TextStyle(
+                            fontSize: 19.sp,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w800,
+                            color: Colorstheam.nobelblack,
+                          ),
+                        ),
+                        SizedBox(height: 7.h),
+                        Text(
+                          "Have more questions? Feel free to contact us at info@maliaextensions.com",
+                          style: TextStyle(
+                            height: 1.6,
+                            fontSize: 13.sp,
+                            color: Colors.black54,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 17.h),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 48.h,
+                          child: AnimatedButton(
+                            onTap: () {
+                              HapticFeedback.heavyImpact();
+                              final bottomNav = Get.find<Bottomnavigationcontroller>();
+                              bottomNav.selectedIndex.value = 4;
+                              bottomNav.currentPage.value = PageType.contactus;
+                            },
+                            child: Container(
+                              height: 40.h,
+                              decoration: BoxDecoration(
+                                color: Colorstheam.nobelblack,
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'CONTACT US',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    letterSpacing: 1.2,
+                                    fontFamily: 'Urbanist',
+                                    color: Colorstheam.white,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              )
+                            )
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
+            );
+          })
         ),
       ),
     );
   }
+  Widget _sectionHeader({
+    required String title,
+    required bool isInPerson,
+  }) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontFamily: 'Urbanist',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w800,
+            color: Colorstheam.nobelblack,
+          ),
+        ),
+
+        const Spacer(),
+
+        Obx(() {
+          final int count = isInPerson
+              ? controller.filteredInPersonFaqs.length
+              : controller.filteredOnlineFaqs.length;
+
+          return Text(
+            '$count ARTICLES',
+            style: TextStyle(
+              fontFamily: 'Urbanist',
+              fontSize: 9.sp,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
+              color: Colors.grey.shade500,
+            ),
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget _faqList({
+    required BuildContext context,
+    required bool isInPerson,
+  }) {
+    return Obx(() {
+      final filteredFaqs = isInPerson
+          ? controller.filteredInPersonFaqs
+          : controller.filteredOnlineFaqs;
+
+      final expandedIndex = isInPerson
+          ? controller.inPersonExpandedIndex.value
+          : controller.onlineExpandedIndex.value;
+
+      if (filteredFaqs.isEmpty) {
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 45.h),
+          child: Column(
+            children: [
+              Icon(
+                Icons.search_off_rounded,
+                size: 42.sp,
+                color: Colors.grey.shade400,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'No questions found',
+                style: TextStyle(
+                  fontFamily: 'Urbanist',
+                  fontSize: 17.sp,
+                  fontWeight: FontWeight.w700,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                'Try searching with different keywords.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Urbanist',
+                  fontSize: 13.sp,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      return Column(
+        children: List.generate(filteredFaqs.length, (index) {
+          final faq = filteredFaqs[index];
+          final bool isExpanded = expandedIndex == index;
+
+          final BorderRadius borderRadius = isInPerson
+              ? BorderRadius.circular(5.r)
+              : BorderRadius.zero;
+
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeInOutCubic,
+            margin: EdgeInsets.only(bottom: 12.h),
+            decoration: BoxDecoration(
+              color: isExpanded
+                  ? Colorstheam.clusterwhite.withValues(alpha: 0.35)
+                  : Colorstheam.white,
+              borderRadius: borderRadius,
+              border: Border.all(
+                color: isExpanded
+                    ? Colorstheam.nobelblack.withValues(alpha: 0.30)
+                    : const Color(0xFFEAEAEA),
+                width: isExpanded ? 1.1 : 0.8,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: borderRadius,
+              child: Material(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    // QUESTION ROW
+                    InkWell(
+                      splashColor: Colorstheam.nobelblack.withValues(
+                        alpha: 0.04,
+                      ),
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        HapticFeedback.selectionClick();
+
+                        if (isInPerson) {
+                          controller.inPersonExpandedIndex.value =
+                          isExpanded ? -1 : index;
+                        } else {
+                          controller.onlineExpandedIndex.value =
+                          isExpanded ? -1 : index;
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 19.h,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOut,
+                                style: TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 14.sp,
+                                  fontWeight: isExpanded
+                                      ? FontWeight.w800
+                                      : FontWeight.w700,
+                                  height: 1.4,
+                                  color: Colorstheam.nobelblack,
+                                ),
+                                child: Text(
+                                  faq['question'] ?? '',
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 12.w),
+
+                            // ANIMATED ARROW
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOutBack,
+                              width: 29.w,
+                              height: 29.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isExpanded
+                                    ? Colorstheam.nobelblack
+                                    : Colorstheam.clusterwhite,
+                              ),
+                              child: Center(
+                                child: AnimatedRotation(
+                                  turns: isExpanded ? 0.5 : 0,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeInOutBack,
+                                  child: Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    size: 20.sp,
+                                    color: isExpanded
+                                        ? Colorstheam.white
+                                        : Colorstheam.nobelblack,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // ANIMATED ANSWER
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 450),
+                      reverseDuration: const Duration(milliseconds: 350),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeInCubic,
+                      transitionBuilder: (child, animation) {
+                        final slideAnimation = Tween<Offset>(
+                          begin: const Offset(0, -0.08),
+                          end: Offset.zero,
+                        ).animate(
+                          CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.easeOutCubic,
+                          ),
+                        );
+
+                        return ClipRect(
+                          child: SizeTransition(
+                            sizeFactor: animation,
+                            axisAlignment: -1,
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: SlideTransition(
+                                position: slideAnimation,
+                                child: child,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: isExpanded
+                          ? Container(
+                        key: ValueKey('answer_$index'),
+                        width: double.infinity,
+                        padding: EdgeInsets.fromLTRB(
+                          16.w,
+                          0,
+                          16.w,
+                          19.h,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 34.w,
+                              height: 1.5.h,
+                              margin: EdgeInsets.only(bottom: 13.h),
+                              color: Colorstheam.Racingred.withValues(
+                                alpha: 0.75,
+                              ),
+                            ),
+                            Text(
+                              faq['answer'] ?? '',
+                              style: TextStyle(
+                                fontFamily: 'Urbanist',
+                                fontSize: 13.sp,
+                                height: 1.8,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                          : const SizedBox.shrink(
+                        key: ValueKey('empty_answer'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      );
+    });
+  }
+
+
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

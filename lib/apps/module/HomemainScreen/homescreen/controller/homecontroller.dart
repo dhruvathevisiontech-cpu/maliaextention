@@ -105,7 +105,7 @@ class Homecontroller extends GetxController {
   void onInit() {
     super.onInit();
     butterflyVideoController = VideoPlayerController.asset(
-      'asset/video/video1.mp4',
+      'asset/video/video1_optimized.mp4',
     );
     butterflyVideoController.initialize().then((_) {
       isButterflyVideoInitialized.value = true;

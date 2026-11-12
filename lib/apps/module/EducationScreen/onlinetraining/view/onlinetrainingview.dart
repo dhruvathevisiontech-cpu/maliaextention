@@ -159,7 +159,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      "asset/image/image02.png",
+                      "asset/image/image02.webp",
                       width: double.infinity,
                       height: 190.h,
                       fit: BoxFit.cover,
@@ -280,7 +280,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      "asset/image/image02.png",
+                      "asset/image/image02.webp",
                       width: double.infinity,
                       height: 190.h,
                       fit: BoxFit.cover,
@@ -817,7 +817,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      "asset/image/image01.png",
+                      "asset/image/image01.webp",
                       width: double.infinity,
                       height: 190.h,
                       fit: BoxFit.cover,
@@ -904,7 +904,7 @@ class Onlinetrainingview extends GetView<Onlinetrainingcontroller> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Image.asset(
-                      "asset/image/image02.png",
+                      "asset/image/image02.webp",
                       width: double.infinity,
                       height: 190.h,
                       fit: BoxFit.cover,

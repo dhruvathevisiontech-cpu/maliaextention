@@ -97,7 +97,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
               Padding(
                 padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04),
                 child: Image.asset(
-                  "asset/image/image03.png",
+                  "asset/image/image03.webp",
                    height: 362.h,
                   width: 362.w,
                 ),
