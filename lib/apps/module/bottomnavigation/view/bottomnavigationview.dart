@@ -128,8 +128,6 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
                       height: 2.h,
                       decoration: BoxDecoration(
                         color: Colorstheam.clusterwhite,
-                        borderRadius:
-                        BorderRadius.circular(10.r),
                       ),
                     ),
                   ],

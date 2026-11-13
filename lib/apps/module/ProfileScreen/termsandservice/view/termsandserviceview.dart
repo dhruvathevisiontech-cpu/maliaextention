@@ -270,7 +270,6 @@ info@maliaextensions.com
                 padding: EdgeInsets.all(22.w),
                 decoration: BoxDecoration(
                   color: Colorstheam.clusterwhite,
-                  borderRadius: BorderRadius.circular(5.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,7 +415,6 @@ info@maliaextensions.com
       margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
         color: Colorstheam.white,
-        borderRadius: BorderRadius.circular(5.r),
         border: Border.all(
           color: Colorstheam.lightgrey,
           width: 1,
@@ -438,19 +436,12 @@ info@maliaextensions.com
             16.w,
             0,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          collapsedShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.r),
-          ),
           leading: Container(
             width: 34.w,
             height: 34.w,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colorstheam.clusterwhite,
-              borderRadius: BorderRadius.circular(5.r),
             ),
             child: Text(
               number.toString().padLeft(2, '0'),

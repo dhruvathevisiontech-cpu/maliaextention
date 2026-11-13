@@ -53,7 +53,6 @@ class Forgotpasswordview extends GetView<Forgotpasswordcontroller> {
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     focusColor: Colors.transparent,
-                    borderRadius: BorderRadius.circular(100),
                     onTap: () {
                       HapticFeedback.heavyImpact();
                       Get.offAllNamed(Routes.LOGIN);
@@ -196,7 +195,6 @@ class Forgotpasswordview extends GetView<Forgotpasswordcontroller> {
                                           minHeight: 0,
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(7),
                                           borderSide: BorderSide(
                                             color: controller.inputController.text.isEmpty
                                                 ? Colorstheam.Silver
@@ -206,7 +204,6 @@ class Forgotpasswordview extends GetView<Forgotpasswordcontroller> {
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(7),
                                           borderSide: BorderSide(
                                             color: controller.isEmailValid.value
                                                 ? Colorstheam.green
@@ -220,11 +217,9 @@ class Forgotpasswordview extends GetView<Forgotpasswordcontroller> {
                                             color: Colorstheam.Racingred
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(7),
                                           borderSide: BorderSide(color: Colorstheam.Racingred),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(7),
                                           borderSide: BorderSide(color: Colorstheam.Racingred),
                                         ),
                                         filled: true,

@@ -87,7 +87,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                     height: 4.h,
                     decoration: BoxDecoration(
                       color: Colorstheam.grey,
-                      borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
                 ),
@@ -325,10 +324,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                         padding: EdgeInsets.only(top: 24.h, bottom: 30.h,),
                         decoration: BoxDecoration(
                           color: Colorstheam.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20.r),
-                            topRight: Radius.circular(20.r),
-                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -427,7 +427,6 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                               );
                             },
                           ),
-
                           Positioned(
                             bottom: 12.h,
                             left: 0,

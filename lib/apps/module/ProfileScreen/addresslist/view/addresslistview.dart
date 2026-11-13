@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/editaddress/controller/editaddresscontroller.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,28 +16,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-    final List<Map<String, dynamic>> addresses = [
-      {
-        "type": "HOME",
-        "name": "Emily Johnson",
-        "address": "1254 Sunset Boulevard",
-        "city": "Los Angeles",
-        "state": "California",
-        "pincode": "90026",
-        "country": "United States",
-        "isDefault": true,
-      },
-      {
-        "type": "WORK",
-        "name": "Emily Johnson",
-        "address": "455 Market Street",
-        "city": "San Francisco",
-        "state": "California",
-        "pincode": "94105",
-        "country": "United States",
-        "isDefault": false,
-      },
-    ];
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -80,94 +59,158 @@ class Addresslistview extends GetView<Addresslistcontroller> {
               ],
             ),
           ),
-
           actions: [
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                final bottomNav = Get.find<Bottomnavigationcontroller>();
+                final bottomNav =
+                Get.find<Bottomnavigationcontroller>();
+
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
-
             SizedBox(width: 16.w),
-
             Padding(
               padding: EdgeInsets.only(
                 right: screensize.width * 0.04,
               ),
               child: _headerIcon(
                 icon: "asset/svg/cart.svg",
-                onTap: (){
-                  final bottomNav = Get.find<Bottomnavigationcontroller>();
+                onTap: () {
+                  final bottomNav =
+                  Get.find<Bottomnavigationcontroller>();
+
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
-                }
+                },
               ),
             ),
           ],
         ),
-        body: addresses.isEmpty
-            ? _emptyAddressView()
-            : Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                16.w,
-                20.h,
-                16.w,
-                0,
-              ),
-              child: Text(
-                Apptext.selectanaddress,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontFamily: "Urbanist",
-                  fontWeight: FontWeight.bold,
-                  color: Colorstheam.nobelblack,
+
+        // ADDRESS LIST
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (controller.errorMessage.value.isNotEmpty) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      controller.errorMessage.value,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: "Urbanist",
+                        color: Colorstheam.grey,
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+                    GestureDetector(
+                      onTap: controller.retryFetchAddresses,
+                      child: Text(
+                        "Try Again",
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontFamily: "Urbanist",
+                          fontWeight: FontWeight.bold,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(height: 14.h),
-            Expanded(
-              child: ListView.separated(
+            );
+          }
+
+          if (controller.addresses.isEmpty) {
+            return _emptyAddressView();
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
                 padding: EdgeInsets.fromLTRB(
                   16.w,
-                  0,
+                  20.h,
                   16.w,
-                  120.h,
+                  0,
                 ),
-                itemCount: addresses.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 14.h);
-                },
-                itemBuilder: (context, index) {
-                  final Map<String, dynamic> address =
-                  addresses[index];
-                  return Obx(
-                        () => _addressCard(
-                      address: address,
-                      isSelected: controller.selectedAddress.value == index,
-                      onSelect: () {
-                        controller.selectedAddress.value = index;
-                      },
-                      onEdit: () {
-                      },
-                      onDelete: () {
-                        _showDeleteDialog(
-                          context,
-                          index,
-                        );
-                      },
-                    ),
-                  );
-                },
+                child: Text(
+                  Apptext.selectanaddress,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontFamily: "Urbanist",
+                    fontWeight: FontWeight.bold,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
+              SizedBox(height: 14.h),
+              Expanded(
+                child: ListView.separated(
+                  padding: EdgeInsets.fromLTRB(
+                    16.w,
+                    0,
+                    16.w,
+                    120.h,
+                  ),
+                  itemCount: controller.addresses.length,
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 14.h);
+                  },
+                  itemBuilder: (context, index) {
+                    final Map<String, dynamic> address = controller.addresses[index];
+                    return Obx((){
+                      final bool selected = controller.selectedAddress.value == index;
+                      debugPrint('CARD $index | SELECTED: $selected');
+                      return _addressCard(
+                        address: address,
+                        isSelected:
+                        controller.selectedAddress.value == index,
+                        onSelect: () {
+                          debugPrint('ADDRESS TAPPED: $index');
+                          controller.selectAddress(index);
+                        },
+                        onEdit: () {
+                          final Editaddresscontroller editController =
+                          Get.isRegistered<Editaddresscontroller>()
+                              ? Get.find<Editaddresscontroller>()
+                              : Get.put(Editaddresscontroller());
+
+                          // Fill the selected address in the edit form.
+                          editController.setAddressForEdit(address);
+
+                          // Navigate to your separate Edit Address screen.
+                          final bottomNav =
+                          Get.find<Bottomnavigationcontroller>();
+
+                          bottomNav.selectedIndex.value = 4;
+                          bottomNav.currentPage.value = PageType.editaddress;
+                        },
+                        onDelete: () {
+                          _showDeleteDialog(context, index);
+                        },
+                      );
+                    });
+                  },
+                ),
+              ),
+            ],
+          );
+        }),
+
+        // ADD NEW ADDRESS BUTTON
         bottomNavigationBar: SafeArea(
           child: Container(
             padding: EdgeInsets.fromLTRB(
@@ -182,9 +225,11 @@ class Addresslistview extends GetView<Addresslistcontroller> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                debugPrint("Add New Address");
                 HapticFeedback.heavyImpact();
-                final bottomNav = Get.find<Bottomnavigationcontroller>();
+
+                final bottomNav =
+                Get.find<Bottomnavigationcontroller>();
+
                 bottomNav.selectedIndex.value = 4;
                 bottomNav.currentPage.value = PageType.saveaddress;
               },
@@ -208,9 +253,9 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                       ),
                       child: SvgPicture.asset(
                         "asset/svg/plus.svg",
-                        height: 05.h,
+                        height: 5.h,
                         color: Colorstheam.clusterwhite,
-                      )
+                      ),
                     ),
                     SizedBox(width: 9.w),
                     Text(
@@ -232,6 +277,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // ADDRESS CARD
   Widget _addressCard({
     required Map<String, dynamic> address,
     required bool isSelected,
@@ -239,9 +286,22 @@ class Addresslistview extends GetView<Addresslistcontroller> {
     required VoidCallback onEdit,
     required VoidCallback onDelete,
   }) {
+    final String locationDetails = [
+      address["city"],
+      address["state"],
+      address["pincode"],
+    ]
+        .where((value) =>
+    value != null &&
+        value.toString().trim().isNotEmpty)
+        .join(", ");
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onSelect,
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onSelect();
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeOutCubic,
@@ -308,17 +368,33 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                 color: Colorstheam.nobelblack,
               ),
             ),
-            SizedBox(height: 3.h),
-            Text(
-              "${address["city"]}, ${address["state"]} ${address["pincode"]}",
-              style: TextStyle(
-                height: 1.4,
-                fontSize: 14.sp,
-                fontFamily: "Urbanist",
-                fontWeight: FontWeight.w400,
-                color: Colorstheam.grey,
+
+            if (address["address2"] != null &&
+                address["address2"].toString().trim().isNotEmpty) ...[
+              SizedBox(height: 3.h),
+              Text(
+                address["address2"],
+                style: TextStyle(
+                  height: 1.4,
+                  fontSize: 14.sp,
+                  fontFamily: "Urbanist",
+                  color: Colorstheam.grey,
+                ),
               ),
-            ),
+            ],
+            if (locationDetails.isNotEmpty) ...[
+              SizedBox(height: 3.h),
+              Text(
+                locationDetails,
+                style: TextStyle(
+                  height: 1.4,
+                  fontSize: 14.sp,
+                  fontFamily: "Urbanist",
+                  fontWeight: FontWeight.w400,
+                  color: Colorstheam.grey,
+                ),
+              ),
+            ],
             SizedBox(height: 3.h),
             Text(
               address["country"] ?? "",
@@ -329,6 +405,70 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                 color: Colorstheam.grey,
               ),
             ),
+
+            if (address["phone"] != null &&
+                address["phone"].toString().trim().isNotEmpty) ...[
+              SizedBox(height: 3.h),
+              Text(
+                "${address["dialCode"] ?? ""} ${address["phone"]}",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontFamily: "Urbanist",
+                  color: Colorstheam.grey,
+                ),
+              ),
+            ],
+            SizedBox(height: 9.h),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle_outline_rounded,
+                        size: 15.sp,
+                        color: Colorstheam.grey,
+                      ),
+                      SizedBox(width: 6.w),
+                      Text(
+                        "Set as default",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontFamily: "Urbanist",
+                          fontWeight: FontWeight.w600,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 25.h,
+                    child: Transform.scale(
+                      scale: 0.75,
+                      alignment: Alignment.centerRight,
+                      child: Switch.adaptive(
+                        value: address["isDefault"] == true,
+                        activeTrackColor: Colorstheam.nobelblack,
+                        inactiveTrackColor: Colorstheam.lightgrey,
+                        onChanged: (value) {
+                          if (value) {
+                            HapticFeedback.selectionClick();
+
+                            final index = controller.addresses.indexWhere(
+                                  (item) => item["id"] == address["id"],
+                            );
+
+                            if (index != -1) {
+                              controller.setDefaultAddress(index);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             SizedBox(height: 16.h),
             Container(
               height: 1,
@@ -363,73 +503,36 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
-  Widget _selectionIndicator({
-    required bool isSelected,
-  }) {
-    return AnimatedScale(
-      scale: isSelected ? 1.0 : 0.92,
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.easeOutBack,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutCubic,
-        width: 24.w,
-        height: 24.w,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
 
+  // SELECTED ADDRESS INDICATOR
+  Widget _selectionIndicator({required bool isSelected}) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      width: 22.w,
+      height: 22.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isSelected
+            ? Colorstheam.nobelblack
+            : Colorstheam.white,
+        border: Border.all(
           color: isSelected
               ? Colorstheam.nobelblack
-              : Colors.transparent,
-
-          border: Border.all(
-            color: isSelected
-                ? Colorstheam.nobelblack
-                : Colors.grey.shade400,
-            width: isSelected ? 1.5 : 1.2,
-          ),
-
-          boxShadow: isSelected
-              ? [
-            BoxShadow(
-              color: Colorstheam.nobelblack.withValues(
-                alpha: 0.18,
-              ),
-              blurRadius: 8,
-              spreadRadius: 1,
-            ),
-          ]
-              : null,
-        ),
-
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 220),
-          switchInCurve: Curves.easeOutBack,
-          switchOutCurve: Curves.easeIn,
-          transitionBuilder: (child, animation) {
-            return ScaleTransition(
-              scale: animation,
-              child: FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
-            );
-          },
-          child: isSelected
-              ? Icon(
-            Icons.check_rounded,
-            key: const ValueKey("selected"),
-            size: 14.sp,
-            color: Colorstheam.white,
-          )
-              : const SizedBox(
-            key: ValueKey("unselected"),
-          ),
+              : Colorstheam.grey,
+          width: 1.5,
         ),
       ),
+      child: isSelected
+          ? Icon(
+        Icons.check,
+        size: 14.sp,
+        color: Colorstheam.white,
+      )
+          : null,
     );
   }
 
+  // ADDRESS TYPE BADGE
   Widget _addressTypeBadge(String type) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -451,6 +554,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // DEFAULT BADGE
   Widget _defaultBadge() {
     return Text(
       "DEFAULT",
@@ -463,6 +568,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // ADDRESS ACTION BUTTON
   Widget _addressAction({
     required String title,
     required VoidCallback onTap,
@@ -489,6 +596,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // EMPTY ADDRESS VIEW
   Widget _emptyAddressView() {
     return Center(
       child: Padding(
@@ -511,9 +620,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                 color: Colorstheam.nobelblack,
               ),
             ),
-
             SizedBox(height: 20.h),
-
             Text(
               "No saved addresses",
               textAlign: TextAlign.center,
@@ -524,9 +631,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                 color: Colorstheam.nobelblack,
               ),
             ),
-
             SizedBox(height: 8.h),
-
             Text(
               "Add your address for a faster and easier checkout experience.",
               textAlign: TextAlign.center,
@@ -543,6 +648,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // DELETE CONFIRMATION BOTTOM SHEET
   void _showDeleteDialog(
       BuildContext context,
       int index,
@@ -573,9 +680,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     color: Colorstheam.clusterwhite,
                   ),
                 ),
-
                 SizedBox(height: 22.h),
-
                 Text(
                   "Remove Address?",
                   style: TextStyle(
@@ -585,9 +690,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     color: Colorstheam.nobelblack,
                   ),
                 ),
-
                 SizedBox(height: 8.h),
-
                 Text(
                   "Are you sure you want to remove this address?",
                   textAlign: TextAlign.center,
@@ -598,9 +701,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     height: 1.4,
                   ),
                 ),
-
                 SizedBox(height: 24.h),
-
                 Row(
                   children: [
                     Expanded(
@@ -623,28 +724,20 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                                 fontFamily: "Urbanist",
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                Colorstheam.nobelblack,
+                                color: Colorstheam.nobelblack,
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-
                     SizedBox(width: 12.w),
-
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           HapticFeedback.heavyImpact();
                           Get.back();
-
-                          // TODO:
-                          // Delete address from controller.
-                          debugPrint(
-                            "Delete address: $index",
-                          );
+                          await controller.deleteAddress(index);
                         },
                         child: Container(
                           height: 50.h,
@@ -674,12 +767,17 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       },
     );
   }
+
+  // BACK BUTTON
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         HapticFeedback.heavyImpact();
-        final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
+
+        final Bottomnavigationcontroller bottomNav =
+        Get.find<Bottomnavigationcontroller>();
+
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;
       },
@@ -700,6 +798,8 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
+
+  // HEADER ICON
   Widget _headerIcon({
     required String icon,
     VoidCallback? onTap,
@@ -718,5 +818,4 @@ class Addresslistview extends GetView<Addresslistcontroller> {
       ),
     );
   }
-
 }

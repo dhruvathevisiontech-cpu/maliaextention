@@ -51,6 +51,7 @@ abstract class Routes {
   static const GALLARY = _Paths.GALLARY;
   static const BLOG = _Paths.BLOG;
   static const DELETEACCOUNT = _Paths.DELETEACCOUNT;
+  static const EDITADDRESS = _Paths.EDITADDRESS;
 }
 
 abstract class _Paths {
@@ -101,4 +102,5 @@ abstract class _Paths {
   static const GALLARY = '/gallary';
   static const BLOG = '/blog';
   static const DELETEACCOUNT = '/deleteaccount';
+  static const EDITADDRESS = '/editaddress';
 }

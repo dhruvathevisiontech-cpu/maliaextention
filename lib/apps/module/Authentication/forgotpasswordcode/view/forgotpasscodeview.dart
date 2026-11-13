@@ -58,7 +58,6 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                     highlightColor: Colors.transparent,
                     hoverColor: Colors.transparent,
                     focusColor: Colors.transparent,
-                    borderRadius: BorderRadius.circular(100),
                     onTap: () {
                       HapticFeedback.heavyImpact();
                       final forgotPasswordController = Get.find<Forgotpasswordcontroller>();

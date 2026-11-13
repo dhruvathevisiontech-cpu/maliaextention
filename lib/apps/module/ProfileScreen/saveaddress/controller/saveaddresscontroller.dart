@@ -1,11 +1,20 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:maliaextention/apps/module/shopify_collection_service.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../model/countrymodel.dart';
 
 class Saveaddresscontroller extends GetxController {
+  final GetStorage storage = GetStorage();
+
+  // Temporary customer ID for local testing.
+  static const String customerId = '9310057726208';
+
+  String get addressStorageKey => 'addresses_$customerId';
+
   RxString selectedCountry = "United States".obs;
+
   final formKey = GlobalKey<FormState>();
 
   final phoneController = TextEditingController();
@@ -15,64 +24,38 @@ class Saveaddresscontroller extends GetxController {
   final addressController = TextEditingController();
   final apartmentController = TextEditingController();
   final cityController = TextEditingController();
+
+  final RxBool isSaving = false.obs;
+
   final RxList<Map<String, dynamic>> availableCountries =
       <Map<String, dynamic>>[].obs;
 
-  final RxBool isCountriesLoading = false.obs;
-
   final RxString countryError = ''.obs;
 
-  Future<void> fetchCountries() async {
-    try {
-      isCountriesLoading.value = true;
-      countryError.value = '';
+  final List<CountryModel> countries = [
+    CountryModel(name: "United States", code: "US", dialCode: "+1"),
+    CountryModel(name: "Canada", code: "CA", dialCode: "+1"),
+    CountryModel(name: "India", code: "IN", dialCode: "+91"),
+    CountryModel(name: "United Kingdom", code: "GB", dialCode: "+44"),
+    CountryModel(name: "Australia", code: "AU", dialCode: "+61"),
+  ];
 
-      const query = r'''
-      query {
-        localization {
-          availableCountries {
-            isoCode
-            name
-            currency {
-              isoCode
-              symbol
-            }
-          }
-        }
-      }
-    ''';
-
-      final response = await ShopifyCollectionService.query(query);
-
-      final countryData =
-          response['localization']?['availableCountries'] as List? ?? [];
-
-      availableCountries.value = countryData
-          .map((country) => Map<String, dynamic>.from(country))
-          .toList();
-
-      // Keep United States selected by default if available.
-      final defaultCountry = availableCountries.firstWhereOrNull(
-            (country) => country['isoCode'] == 'US',
-      );
-
-      if (defaultCountry != null) {
-        selectedCountry.value = defaultCountry['name'];
-      } else if (availableCountries.isNotEmpty) {
-        selectedCountry.value = availableCountries.first['name'];
-      }
-    } catch (e) {
-      countryError.value = 'Unable to load countries. Please try again.';
-      debugPrint('Shopify country error: $e');
-    } finally {
-      isCountriesLoading.value = false;
-    }
-  }
   @override
   void onInit() {
     super.onInit();
-    fetchCountries();
+
+    // Load countries locally. No Shopify API call.
+    availableCountries.assignAll(
+      countries.map((country) {
+        return {
+          'name': country.name,
+          'isoCode': country.code,
+        };
+      }).toList(),
+    );
   }
+
+  // Local address suggestions.
   final List<Map<String, String>> dummyAddresses = [
     {
       "address": "1254 Sunset Boulevard",
@@ -111,35 +94,9 @@ class Saveaddresscontroller extends GetxController {
       "country": "India",
     },
   ];
+
   RxList<Map<String, String>> addressSuggestions =
       <Map<String, String>>[].obs;
-  final List<CountryModel> countries = [
-    CountryModel(
-      name: "United States",
-      code: "US",
-      dialCode: "+1",
-    ),
-    CountryModel(
-      name: "Canada",
-      code: "CA",
-      dialCode: "+1",
-    ),
-    CountryModel(
-      name: "India",
-      code: "IN",
-      dialCode: "+91",
-    ),
-    CountryModel(
-      name: "United Kingdom",
-      code: "GB",
-      dialCode: "+44",
-    ),
-    CountryModel(
-      name: "Australia",
-      code: "AU",
-      dialCode: "+61",
-    ),
-  ];
 
   void searchAddress(String query) {
     if (query.trim().isEmpty) {
@@ -149,16 +106,18 @@ class Saveaddresscontroller extends GetxController {
 
     final searchQuery = query.toLowerCase().trim();
 
-    addressSuggestions.value = dummyAddresses.where((address) {
-      final fullAddress =
-      "${address["address"]} ${address["location"]}".toLowerCase();
+    addressSuggestions.assignAll(
+      dummyAddresses.where((address) {
+        final fullAddress =
+        "${address["address"]} ${address["location"]}".toLowerCase();
 
-      return fullAddress.contains(searchQuery);
-    }).toList();
+        return fullAddress.contains(searchQuery);
+      }).toList(),
+    );
   }
+
   void selectAddress(Map<String, String> address) {
     addressController.text = address["address"] ?? "";
-
     cityController.text = address["city"] ?? "";
 
     final country = address["country"];
@@ -183,6 +142,76 @@ class Saveaddresscontroller extends GetxController {
     selectedCountry.value = country;
   }
 
+  // SAVE ADDRESS LOCALLY
+
+  Future<bool> saveAddress() async {
+    if (!(formKey.currentState?.validate() ?? false)) {
+      debugPrint('Address form validation failed');
+      return false;
+    }
+
+    try {
+      isSaving.value = true;
+
+      final List<dynamic> savedData =
+          storage.read<List<dynamic>>(addressStorageKey) ?? [];
+
+      final List<Map<String, dynamic>> addresses =
+      savedData.map((item) {
+        return Map<String, dynamic>.from(item);
+      }).toList();
+
+      final bool isFirstAddress = addresses.isEmpty;
+
+      final Map<String, dynamic> newAddress = {
+        'id': DateTime.now().microsecondsSinceEpoch.toString(),
+        'firstName': firstNameController.text.trim(),
+        'lastName': lastNameController.text.trim(),
+        'name':
+        '${firstNameController.text.trim()} ${lastNameController.text.trim()}',
+        'company': companyController.text.trim(),
+        'address': addressController.text.trim(),
+        'address2': apartmentController.text.trim(),
+        'city': cityController.text.trim(),
+        'country': selectedCountry.value,
+        'phone': phoneController.text.trim(),
+        'dialCode': selectedDialCode,
+        'type': 'HOME',
+        'isDefault': isFirstAddress,
+        'createdAt': DateTime.now().toIso8601String(),
+      };
+
+      addresses.add(newAddress);
+
+      await storage.write(addressStorageKey, addresses);
+
+      debugPrint('ADDRESS SAVED SUCCESSFULLY');
+      debugPrint('Saved addresses: ${storage.read(addressStorageKey)}');
+
+      Get.snackbar(
+        'Success',
+        'Address saved successfully.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
+      return true;
+    } catch (e, stackTrace) {
+      debugPrint('SAVE ADDRESS ERROR: $e');
+      debugPrint('STACK TRACE: $stackTrace');
+
+      Get.snackbar(
+        'Error',
+        'Unable to save address. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
+      return false;
+    } finally {
+      isSaving.value = false;
+    }
+  }
+
+
   @override
   void onClose() {
     firstNameController.dispose();
@@ -192,6 +221,7 @@ class Saveaddresscontroller extends GetxController {
     addressController.dispose();
     apartmentController.dispose();
     cityController.dispose();
+
     super.onClose();
   }
 }

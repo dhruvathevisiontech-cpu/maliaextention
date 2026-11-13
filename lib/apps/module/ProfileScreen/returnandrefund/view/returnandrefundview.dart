@@ -42,7 +42,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
               left: screensize.width * 0.04,
             ),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: screensize.width * 0.02),
                 Text(
@@ -62,7 +62,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
           padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 05.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(16.w),
@@ -80,14 +80,11 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                   ),
                 ),
               ),
-
               SizedBox(height: 16.h),
-
               _paragraph(
                 'Please review our return and refund guidelines carefully before '
                     'submitting a return or exchange request.',
               ),
-
               _returnRule(
                 '1',
                 'Unused products only',
@@ -95,35 +92,29 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                     'used. Once the hair packaging has been opened, the product is '
                     'considered used and cannot be returned.',
               ),
-
               _returnRule(
                 '2',
                 '7-day return window',
                 'Refund requests must be made within 7 days of the recipient '
                     'receiving the hair.',
               ),
-
               _returnRule(
                 '3',
                 'Inspection before refund',
                 'Refunds are processed after the returned item has been received '
                     'and inspected.',
               ),
-
               _returnRule(
                 '4',
                 'Shipping costs',
                 'Original shipping costs are non-refundable.',
               ),
-
               _returnRule(
                 '5',
                 'Return approval',
                 'We reserve the right to refuse any return or refund request.',
               ),
-
               SizedBox(height: 12.h),
-
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(18.w),
@@ -136,7 +127,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: <Widget>[
                     Text(
                       'Start a Return or Exchange',
                       style: TextStyle(
@@ -159,7 +150,6 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                           final uri = Uri.parse(
                             'https://maliaextensions.loopreturns.com/#/',
                           );
-
                           await launchUrl(
                             uri,
                             mode: LaunchMode.externalApplication,
@@ -170,17 +160,16 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                           foregroundColor: Colorstheam.white,
                           elevation: 0,
                           padding: EdgeInsets.symmetric(vertical: 15.h),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7.r),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.r)),
                         ),
                         child: Text(
                           'START A RETURN',
                           style: TextStyle(
-                            fontFamily: 'Urbanist',
                             fontSize: 14.sp,
-                            fontWeight: FontWeight.w800,
                             letterSpacing: 0.8,
+                            fontFamily: 'Urbanist',
+                            fontWeight: FontWeight.w800,
+                            color: Colorstheam.clusterwhite
                           ),
                         ),
                       ),
@@ -188,9 +177,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
                   ],
                 ),
               ),
-
               SizedBox(height: 22.h),
-
               Center(
                 child: Text(
                   'Thank you for your understanding.',
@@ -246,7 +233,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
       padding: EdgeInsets.only(bottom: 18.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Container(
             width: 30.w,
             height: 30.w,
@@ -269,7 +256,7 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   title,
                   style: TextStyle(
@@ -317,12 +304,10 @@ class Returnandrefundview extends GetView<Returnandrefundcontroller> {
 
 class LineHighlightedText extends StatelessWidget {
   final String text;
-
   const LineHighlightedText({
     super.key,
     required this.text,
   });
-
   @override
   Widget build(BuildContext context) {
     final style = TextStyle(
@@ -332,7 +317,6 @@ class LineHighlightedText extends StatelessWidget {
       fontWeight: FontWeight.bold,
       color: Colorstheam.green1,
     );
-
     return Padding(
       padding: EdgeInsets.only(bottom: 12.h),
       child: LayoutBuilder(
@@ -346,11 +330,7 @@ class LineHighlightedText extends StatelessWidget {
             textAlign: TextAlign.left,
             textWidthBasis: TextWidthBasis.parent,
           );
-
-          painter.layout(
-            maxWidth: constraints.maxWidth,
-          );
-
+          painter.layout(maxWidth: constraints.maxWidth);
           return CustomPaint(
             painter: _LineBackgroundPainter(
               textPainter: painter,
@@ -370,7 +350,6 @@ class LineHighlightedText extends StatelessWidget {
 class _LineBackgroundPainter extends CustomPainter {
   final TextPainter textPainter;
   final Color backgroundColor;
-
   _LineBackgroundPainter({
     required this.textPainter,
     required this.backgroundColor,
@@ -380,27 +359,21 @@ class _LineBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = backgroundColor;
     final textLength = textPainter.text?.toPlainText().length ?? 0;
-
     var offset = 0;
-
     while (offset < textLength) {
       final range = textPainter.getLineBoundary(
         TextPosition(offset: offset),
       );
-
       final end = range.end;
-
       if (end <= offset) {
         break;
       }
-
       final boxes = textPainter.getBoxesForSelection(
         TextSelection(
           baseOffset: range.start,
           extentOffset: end,
         ),
       );
-
       for (final box in boxes) {
         canvas.drawRect(
           Rect.fromLTRB(
@@ -412,18 +385,13 @@ class _LineBackgroundPainter extends CustomPainter {
           paint,
         );
       }
-
       offset = end;
     }
-
     textPainter.paint(canvas, Offset.zero);
   }
 
   @override
-  bool shouldRepaint(
-      covariant _LineBackgroundPainter oldDelegate,
-      ) {
-    return oldDelegate.textPainter != textPainter ||
-        oldDelegate.backgroundColor != backgroundColor;
+  bool shouldRepaint(covariant _LineBackgroundPainter oldDelegate) {
+    return oldDelegate.textPainter != textPainter || oldDelegate.backgroundColor != backgroundColor;
   }
 }

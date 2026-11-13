@@ -4,6 +4,8 @@ import 'package:maliaextention/apps/module/ProfileScreen/blog/view/blogview.dart
 import 'package:maliaextention/apps/module/Authentication/login/view/loginview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/bindings/deleteaccountbinding.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/view/deleteaccountview.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/editaddress/bindings/editaddressbinding.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/editaddress/view/editaddressview.dart';
 import 'package:maliaextention/apps/module/ProfileScreen/policy/view/policyview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/search/view/searchview.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/viewcart/view/viewcart.dart';
@@ -399,6 +401,13 @@ class AppPages {
         name: _Paths.DELETEACCOUNT,
         page: () => Deleteaccountview(),
         binding: Deleteaccountbinding(),
+        transition: Transition.noTransition,
+        curve: Curves.elasticIn
+    ),
+    GetPage(
+        name: _Paths.EDITADDRESS,
+        page: () => Editaddressview(),
+        binding: Editaddressbinding(),
         transition: Transition.noTransition,
         curve: Curves.elasticIn
     ),
