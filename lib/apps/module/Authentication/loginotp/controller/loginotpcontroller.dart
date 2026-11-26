@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:maliaextention/typo/appsnackbar.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:maliaextention/apps/module/Authentication/auth_session_helper.dart';
-import 'package:maliaextention/typo/appsnackbar.dart';
 
 class Loginotpcontroller extends GetxController {
   static const String staticOtp = "123456";
@@ -18,19 +18,15 @@ class Loginotpcontroller extends GetxController {
   void onInit() {
     super.onInit();
     final arguments = Get.arguments;
-    if (arguments is Map) {
-      email = arguments['email']?.toString() ?? '';
-    }
+    if (arguments is Map) {email = arguments['email']?.toString() ?? '';}
     startTimer();
   }
-
   void startTimer() {
     _timer?.cancel();
     canResend.value = false;
     seconds.value = 30;
     _timer = Timer.periodic(
-      const Duration(seconds: 1),
-          (timer) {
+      const Duration(seconds: 1),(timer) {
         if (seconds.value <= 1) {
           timer.cancel();
           seconds.value = 0;
@@ -41,7 +37,6 @@ class Loginotpcontroller extends GetxController {
       },
     );
   }
-
   Future<void> verifyOtp() async {
     if (otpController.text.length != 6) {
       AppSnackbar.error("Please enter a 6-digit OTP",);

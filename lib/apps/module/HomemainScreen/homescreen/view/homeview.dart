@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maliaextention/apps/module/HomemainScreen/homescreen/controller/homecontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/module/cartcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 
 class Homeview extends GetView<Homecontroller> {
@@ -36,6 +37,14 @@ class Homeview extends GetView<Homecontroller> {
             backgroundColor: Colorstheam.white,
             elevation: 0,
             titleSpacing: 0,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(1.h),
+              child: Container(
+                height: 1.h,
+                width: double.infinity,
+                color: Colorstheam.clusterwhite,
+              ),
+            ),
             title: Padding(
               padding: EdgeInsets.only(
                 left: screensize.width * 0.04,
@@ -68,15 +77,59 @@ class Homeview extends GetView<Homecontroller> {
                 child: GestureDetector(
                   onTap: () {
                     HapticFeedback.heavyImpact();
+
                     final bottomNav = Get.find<Bottomnavigationcontroller>();
                     bottomNav.selectedIndex.value = 0;
                     bottomNav.currentPage.value = PageType.viewcart;
                   },
-                  child: SvgPicture.asset(
-                    "asset/svg/cart.svg",
-                    height: 22.h,
-                    width: 22.w,
-                  ),
+                  child: Obx(() {
+                    if (!Get.isRegistered<Cartcontroller>()) {
+                      Get.put(Cartcontroller());
+                    }
+
+                    final cartController = Get.find<Cartcontroller>();
+                    final quantity = cartController.totalQuantity;
+
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: <Widget>[
+                        SvgPicture.asset(
+                          "asset/svg/cart.svg",
+                          height: 22.h,
+                          width: 22.w,
+                        ),
+                        if (quantity > 0)
+                          Positioned(
+                            right: -9.w,
+                            top: -8.h,
+                            child: Container(
+                              constraints: BoxConstraints(
+                                minWidth: 17.w,
+                                minHeight: 17.h,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 4.w,
+                                vertical: 2.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colorstheam.nobelblack,
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                quantity > 99 ? '99+' : quantity.toString(),
+                                style: TextStyle(
+                                  fontFamily: "Urbanist",
+                                  fontSize: 11.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colorstheam.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  }),
                 ),
               ),
             ],
@@ -262,7 +315,7 @@ class Homeview extends GetView<Homecontroller> {
                           child: SizedBox(
                             width: 130.w,
                             child: Column(
-                              children: [
+                              children: <Widget>[
                                 ClipRRect(
                                   child: categoryImage.isNotEmpty
                                       ? Image.network(
@@ -374,7 +427,7 @@ class Homeview extends GetView<Homecontroller> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Stack(
-                              children: [
+                              children: <Widget>[
                                 ClipRRect(
                                   child: productImage.isNotEmpty
                                       ? Image.network(
@@ -463,7 +516,7 @@ class Homeview extends GetView<Homecontroller> {
                             SizedBox(height: 4.h),
 
                             Row(
-                              children: [
+                              children: <Widget>[
                                 SvgPicture.asset(
                                   "asset/svg/star.svg",
                                   height: 11.h,
@@ -641,7 +694,7 @@ class Homeview extends GetView<Homecontroller> {
                       height: 410.h,
                       width: 362.w,
                       child: Stack(
-                        children: [
+                        children: <Widget>[
                           ClipRRect(
                             child: educationImage.isNotEmpty
                                 ? Image.network(
@@ -673,7 +726,7 @@ class Homeview extends GetView<Homecontroller> {
                             child: Column(
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
-                              children: [
+                              children: <Widget>[
                                 Text(
                                   educationTitle,
                                   style: TextStyle(
@@ -695,7 +748,7 @@ class Homeview extends GetView<Homecontroller> {
                                 ),
                                 Obx(() {
                                   return Column(
-                                    children: [
+                                    children: <Widget>[
                                       GestureDetector(
                                         onTap: () {
                                           HapticFeedback.heavyImpact();

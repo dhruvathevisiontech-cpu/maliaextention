@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:maliaextention/animation/animated_button.dart';
 import 'package:maliaextention/apps/module/EducationScreen/education/controller/educationcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/module/cartcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:marquee/marquee.dart';
 
@@ -32,6 +33,14 @@ class Educationview extends GetView<Educationcontroller> {
           elevation: 0,
           scrolledUnderElevation: 0,
           titleSpacing: 0,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.h),
+            child: Container(
+              height: 1.h,
+              width: double.infinity,
+              color: Colorstheam.clusterwhite,
+            ),
+          ),
           title: Padding(padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
               children: <Widget>[
@@ -59,17 +68,70 @@ class Educationview extends GetView<Educationcontroller> {
               },
             ),
             SizedBox(width: 20.w),
-            Padding(padding: EdgeInsets.only(right: screensize.width * 0.04),
-              child: _headerIcon(
-                onTap: (){
+
+            Padding(
+              padding: EdgeInsets.only(
+                right: screensize.width * 0.04,
+              ),
+              child: GestureDetector(
+                onTap: () {
                   HapticFeedback.heavyImpact();
+
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
                 },
-                icon: "asset/svg/cart.svg",
+                child: Obx(() {
+                  if (!Get.isRegistered<Cartcontroller>()) {
+                    Get.put(Cartcontroller());
+                  }
+                  final cartController = Get.find<Cartcontroller>();
+                  final quantity = cartController.totalQuantity;
+
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SvgPicture.asset(
+                        "asset/svg/cart.svg",
+                        height: 22.h,
+                        width: 22.w,
+                      ),
+
+                      if (quantity > 0)
+                        Positioned(
+                          right: -9.w,
+                          top: -8.h,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minWidth: 17.w,
+                              minHeight: 17.h,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 2.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colorstheam.nobelblack,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              quantity > 99 ? '99+' : quantity.toString(),
+                              style: TextStyle(
+                                fontFamily: "Urbanist",
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colorstheam.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
             ),
+
           ],
         ),
         body: Obx(() {

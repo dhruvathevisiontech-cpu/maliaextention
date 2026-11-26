@@ -1,176 +1,91 @@
-import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 
 class Collectioncontroller extends GetxController {
   final RxInt selectedCollection = (-1).obs;
-
   final RxList<Map<String, dynamic>> collections = <Map<String, dynamic>>[].obs;
-
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
-  final RxList<Map<String, dynamic>> metaobjectCollections = <Map<String, dynamic>>[].obs;
-
-  final RxBool isMetaobjectsLoading = false.obs;
-
-  final RxString metaobjectsErrorMessage = ''.obs;
   @override
   void onInit() {
     super.onInit();
-    fetchCollectionMetaobjects();
-
+    fetchCollections();
   }
-  Future<void> fetchCollectionMetaobjects() async {
+  Future<void> fetchCollections() async {
+    final stopwatch = Stopwatch()..start();
     try {
-      isMetaobjectsLoading.value = true;
-      metaobjectsErrorMessage.value = '';
-
-      final uri = Uri.https(
-        ShopifyCollectionService.storeDomain,
-        '/api/${ShopifyCollectionService.apiVersion}/graphql.json',
-      );
-
-      final response = await http.post(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Storefront-Access-Token':
-          ShopifyCollectionService.storefrontToken,
-        },
-        body: jsonEncode({
-          'query': r'''
-          query GetCollectionMetaobjects {
-            metaobjects(type: "collection", first: 50) {
-              nodes {
-                id
-                handle
-                fields {
-                  key
-                  value
-                  reference {
-                    __typename
-                    ... on Collection {
-                      id
-                      title
-                      handle
-                      image {
-                        url
-                        altText
-                      }
-                    }
-                    ... on MediaImage {
-                      image {
-                        url
-                        altText
-                      }
-                    }
-                    ... on GenericFile {
-                      url
-                    }
-                  }
-                }
-              }
+      isLoading.value = true;
+      errorMessage.value = '';
+      const String query = r'''
+      query GetCollections {
+        collections(first: 50, sortKey: TITLE) {
+          nodes {
+            id
+            title
+            handle
+            description
+            image {
+              url
+              altText
+              width
+              height
             }
           }
-        ''',
-        }),
-      );
-
-      if (response.statusCode != 200) {
-        throw Exception(
-          'HTTP ${response.statusCode}: ${response.body}',
-        );
-      }
-
-      final decoded =
-      jsonDecode(response.body) as Map<String, dynamic>;
-
-      if (decoded['errors'] != null) {
-        throw Exception('GraphQL errors: ${decoded['errors']}');
-      }
-
-      final data = decoded['data'] as Map<String, dynamic>?;
-      final nodes = data?['metaobjects']?['nodes'] as List? ?? [];
-      for (final item in nodes) {
-        final node = item as Map<String, dynamic>;
-        final fields = node['fields'] as List? ?? [];
-        for (final field in fields) {
-          final entry = field as Map<String, dynamic>;
         }
       }
-      final result = <Map<String, dynamic>>[];
-
+    ''';
+      final data = await ShopifyCollectionService.queryTokenless(query);
+      final collectionData = data['collections'];
+      if (collectionData == null) {
+        throw Exception('Shopify did not return collection data.');
+      }
+      final List nodes = collectionData['nodes'] as List? ?? [];
+      final List<Map<String, dynamic>> result = [];
       for (final item in nodes) {
-        final node = item as Map<String, dynamic>;
-        final fields = node['fields'] as List? ?? [];
-        final values = <String, dynamic>{};
-
-        for (final field in fields) {
-          final entry = field as Map<String, dynamic>;
-          final key = entry['key']?.toString() ?? '';
-          final value = entry['value'];
-          final reference =
-          entry['reference'] as Map<String, dynamic>?;
-
-          values[key] = value;
-
-          if (key == 'collection' && reference != null) {
-            values['collectionId'] = reference['id'];
-            values['collectionTitle'] = reference['title'];
-            values['collectionHandle'] = reference['handle'];
-
-            final collectionImage =
-            reference['image'] as Map<String, dynamic>?;
-            if (collectionImage?['url'] != null) {
-              values['collectionImageUrl'] =
-              collectionImage!['url'];
-            }
-          }
-
-          if (key == 'image' && reference != null) {
-            final mediaImage =
-            reference['image'] as Map<String, dynamic>?;
-
-            values['imageUrl'] =
-                mediaImage?['url'] ?? reference['url'];
-          }
+        final node = Map<String, dynamic>.from(item as Map);
+        final image = node['image'] is Map ? Map<String, dynamic>.from(node['image'] as Map) : <String, dynamic>{};
+        final String id = node['id']?.toString() ?? '';
+        final String title = node['title']?.toString() ?? '';
+        final String handle = node['handle']?.toString() ?? '';
+        if (id.isEmpty || title.isEmpty || handle.isEmpty) {
+          continue;
         }
-        final activeValue = values['is_active']?.toString().toLowerCase();
-        // Skip inactive entries. Empty values are not treated as active.
-        if (activeValue == 'false') continue;
-        final title = values['title']?.toString().trim() ?? '';
         result.add({
-          'id': node['id'] ?? '',
-          'handle': node['handle'] ?? '',
-          'title': title.isNotEmpty
-              ? title
-              : (values['collectionTitle'] ??
-              node['handle'] ??
-              ''),
-          'collectionId': values['collectionId'],
-          'collectionTitle': values['collectionTitle'],
-          'collectionHandle': values['collectionHandle'],
-          'imageUrl': values['imageUrl'] ??
-              values['collectionImageUrl'],
-          'sortOrder':
-          int.tryParse('${values['sort_order'] ?? ''}') ?? 9999,
+          'id': id,
+          'collectionId': id,
+          'title': title,
+          'collectionTitle': title,
+          'handle': handle,
+          'collectionHandle': handle,
+          'description': node['description'] ?? '',
+          'imageUrl': image['url']?.toString() ?? '',
+          'imageAltText': image['altText']?.toString() ?? '',
+          'imageWidth': image['width'],
+          'imageHeight': image['height'],
+          'sortOrder': result.length,
         });
       }
-
-      result.sort(
-            (a, b) => (a['sortOrder'] as int)
-            .compareTo(b['sortOrder'] as int),
-      );
-
-      metaobjectCollections.assignAll(result);
-      for (final item in result) {
-      }
+      collections.assignAll(result);
+      debugPrint('TOTAL COLLECTIONS: ${collections.length}');
     } catch (e, stackTrace) {
-      metaobjectsErrorMessage.value = e.toString();
+      errorMessage.value = e.toString();
+      debugPrint('COLLECTION FETCH ERROR: $e');
+      debugPrint('COLLECTION STACK TRACE: $stackTrace');
     } finally {
-      isMetaobjectsLoading.value = false;
+      stopwatch.stop();
+      const minimumShimmerDuration = Duration(milliseconds: 1200);
+      final remainingTime = minimumShimmerDuration - stopwatch.elapsed;
+      debugPrint('========== SHIMMER DEBUG ==========');
+      debugPrint('API + MAPPING TIME: ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint('REMAINING SHIMMER TIME: ${remainingTime.inMilliseconds}ms');
+      debugPrint('IS LOADING BEFORE DELAY: ${isLoading.value}');
+      if (remainingTime > Duration.zero) {
+        await Future.delayed(remainingTime);
+      }
+      isLoading.value = false;
+      debugPrint('IS LOADING AFTER DELAY: ${isLoading.value}');
+      debugPrint('===================================');
     }
   }
-
 }

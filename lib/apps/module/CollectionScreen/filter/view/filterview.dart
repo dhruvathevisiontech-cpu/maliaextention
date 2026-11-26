@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +29,14 @@ class Filterview extends GetView<Filtercontroller> {
           scrolledUnderElevation: 0,
           titleSpacing: 0,
           centerTitle: false,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.h),
+            child: Container(
+              height: 1.h,
+              width: double.infinity,
+              color: Colorstheam.clusterwhite,
+            ),
+          ),
           title: Padding(
             padding: EdgeInsets.only(left: screensize.width * 0.04,),
             child: Text(

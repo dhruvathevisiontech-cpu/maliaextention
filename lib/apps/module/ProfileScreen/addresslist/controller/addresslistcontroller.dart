@@ -77,27 +77,18 @@ class Addresslistcontroller extends GetxController {
   Future<void> deleteAddress(int index) async {
     try {
       if (index < 0 || index >= addresses.length) return;
-
-      final bool wasDefault =
-          addresses[index]['isDefault'] == true;
-
+      final bool wasDefault = addresses[index]['isDefault'] == true;
       addresses.removeAt(index);
-
-      // Update default address if the removed address was default.
       if (addresses.isNotEmpty && wasDefault) {
         for (int i = 0; i < addresses.length; i++) {
           addresses[i]['isDefault'] = i == 0;
         }
       }
-
-      // Update selected address.
       if (addresses.isEmpty) {
         selectedAddress.value = -1;
       } else {
         selectedAddress.value = 0;
       }
-
-      // Save updated list to local storage.
       await storage.write(
         addressStorageKey,
         addresses.toList(),

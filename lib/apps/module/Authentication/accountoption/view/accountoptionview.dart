@@ -44,6 +44,14 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                     statusBarIconBrightness: Brightness.dark,
                     statusBarBrightness: Brightness.light,
                   ),
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(1.h),
+                    child: Container(
+                      height: 1.h,
+                      width: double.infinity,
+                      color: Colorstheam.clusterwhite,
+                    ),
+                  ),
                   elevation: 0,
                   centerTitle:true,
                   leading: Padding(
@@ -148,7 +156,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                                     border: Border.all(color: Colorstheam.nobelblack)
                                 ),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.only(top: screensize.height * 0.015),
                                       child: Text(
@@ -230,7 +238,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                                     border: Border.all(color: Colorstheam.nobelblack)
                                 ),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.only(top: screensize.height * 0.015),
                                       child: Text(

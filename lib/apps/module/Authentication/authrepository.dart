@@ -1,7 +1,6 @@
 import 'package:maliaextention/apps/model/loginmodel.dart';
 
 class AuthRepository {
-
   Future<LoginResponse> login(String email) async {
     await Future.delayed(const Duration(seconds: 2));
     if (email == "test@gmail.com") {
@@ -17,5 +16,4 @@ class AuthRepository {
       message: "Email not registered",
     );
   }
-
 }

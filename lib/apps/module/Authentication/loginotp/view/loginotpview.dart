@@ -33,6 +33,14 @@ class Loginotpview extends GetView<Loginotpcontroller> {
               ),
               elevation: 0,
               centerTitle:true,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(1.h),
+                child: Container(
+                  height: 1.h,
+                  width: double.infinity,
+                  color: Colorstheam.clusterwhite,
+                ),
+              ),
               leading: Padding(
                 padding: EdgeInsets.only(left: screensize.width * 0.04),
                 child: InkWell(
@@ -225,8 +233,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                             ),
                           ),
                         ),
-                      )
-                          : Align(
+                      ) : Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
                               padding: EdgeInsets.only(left: screensize.width * 0.04,top: screensize.height * 0.01),
@@ -284,8 +291,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                                     ),
                                   ),
                                 ],
-                              )
-                                  : Text(
+                              ) : Text(
                                 "Verify Code",
                                 key: const ValueKey("Verify"),
                                 style: TextStyle(

@@ -11,6 +11,7 @@ import 'package:maliaextention/apps/module/Splash/onboarding/controller/onboardi
 
 class Onboardingview extends GetView<Onboardingcontroller> {
   Onboardingview({super.key});
+
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;

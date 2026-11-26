@@ -27,6 +27,14 @@ class Aboutusview extends GetView<Aboutuscontroller> {
           scrolledUnderElevation: 0,
           toolbarHeight: 62.h,
           titleSpacing: 0,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.h),
+            child: Container(
+              height: 1.h,
+              width: double.infinity,
+              color: Colorstheam.clusterwhite,
+            ),
+          ),
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Row(
@@ -45,13 +53,6 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                   ),
                 ),
               ],
-            ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(1.h),
-            child: Container(
-              height: 1.h,
-              color: Colorstheam.clusterwhite,
             ),
           ),
         ),
@@ -173,16 +174,12 @@ class Aboutusview extends GetView<Aboutuscontroller> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 6.h),
-
                       _buildImage(
                         controller.text('team_image'),
                         aspectRatio: 0.95,
                       ),
-
                       SizedBox(height: 20.h),
-
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(18.w),

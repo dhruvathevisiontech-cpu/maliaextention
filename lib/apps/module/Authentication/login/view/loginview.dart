@@ -10,6 +10,7 @@ import 'package:maliaextention/animation/textselect.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
+import 'package:maliaextention/apps/module/shopify_collection_service.dart';
 import 'package:maliaextention/apps/module/Authentication/login/controller/logincontroller.dart';
 
 class Loginview extends GetView<Logincontroller> {
@@ -38,6 +39,14 @@ class Loginview extends GetView<Logincontroller> {
                 statusBarColor: Colors.transparent,
                 statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.light,
+              ),
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(1.h),
+                child: Container(
+                  height: 1.h,
+                  width: double.infinity,
+                  color: Colorstheam.clusterwhite,
+                ),
               ),
               elevation: 0,
               centerTitle:true,
@@ -367,8 +376,9 @@ class Loginview extends GetView<Logincontroller> {
                                      Padding(
                                        padding: EdgeInsets.only(left: 0,right: 0),
                                        child: GestureDetector(
-                                         onTap: () {
+                                         onTap: () async {
                                            HapticFeedback.lightImpact();
+                                           await ShopifyCollectionService.testCustomerEmail(controller.inputController.text);
                                          },
                                          child: SvgPicture.asset(
                                            "asset/svg/google.svg",

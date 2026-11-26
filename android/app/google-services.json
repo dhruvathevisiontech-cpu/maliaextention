@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "106216011928",
+    "project_id": "maliamobileapp-bc5e8",
+    "storage_bucket": "maliamobileapp-bc5e8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106216011928:android:d9012550a27e8e884ef8ed",
+        "android_client_info": {
+          "package_name": "com.malia.maliaextensions.maliaextention"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7lWlkc3zxCxb_Pp5TvaaPClKVfYsHm9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

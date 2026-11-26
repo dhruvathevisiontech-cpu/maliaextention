@@ -346,6 +346,14 @@ class _GalleryPreviewState extends State<_GalleryPreview> {
         backgroundColor: Colorstheam.black,
         foregroundColor: Colorstheam.white,
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(1.h),
+          child: Container(
+            height: 1.h,
+            width: double.infinity,
+            color: Colorstheam.clusterwhite,
+          ),
+        ),
         title: Text(
           '${_currentIndex + 1} / ${widget.images.length}',
           style: TextStyle(

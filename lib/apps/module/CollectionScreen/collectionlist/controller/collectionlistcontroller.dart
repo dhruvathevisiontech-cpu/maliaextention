@@ -1,15 +1,11 @@
-
 import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:maliaextention/apps/module/shopify_collection_service.dart';
-import 'package:maliaextention/color/colorstheam.dart';
-import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
 import 'package:maliaextention/typo/appsnackbar.dart';
-
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/apps/module/shopify_collection_service.dart';
+import 'package:maliaextention/apps/module/WishlistScreen/wishlist/controller/wishlistcontroller.dart';
 class Collectionlistcontroller extends GetxController {
   final RxInt selectedSubCollection = 0.obs;
   final RxList<Map<String, dynamic>> metaobjectCollections = <Map<String, dynamic>>[].obs;
@@ -29,7 +25,6 @@ class Collectionlistcontroller extends GetxController {
   bool _hasLoadedParentProducts = false;
   String? _loadedParentId;
   String? _loadedSubCollectionId;
-
   static const String _metaobjectsQuery = r'''
     query GetCollectionMetaobjects {
       metaobjects(type: "collection", first: 50) {
@@ -76,7 +71,6 @@ class Collectionlistcontroller extends GetxController {
       }
     }
   ''';
-
   static const String _productsQuery = r'''
   query GetCollectionProducts($handle: String!) {
     collection(handle: $handle) {
@@ -135,30 +129,22 @@ class Collectionlistcontroller extends GetxController {
     }
   }
 ''';
-
-  Future<List<Map<String, dynamic>>> _loadCollectionsByIds(
-      List<String> ids,
-      ) async {
+  Future<List<Map<String, dynamic>>> _loadCollectionsByIds(List<String> ids,) async {
     if (ids.isEmpty) return [];
-
     final data = await _shopifyRequest(
       _collectionsByIdsQuery,
       variables: {'ids': ids},
     );
-
     final nodes = data['nodes'] as List? ?? [];
     final result = <Map<String, dynamic>>[];
-
     for (final node in nodes) {
       final collection = _collectionFromReference(node);
       if (collection != null) {
         result.add(collection);
       }
     }
-
     return result;
   }
-
   Future<Map<String, dynamic>> _shopifyRequest(
       String query, {
         Map<String, dynamic> variables = const {},
@@ -168,30 +154,24 @@ class Collectionlistcontroller extends GetxController {
       variables: variables,
     );
   }
-
-
+  Future<Map<String, dynamic>> _shopifyTokenlessRequest(String query, {Map<String, dynamic> variables = const {}}) async {
+    return await ShopifyCollectionService.queryTokenless(query, variables: variables);
+  }
   Map<String, dynamic> _fieldsByKey(dynamic rawFields) {
     final result = <String, dynamic>{};
-
     if (rawFields is! List) return result;
-
     for (final rawField in rawFields) {
       if (rawField is Map<String, dynamic>) {
         result[rawField['key']?.toString() ?? ''] = rawField;
       }
     }
-
     return result;
   }
-
   Map<String, dynamic>? _collectionFromReference(dynamic reference) {
     if (reference is! Map<String, dynamic>) return null;
-
     final id = reference['id']?.toString() ?? '';
     final handle = reference['handle']?.toString() ?? '';
-
     if (id.isEmpty || handle.isEmpty) return null;
-
     return {
       'id': id,
       'title': reference['title']?.toString() ?? '',
@@ -201,7 +181,6 @@ class Collectionlistcontroller extends GetxController {
           : '',
     };
   }
-
   Future<void> loadMetaobjectCollections() async {
     isLoadingCollections.value = true;
     errorMessage.value = '';
@@ -283,121 +262,71 @@ class Collectionlistcontroller extends GetxController {
     }
   }
   Future<void> loadSubCollectionsForParent(String parentTitle) async {
-    final parent = metaobjectCollections.firstWhereOrNull(
-          (item) =>
-      item['title'].toString().trim().toLowerCase() ==
-          parentTitle.trim().toLowerCase(),
+    final parent = metaobjectCollections.firstWhereOrNull((item) => item['title'].toString().trim().toLowerCase() == parentTitle.trim().toLowerCase(),
     );
-
     if (parent == null) {
       allProducts.clear();
       products.clear();
       errorMessage.value = 'No matching collection found.';
       return;
     }
-
     final parentId = parent['id']?.toString() ?? '';
-
-    // Prevent repeated API calls.
-    if (_loadedParentId == parentId &&
-        (_isLoadingParentProducts || _hasLoadedParentProducts)) {
+    if (_loadedParentId == parentId && (_isLoadingParentProducts || _hasLoadedParentProducts)) {
       return;
     }
-
     _loadedParentId = parentId;
     _hasLoadedParentProducts = false;
-
     allProducts.clear();
     products.clear();
-
     _isLoadingParentProducts = true;
     isLoadingProducts.value = true;
     errorMessage.value = '';
-
     try {
       final collection = parent['collection'];
-
-      final handle = collection is Map
-          ? collection['handle']?.toString() ?? ''
-          : '';
-
+      final handle = collection is Map ? collection['handle']?.toString() ?? '' : '';
       if (handle.isEmpty) {
         errorMessage.value = 'Shopify collection handle is missing.';
         return;
       }
-
-      final data = await _shopifyRequest(
+      final data = await _shopifyTokenlessRequest(
         _productsQuery,
         variables: {'handle': handle},
       );
-
       final collectionData = data['collection'];
-
       if (collectionData == null) {
         errorMessage.value = 'Shopify collection not found.';
         return;
       }
-
-      final nodes =
-          collectionData['products']?['nodes'] as List? ?? [];
-
+      final nodes = collectionData['products']?['nodes'] as List? ?? [];
       final loadedProducts = <Map<String, String>>[];
-
       for (final node in nodes) {
         if (node is! Map<String, dynamic>) continue;
-
-        final imageUrl =
-            node['featuredImage']?['url']?.toString() ?? '';
-
-        final variants =
-            node['variants']?['nodes'] as List? ?? [];
-
+        final imageUrl = node['featuredImage']?['url']?.toString() ?? '';
+        final variants = node['variants']?['nodes'] as List? ?? [];
         String price = '';
         final lengthValues = <String>[];
         final variantAvailability = <String>[];
-
         for (final variant in variants) {
           if (variant is! Map<String, dynamic>) continue;
-
           final priceData = variant['price'];
-
           if (price.isEmpty && priceData is Map<String, dynamic>) {
             price = priceData['amount']?.toString() ?? '';
           }
-
           variantAvailability.add(
             variant['availableForSale'] == true ? 'true' : 'false',
           );
-
-          final options =
-              variant['selectedOptions'] as List? ?? [];
-
+          final options = variant['selectedOptions'] as List? ?? [];
           for (final option in options) {
             if (option is! Map<String, dynamic>) continue;
-
-            final optionName =
-                option['name']?.toString().toLowerCase() ?? '';
-
-            final optionValue =
-                option['value']?.toString() ?? '';
-
-            if (optionName.contains('length') &&
-                optionValue.isNotEmpty) {
+            final optionName = option['name']?.toString().toLowerCase() ?? '';
+            final optionValue = option['value']?.toString() ?? '';
+            if (optionName.contains('length') && optionValue.isNotEmpty) {
               lengthValues.add(optionValue);
             }
           }
         }
-
-        final collectionNodes =
-            node['collections']?['nodes'] as List? ?? [];
-
-        final collectionHandles = collectionNodes
-            .whereType<Map>()
-            .map((item) => item['handle']?.toString() ?? '')
-            .where((handle) => handle.isNotEmpty)
-            .toSet()
-            .toList();
-
+        final collectionNodes = node['collections']?['nodes'] as List? ?? [];
+        final collectionHandles = collectionNodes.whereType<Map>().map((item) => item['handle']?.toString() ?? '').where((handle) => handle.isNotEmpty).toSet().toList();
         loadedProducts.add({
           'id': node['id']?.toString() ?? '',
           'name': node['title']?.toString() ?? '',
@@ -413,20 +342,11 @@ class Collectionlistcontroller extends GetxController {
           '_createdAt': node['createdAt']?.toString() ?? '',
         });
       }
-
       allProducts.assignAll(loadedProducts);
-
       applyProductFilters();
-
       _hasLoadedParentProducts = true;
-
     } catch (e, stackTrace) {
-      debugPrint('PARENT PRODUCTS ERROR: $e');
-      debugPrintStack(stackTrace: stackTrace);
-
       errorMessage.value = 'Unable to load products.';
-
-      // Allow retry after an API failure.
       _loadedParentId = null;
     } finally {
       _isLoadingParentProducts = false;
@@ -435,23 +355,18 @@ class Collectionlistcontroller extends GetxController {
   }
   Future<void> selectSubCollection(int index) async {
     if (index < 0 || index >= subCollections.length) return;
-
     selectedSubCollection.value = index;
     await loadProductsForSelectedSubCollection(index);
   }
-
-
   Future<void> loadProductsForSelectedSubCollection(int index) async {
     if (index < 0 || index >= subCollections.length) {
       allProducts.clear();
       products.clear();
       return;
     }
-
     final selected = subCollections[index];
     final handle = selected['handle']?.toString() ?? '';
     final selectedId = selected['id']?.toString();
-
     if (handle.isEmpty) {
       allProducts.clear();
       products.clear();
@@ -459,91 +374,54 @@ class Collectionlistcontroller extends GetxController {
       'The selected Shopify collection has no handle.';
       return;
     }
-
-    // Reuse the cached products when switching back to a loaded collection.
-    if (_loadedSubCollectionId == selectedId &&
-        allProducts.isNotEmpty) {
+    if (_loadedSubCollectionId == selectedId && allProducts.isNotEmpty) {
       applyProductFilters();
       return;
     }
-
     _loadedSubCollectionId = selectedId;
     isLoadingProducts.value = true;
     errorMessage.value = '';
     allProducts.clear();
     products.clear();
-
     try {
-      final data = await _shopifyRequest(
+      final data = await _shopifyTokenlessRequest(
         _productsQuery,
         variables: {'handle': handle},
       );
-
       final collection = data['collection'];
-
       if (collection == null) {
         errorMessage.value = 'This Shopify collection was not found.';
         return;
       }
-
       final nodes = collection['products']?['nodes'] as List? ?? [];
       final loadedProducts = <Map<String, String>>[];
-
       for (final node in nodes) {
         if (node is! Map<String, dynamic>) continue;
-
-        final imageUrl =
-            node['featuredImage']?['url']?.toString() ??
-                ((node['images']?['nodes'] as List?)?.isNotEmpty == true
-                    ? node['images']['nodes'][0]['url']?.toString() ?? ''
-                    : '');
-
+        final imageUrl = node['featuredImage']?['url']?.toString() ?? ((node['images']?['nodes'] as List?)?.isNotEmpty == true ? node['images']['nodes'][0]['url']?.toString() ?? '' : '');
         final variants = node['variants']?['nodes'] as List? ?? [];
-
         String price = '';
         final lengthValues = <String>[];
         final variantAvailability = <String>[];
-
         for (final variant in variants) {
           if (variant is! Map<String, dynamic>) continue;
-
           final priceData = variant['price'];
-
-          // Preserve the existing first-variant price behavior.
           if (price.isEmpty && priceData is Map<String, dynamic>) {
             price = priceData['amount']?.toString() ?? '';
           }
-
-          variantAvailability.add(
-            variant['availableForSale'] == true ? 'true' : 'false',
-          );
-
+          variantAvailability.add(variant['availableForSale'] == true ? 'true' : 'false',);
           final options = variant['selectedOptions'] as List? ?? [];
-
           for (final option in options) {
             if (option is! Map<String, dynamic>) continue;
-
-            final optionName =
-                option['name']?.toString().toLowerCase() ?? '';
+            final optionName = option['name']?.toString().toLowerCase() ?? '';
             final optionValue = option['value']?.toString() ?? '';
-
             if (optionName.contains('length') &&
                 optionValue.isNotEmpty) {
               lengthValues.add(optionValue);
             }
           }
         }
-
-        final collectionNodes =
-            node['collections']?['nodes'] as List? ?? [];
-
-        final collectionHandles = collectionNodes
-            .whereType<Map>()
-            .map((item) => item['handle']?.toString() ?? '')
-            .where((handle) => handle.isNotEmpty)
-            .toSet()
-            .toList();
-
+        final collectionNodes = node['collections']?['nodes'] as List? ?? [];
+        final collectionHandles = collectionNodes.whereType<Map>().map((item) => item['handle']?.toString() ?? '').where((handle) => handle.isNotEmpty).toSet().toList();
         loadedProducts.add({
           'id': node['id']?.toString() ?? '',
           'name': node['title']?.toString() ?? '',
@@ -566,49 +444,31 @@ class Collectionlistcontroller extends GetxController {
       isLoadingProducts.value = false;
     }
   }
-
   String _normalizeFilterValue(String value) {
     return value
         .toLowerCase()
         .trim()
         .replaceAll(RegExp(r'[^a-z0-9]'), '');
   }
-
   bool _matchesLength(String selected, List<dynamic> productLengths) {
     final selectedNormalized = _normalizeFilterValue(selected);
-
     for (final rawLength in productLengths) {
       final value = rawLength.toString();
       final normalized = _normalizeFilterValue(value);
-
       if (selectedNormalized == normalized) {
         return true;
       }
-
-      // For IDs such as 16_inch or 16_50g, compare the
-      // leading length number with Shopify's length option value.
-      final selectedNumber =
-      RegExp(r'^\d+').firstMatch(selected)?.group(0);
-      final productNumber =
-      RegExp(r'^\d+').firstMatch(value)?.group(0);
-
-      if (selectedNumber != null &&
-          productNumber != null &&
-          selectedNumber == productNumber) {
+      final selectedNumber = RegExp(r'^\d+').firstMatch(selected)?.group(0);
+      final productNumber = RegExp(r'^\d+').firstMatch(value)?.group(0);
+      if (selectedNumber != null && productNumber != null && selectedNumber == productNumber) {
         return true;
       }
     }
-
     return false;
   }
-
   void applyProductFilters() {
-    List<Map<String, String>> result =
-    List<Map<String, String>>.from(allProducts);
-
-    // 1. Availability filter.
+    List<Map<String, String>> result = List<Map<String, String>>.from(allProducts);
     final availability = appliedAvailability.toSet();
-
     if (availability.contains('in_stock') &&
         !availability.contains('out_of_stock')) {
       result = result.where((product) {
@@ -620,54 +480,33 @@ class Collectionlistcontroller extends GetxController {
         return product['_availableForSale'] != 'true';
       }).toList();
     }
-
-    // 2. Collection filter.
-    // Selected IDs can use underscores while Shopify handles use hyphens.
     if (appliedCollections.isNotEmpty) {
       result = result.where((product) {
         List<dynamic> handles = [];
-
         try {
-          final decoded = jsonDecode(
-            product['_collectionHandles'] ?? '[]',
-          );
+          final decoded = jsonDecode(product['_collectionHandles'] ?? '[]');
           if (decoded is List) handles = decoded;
         } catch (_) {}
-
         return appliedCollections.any((selected) {
           final selectedNormalized = _normalizeFilterValue(selected);
-
           return handles.any((handle) {
-            return _normalizeFilterValue(handle.toString()) ==
-                selectedNormalized;
+            return _normalizeFilterValue(handle.toString()) == selectedNormalized;
           });
         });
       }).toList();
     }
-
-    // 3. Length filter.
     if (appliedLength.isNotEmpty) {
       result = result.where((product) {
         List<dynamic> lengths = [];
-
         try {
-          final decoded = jsonDecode(
-            product['_lengthOptions'] ?? '[]',
-          );
+          final decoded = jsonDecode(product['_lengthOptions'] ?? '[]',);
           if (decoded is List) lengths = decoded;
         } catch (_) {}
-
-        return appliedLength.any(
-              (selected) => _matchesLength(selected, lengths),
+        return appliedLength.any((selected) => _matchesLength(selected, lengths),
         );
       }).toList();
     }
-
-    // 4. Sort the remaining products.
-    final sortBy = appliedSortBy.isNotEmpty
-        ? appliedSortBy.first
-        : 'featured';
-
+    final sortBy = appliedSortBy.isNotEmpty ? appliedSortBy.first : 'featured';
     switch (sortBy) {
       case 'alpha_asc':
         result.sort((a, b) =>
@@ -675,31 +514,26 @@ class Collectionlistcontroller extends GetxController {
               (b['name'] ?? '').toLowerCase(),
             ));
         break;
-
       case 'alpha_desc':
         result.sort((a, b) =>
             (b['name'] ?? '').toLowerCase().compareTo(
               (a['name'] ?? '').toLowerCase(),
             ));
         break;
-
       case 'price_asc':
         result.sort((a, b) =>
             (double.tryParse(a['price'] ?? '') ?? 0)
                 .compareTo(double.tryParse(b['price'] ?? '') ?? 0));
         break;
-
       case 'price_desc':
         result.sort((a, b) =>
             (double.tryParse(b['price'] ?? '') ?? 0)
                 .compareTo(double.tryParse(a['price'] ?? '') ?? 0));
         break;
-
       case 'date_old_new':
         result.sort((a, b) =>
             (a['_createdAt'] ?? '').compareTo(b['_createdAt'] ?? ''));
         break;
-
       case 'date_new_old':
         result.sort((a, b) =>
             (b['_createdAt'] ?? '').compareTo(a['_createdAt'] ?? ''));
@@ -723,10 +557,8 @@ class Collectionlistcontroller extends GetxController {
       AppSnackbar.error('Product ID is missing.',);
       return;
     }
-
     _showWishlistPicker(product);
   }
-
   void _showWishlistPicker(Map<String, String> product) {
     final productId = product['id'] ?? '';
     Get.bottomSheet(
@@ -738,7 +570,6 @@ class Collectionlistcontroller extends GetxController {
         child: SafeArea(
           child: Obx(() {
             final wishlists = wishlistController.wishlists.toList();
-
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -762,7 +593,6 @@ class Collectionlistcontroller extends GetxController {
                   ),
                 ),
                 const SizedBox(height: 18),
-
                 if (wishlists.isEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
@@ -785,20 +615,10 @@ class Collectionlistcontroller extends GetxController {
                       itemBuilder: (context, index) {
                         final wishlist = wishlists[index];
                         final id = wishlist['id']?.toString() ?? '';
-                        final name =
-                            wishlist['name']?.toString() ?? 'Wishlist';
-
+                        final name = wishlist['name']?.toString() ?? 'Wishlist';
                         final rawProducts = wishlist['products'];
-                        final count = rawProducts is List
-                            ? rawProducts.length
-                            : 0;
-
-                        final alreadyAdded =
-                        wishlistController.isProductInWishlist(
-                          id,
-                          productId,
-                        );
-
+                        final count = rawProducts is List ? rawProducts.length : 0;
+                        final alreadyAdded = wishlistController.isProductInWishlist(id, productId);
                         return Material(
                           color: Colorstheam.white,
                           child: ListTile(
@@ -822,9 +642,7 @@ class Collectionlistcontroller extends GetxController {
                               ),
                             ),
                             trailing: Icon(
-                              alreadyAdded
-                                  ? Icons.check_circle
-                                  : Icons.add_circle_outline,
+                              alreadyAdded ? Icons.check_circle : Icons.add_circle_outline,
                               color: Colorstheam.nobelblack,
                             ),
                             onTap: () {
@@ -833,14 +651,8 @@ class Collectionlistcontroller extends GetxController {
                                 AppSnackbar.error('This product is already in "$name".',);
                                 return;
                               }
-
-                              wishlistController.addProductToWishlist(
-                                id,
-                                Map<String, dynamic>.from(product),
-                              );
-
+                              wishlistController.addProductToWishlist(id, Map<String, dynamic>.from(product));
                               Get.back();
-
                               AppSnackbar.success('Added to "$name".',);
                             },
                           ),

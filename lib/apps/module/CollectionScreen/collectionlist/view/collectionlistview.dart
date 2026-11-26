@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 
 import 'package:maliaextention/apps/module/CollectionScreen/collectionlist/controller/collectionlistcontroller.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/module/cartcontroller.dart';
 import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/utils/malia_product_loader.dart';
 
 class Collectionlistview extends GetView<Collectionlistcontroller> {
   const Collectionlistview({super.key});
@@ -16,7 +18,6 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final bottomNav = Get.find<Bottomnavigationcontroller>();
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -31,6 +32,14 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
           elevation: 0,
           scrolledUnderElevation: 0,
           titleSpacing: 0,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.h),
+            child: Container(
+              height: 1.h,
+              width: double.infinity,
+              color: Colorstheam.clusterwhite,
+            ),
+          ),
           title: Padding(
             padding: EdgeInsets.only(left: screenSize.width * 0.04),
             child: Row(
@@ -59,6 +68,7 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
             _headerIcon(
               icon: 'asset/svg/Filter.svg',
               onTap: () {
+                HapticFeedback.heavyImpact();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.filter;
               },
@@ -67,34 +77,81 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
             _headerIcon(
               icon: 'asset/svg/search.svg',
               onTap: () {
+                HapticFeedback.heavyImpact();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
             SizedBox(width: 20.w),
             Padding(
-              padding: EdgeInsets.only(right: screenSize.width * 0.04),
-              child: _headerIcon(
-                icon: 'asset/svg/cart.svg',
+              padding: EdgeInsets.only(
+                right: screenSize.width * 0.04,
+              ),
+              child: GestureDetector(
                 onTap: () {
+                  HapticFeedback.heavyImpact();
+
+                  final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
                 },
+                child: Obx(() {
+                  if (!Get.isRegistered<Cartcontroller>()) {
+                    Get.put(Cartcontroller());
+                  }
+                  final cartController = Get.find<Cartcontroller>();
+                  final quantity = cartController.totalQuantity;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SvgPicture.asset(
+                        "asset/svg/cart.svg",
+                        height: 22.h,
+                        width: 22.w,
+                      ),
+                      if (quantity > 0)
+                        Positioned(
+                          right: -9.w,
+                          top: -8.h,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minWidth: 17.w,
+                              minHeight: 17.h,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 2.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colorstheam.nobelblack,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              quantity > 99 ? '99+' : quantity.toString(),
+                              style: TextStyle(
+                                fontFamily: "Urbanist",
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colorstheam.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
             ),
+
           ],
         ),
         body: SafeArea(
           top: false,
           child: Obx(() {
             if (controller.isLoadingCollections.value) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Colorstheam.nobelblack,
-                ),
-              );
+              return const MaliaProductLoader();
             }
-
             if (controller.metaobjectCollections.isEmpty) {
               return _emptyState(
                 controller.errorMessage.value.isNotEmpty
@@ -102,19 +159,10 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
                     : 'No collections available.',
               );
             }
-
-            final collectionName =
-                bottomNav.selectedCollectionName.value;
-
-            // This matches the navigation title with the Shopify
-            // metaobject title, ignoring letter case.
-            final matchingParent =
-            controller.metaobjectCollections.firstWhereOrNull(
-                  (item) =>
-              item['title'].toString().toLowerCase() ==
-                  collectionName.toLowerCase(),
+            final collectionName = bottomNav.selectedCollectionName.value;
+            final matchingParent = controller.metaobjectCollections.firstWhereOrNull((item) =>
+              item['title'].toString().toLowerCase() == collectionName.toLowerCase(),
             );
-
             if (matchingParent == null) {
               return _emptyState(
                 'No Shopify collection matches "$collectionName".',
@@ -135,123 +183,130 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       ),
     );
   }
-
-  Widget _subCollectionSelector() {
-    return SizedBox(
-      height: 44.h,
-      child: Obx(() {
-        if (controller.isLoadingSubCollections.value) {
-          return const SizedBox.shrink();
-        }
-
-        final items = controller.subCollections;
-
-        if (items.isEmpty) {
-          return const SizedBox.shrink();
-        }
-
-        final selectedIndex =
-            controller.selectedSubCollection.value;
-
-        return ListView.separated(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          itemCount: items.length,
-          separatorBuilder: (_, __) => SizedBox(width: 10.w),
-          itemBuilder: (context, index) {
-            final item = items[index];
-            final selected = selectedIndex == index;
-
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => controller.selectSubCollection(index),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeOutCubic,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: selected
-                      ? Colorstheam.nobelblack
-                      : Colorstheam.white,
-                  border: Border.all(
-                    color: selected
-                        ? Colorstheam.nobelblack
-                        : Colorstheam.nobelblack.withValues(alpha: 0.18),
-                  ),
-                ),
-                child: AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 200),
-                  style: TextStyle(
-                    fontFamily: 'DMSans',
-                    fontSize: 14.sp,
-                    fontWeight:
-                    selected ? FontWeight.w600 : FontWeight.w400,
-                    color: selected
-                        ? Colorstheam.white
-                        : Colorstheam.nobelblack,
-                  ),
-                  child: Text(
-                    item['title']?.toString() ?? '',
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      }),
-    );
-  }
-
   Widget _productsSection() {
     return Obx(() {
       if (controller.isLoadingProducts.value) {
-        return Center(
-          child: CircularProgressIndicator(
-            color: Colorstheam.nobelblack,
-          ),
-        );
-      }
-
-      if (controller.products.isEmpty) {
-        return _emptyState(
-          controller.errorMessage.value.isNotEmpty
-              ? controller.errorMessage.value
-              : 'No products available in this collection.',
-        );
+        return const MaliaProductLoader();
       }
 
       final products = controller.products;
 
-      return GridView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.w,
-          mainAxisSpacing: 20.h,
-          mainAxisExtent: 295.h,
-        ),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return _productCard(products[index], context);
-        },
+      if (products.isEmpty) {
+        return _emptyState("No products found in this collection.");
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(18.w, 8.h, 18.w, 20.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 24.w,
+                      height: 1.h,
+                      color: Colorstheam.nobelblack,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      'CURATED FOR YOU',
+                      style: TextStyle(
+                        fontFamily: 'DMSans',
+                        fontSize: 9.sp,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.w600,
+                        color: Colorstheam.dimgrey,
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 10.h),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Find Your Perfect Match',
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colorstheam.nobelblack,
+                          height: 1.15,
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 7.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colorstheam.clusterwhite,
+                        border: Border.all(
+                          color: Colorstheam.lightgrey,
+                          width: 0.6,
+                        ),
+                      ),
+                      child: Text(
+                        '${products.length.toString().padLeft(2, '0')} ITEMS',
+                        style: TextStyle(
+                          fontFamily: 'DMSans',
+                          fontSize: 9.sp,
+                          letterSpacing: 0.8,
+                          fontWeight: FontWeight.w700,
+                          color: Colorstheam.nobelblack,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 7.h),
+
+                Text(
+                  'Explore our collection and discover your signature look.',
+                  style: TextStyle(
+                    fontFamily: 'DMSans',
+                    fontSize: 11.sp,
+                    height: 1.5,
+                    color: Colorstheam.dimgrey,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 25.h),
+              physics: const BouncingScrollPhysics(),
+              itemCount: products.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 13.w,
+                mainAxisSpacing: 23.h,
+                mainAxisExtent: 320.h,
+              ),
+              itemBuilder: (context, index) {
+                return _productCard(products[index], index);
+              },
+            ),
+          ),
+        ],
       );
     });
   }
-
-  Widget _productCard(
-      Map<String, String> product,
-      BuildContext context,
-      ) {
-    final screenSize = MediaQuery.of(context).size;
-    final imageUrl = product['image'] ?? '';
-    final productName = product['name'] ?? '';
-
+  Widget _productCard(Map<String, String> product, int index) {
     return GestureDetector(
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 1;
         bottomNav.openProductDetails(product);
@@ -260,33 +315,29 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Stack(
-            children: <Widget>[
-              ClipRRect(
-                child: SizedBox(
+            children: [
+              Container(
+                height: 190.h,
+                width: double.infinity,
+                color: Colorstheam.clusterwhite,
+                child: product['image'] != null &&
+                    product['image']!.isNotEmpty
+                    ? Image.network(
+                  product['image']!,
+                  fit: BoxFit.cover,
                   width: double.infinity,
-                  height: 176.h,
-                  child: imageUrl.isEmpty
-                      ? _imagePlaceholder()
-                      : Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
-                        _imagePlaceholder(),
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
-
-                      return Container(
-                        color: Colorstheam.lightgrey,
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colorstheam.nobelblack,
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return _imagePlaceholder();
+                  },
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return _imagePlaceholder();
+                  },
+                )
+                    : _imagePlaceholder(),
               ),
+
+              // WISHLIST BUTTON
               Positioned(
                 top: 10.h,
                 right: 10.w,
@@ -294,26 +345,28 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
                   final isWishlisted =
                   controller.isWishlisted(product);
 
-                  return GestureDetector(
-                    onTap: () => controller.toggleWishlist(product),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      height: 34.h,
-                      width: 34.h,
-                      decoration: BoxDecoration(
-                        color: Colorstheam.nobelblack,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          isWishlisted
-                              ? 'asset/svg/heart_filled.svg'
-                              : 'asset/svg/heart.svg',
-                          height: 18.h,
-                          width: 18.w,
-                          color: isWishlisted
-                              ? Colorstheam.clusterwhite
-                              : Colorstheam.white,
+                  return Material(
+                    color: Colorstheam.white,
+                    shape: const CircleBorder(),
+                    elevation: 1,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        controller.toggleWishlist(product);
+                      },
+                      child: SizedBox(
+                        width: 35.w,
+                        height: 35.w,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            isWishlisted
+                                ? 'asset/svg/heart_filled.svg'
+                                : 'asset/svg/heart.svg',
+                            width: 17.w,
+                            height: 17.w,
+                            color: Colorstheam.nobelblack,
+                          ),
                         ),
                       ),
                     ),
@@ -322,60 +375,87 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
               ),
             ],
           ),
-          SizedBox(height: 8.h),
+
+          SizedBox(height: 11.h),
+
+          // PRODUCT NAME
           Text(
-            productName,
+            product['name'] ?? '',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontFamily: 'DMSans',
+              fontFamily: 'Urbanist',
               fontSize: 14.sp,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
+              height: 1.25,
               color: Colorstheam.nobelblack,
             ),
           ),
-          SizedBox(height: 4.h),
+
+          SizedBox(height: 7.h),
+
+          // PRODUCT LABEL
           Row(
-            children: <Widget>[
+            children: [
               SvgPicture.asset(
                 'asset/svg/star.svg',
-                height: 11.h,
+                height: 12.w,
                 width: 12.w,
+                color: Colorstheam.dimgrey,
               ),
-              SizedBox(width: screenSize.width * 0.01),
+              SizedBox(width: 5.w),
               Text(
-                (product['rating']?.isNotEmpty ?? false)
+                (product['rating'] ?? '').isNotEmpty
                     ? product['rating']!
-                    : '—',
+                    : 'New Arrival',
                 style: TextStyle(
                   fontFamily: 'DMSans',
-                  fontSize: 14.sp,
+                  fontSize: 10.sp,
                   fontWeight: FontWeight.w500,
-                  color: Colorstheam.grey,
+                  color: Colorstheam.dimgrey,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 4.h),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'LOGIN TO SEE PRICE',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontFamily: 'DMSans',
-                  fontWeight: FontWeight.w600,
-                  color: Colorstheam.nobelblack,
+
+          const Spacer(),
+
+          // BOTTOM ACTION
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 10.h),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Colorstheam.lightgrey,
+                  width: 0.7,
                 ),
               ),
-              SizedBox(height: 2.h),
-              Container(
-                height: 1.h,
-                width: 120.w,
-                color: Colorstheam.nobelblack,
-              ),
-            ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'LOGIN TO SEE PRICE',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'DMSans',
+                      fontSize: 9.sp,
+                      letterSpacing: 0.7,
+                      fontWeight: FontWeight.w700,
+                      color: Colorstheam.nobelblack,
+                    ),
+                  ),
+                ),
+
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 16.sp,
+                  color: Colorstheam.nobelblack,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -384,12 +464,31 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
 
   Widget _imagePlaceholder() {
     return Container(
-      color: Colorstheam.lightgrey,
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.image_outlined,
-        size: 32.sp,
-        color: Colorstheam.grey,
+      width: double.infinity,
+      height: double.infinity,
+      color: Colorstheam.clusterwhite,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.image_outlined,
+              size: 28.sp,
+              color: Colorstheam.grey,
+            ),
+            SizedBox(height: 6.h),
+            Text(
+              'IMAGE UNAVAILABLE',
+              style: TextStyle(
+                fontFamily: 'DMSans',
+                fontSize: 8.sp,
+                letterSpacing: 1,
+                fontWeight: FontWeight.w500,
+                color: Colorstheam.dimgrey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -410,7 +509,6 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       ),
     );
   }
-
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -437,7 +535,6 @@ class Collectionlistview extends GetView<Collectionlistcontroller> {
       ),
     );
   }
-
   Widget _headerIcon({
     required String icon,
     VoidCallback? onTap,

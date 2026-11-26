@@ -41,6 +41,14 @@ class Prostyleregview extends GetView<Prostyleregcontroller> {
                   statusBarIconBrightness: Brightness.dark,
                   statusBarBrightness: Brightness.light,
                 ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(1.h),
+                  child: Container(
+                    height: 1.h,
+                    width: double.infinity,
+                    color: Colorstheam.clusterwhite,
+                  ),
+                ),
                 elevation: 0,
                 centerTitle:true,
                 leading: Padding(

@@ -40,6 +40,14 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                   statusBarIconBrightness: Brightness.dark,
                   statusBarBrightness: Brightness.light,
                 ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(1.h),
+                  child: Container(
+                    height: 1.h,
+                    width: double.infinity,
+                    color: Colorstheam.clusterwhite,
+                  ),
+                ),
                 elevation: 0,
                 centerTitle:true,
                 leading: Padding(
@@ -485,7 +493,9 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                                   ),
                                   child: TextFormField(
                                     controller: controller.phoneController,
-                                    onChanged: controller.validatephoneLive,
+                                    onChanged: (value) {
+                                      controller.validatephoneLive(value);
+                                    },
                                     validator: controller.validatephoneField,
                                     cursorColor: Colorstheam.black,
                                     selectionControls: Textselect(),

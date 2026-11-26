@@ -1,18 +1,20 @@
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/controller/deleteaccountcontroller.dart';
 import 'package:maliaextention/typo/apptext.dart';
 import 'package:maliaextention/color/colorstheam.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/module/ProfileScreen/deleteaccount/controller/deleteaccountcontroller.dart';
 
 class Deleteaccountview extends GetView<Deleteaccountcontroller> {
   Deleteaccountview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final Size screensize = MediaQuery.of(context).size;
+    Size screensize = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -29,22 +31,19 @@ class Deleteaccountview extends GetView<Deleteaccountcontroller> {
           titleSpacing: 0,
           toolbarHeight: 60.h,
           title: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: screensize.width * 0.045,
-            ),
+            padding: EdgeInsets.only(left: screensize.width * 0.04),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
-                SizedBox(width: 14.w),
+                SizedBox(width: 15.w),
                 Expanded(
                   child: Text(
                     Apptext.deleteaccounttitle,
                     style: TextStyle(
-                      fontSize: 21.sp,
                       fontFamily: 'Urbanist',
-                      fontWeight: FontWeight.w800,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700,
                       color: Colorstheam.nobelblack,
-                      letterSpacing: -0.4,
                     ),
                   ),
                 ),
@@ -59,118 +58,274 @@ class Deleteaccountview extends GetView<Deleteaccountcontroller> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  left: screensize.width * 0.03,
-                  right: screensize.width * 0.03,
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.only(left: screensize.width * 0.04,right: screensize.width * 0.04,top: screensize.height * 0.02),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'PRIVACY & ACCOUNT',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 2,
+                    color: Colorstheam.dimgrey,
+                  ),
                 ),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w300,
-                        color: Colorstheam.black,
-                        height: 1.5,
-                      ),
-                      children: [
-                        TextSpan(
-                          text:
-                          "If you would like to permanently delete your PTJ Shoes account and associated personal data, please send an email to ",
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: "DMSans",
-                              fontWeight: FontWeight.w300,
-                              color: Colorstheam.black
+                SizedBox(height: 17.h),
+                Text(
+                  'Permanently delete your account',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 27.sp,
+                    fontWeight: FontWeight.w800,
+                    height: 1.15,
+                    letterSpacing: -0.7,
+                    color: Colorstheam.nobelblack,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'If you would like to permanently delete your Malia Extensions account and associated personal data, please send an account deletion request to our support team.',
+                  style: _descriptionStyle(),
+                ),
+                SizedBox(height: 28.h),
+                Text(
+                  'CONTACT OUR TEAM',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.6,
+                    color: Colorstheam.dimgrey,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 17.h,),
+                  decoration: BoxDecoration(
+                    color: Colorstheam.clusterwhite,
+                    border: Border.all(
+                      color: Colorstheam.lightgrey,
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.mail_outline_rounded,
+                            size: 19.sp,
+                            color: Colorstheam.nobelblack,
                           ),
-                        ),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              //controller.openEmail();
-                            },
-                            child: Text(
-                              "info@maliaextensions.com",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontFamily: "DMSans",
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colorstheam.grey,
-                              ),
+                          SizedBox(width: 10.w),
+                          Text(
+                            'EMAIL ADDRESS',
+                            style: TextStyle(
+                              fontFamily: 'Urbanist',
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.3,
+                              color: Colorstheam.dimgrey,
                             ),
                           ),
-                        ),
-                        TextSpan(
-                          text:
-                          " with the subject ""Delete My Account"".",
+                        ],
+                      ),
+                      SizedBox(height: 12.h),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          HapticFeedback.heavyImpact();
+                          controller.openEmail();
+                          Text("Hello");
+                        },
+                        child: SelectableText(
+                          'info@maliaextensions.com',
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: "DMSans",
-                              fontWeight: FontWeight.w300,
-                              color: Colorstheam.black
+                            fontFamily: 'DMSans',
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colorstheam.nobelblack,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colorstheam.nobelblack,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 13.h),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colorstheam.lightgrey,
+                      ),
+                      SizedBox(height: 12.h),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'DMSans',
+                            fontSize: 13.sp,
+                            height: 1.6,
+                            color: Colorstheam.dimgrey,
+                          ),
+                          children: const [
+                            TextSpan(text: 'Email subject: '),
+                            TextSpan(
+                              text: '"Delete My Account"',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colorstheam.nobelblack,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.03,right: screensize.width * 0.03,top: screensize.height * 0.005),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Once we receive your request, we will verify your account and process the deletion within 7 business days",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w300,
-                        color: Colorstheam.black
-                    ),
+                SizedBox(height: 30.h),
+                Text(
+                  'WHAT HAPPENS NEXT',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 1.6,
+                    color: Colorstheam.dimgrey,
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: screensize.width * 0.03,right: screensize.width * 0.03,top: screensize.height * 0.005),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "After your request has been processed, your PTJ Shoes account and all associated personal data will be permanently deleted and cannot be recovered.",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: "DMSans",
-                        fontWeight: FontWeight.w300,
-                        color: Colorstheam.black
-                    ),
-                  ),
+                SizedBox(height: 18.h),
+                _informationRow(
+                  number: '01',
+                  title: 'Request verification',
+                  description:
+                  'Once we receive your request, our team will verify your account ownership.',
                 ),
-              ),
-              SizedBox(height: screensize.height * 0.015),
-
-            ],
+                SizedBox(height: 22.h),
+                _informationRow(
+                  number: '02',
+                  title: 'Deletion processing',
+                  description:
+                  'Your account deletion request will be processed within 7 business days.',
+                ),
+                SizedBox(height: 22.h),
+                _informationRow(
+                  number: '03',
+                  title: 'Permanent deletion',
+                  description:
+                  'After processing, your Malia Extensions account and associated personal data will be permanently deleted and cannot be recovered.',
+                ),
+                SizedBox(height: 30.h),
+                Container(
+                  height: 1.h,
+                  width: double.infinity,
+                  color: Colorstheam.clusterwhite,
+                ),
+                SizedBox(height: 17.h),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.info_outline,
+                      size: 17.sp,
+                      color: Colorstheam.dimgrey,
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Text(
+                        'Please make sure you have saved any information you may need before submitting your deletion request.',
+                        style: TextStyle(
+                          fontFamily: 'DMSans',
+                          fontSize: 12.sp,
+                          height: 1.6,
+                          color: Colorstheam.dimgrey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+  TextStyle _descriptionStyle() {
+    return TextStyle(
+      fontFamily: 'DMSans',
+      fontSize: 14.sp,
+      height: 1.75,
+      fontWeight: FontWeight.w400,
+      color: Colorstheam.dimgrey,
+    );
+  }
+  Widget _informationRow({
+    required String number,
+    required String title,
+    required String description,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          width: 35.w,
+          child: Text(
+            number,
+            style: TextStyle(
+              fontFamily: 'Urbanist',
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+              color: Colorstheam.grey,
+            ),
+          ),
+        ),
+        SizedBox(width: 9.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Urbanist',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w800,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+              SizedBox(height: 6.h),
+              Text(
+                description,
+                style: _descriptionStyle().copyWith(
+                  fontSize: 13.sp,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;
       },
       child: Container(
-        width: 36.w,
-        height: 36.w,
+        width: 32.w,
+        height: 32.w,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colorstheam.nobelblack,
@@ -178,12 +333,8 @@ class Deleteaccountview extends GetView<Deleteaccountcontroller> {
         child: Center(
           child: SvgPicture.asset(
             'asset/svg/arrowleft.svg',
-            width: 11.w,
-            height: 11.h,
-            colorFilter: const ColorFilter.mode(
-              Colors.white,
-              BlendMode.srcIn,
-            ),
+            width: 10.w,
+            height: 10.w,
           ),
         ),
       ),

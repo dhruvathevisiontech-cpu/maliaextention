@@ -1,16 +1,17 @@
-
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:maliaextention/animation/animated_button.dart';
-import 'package:maliaextention/apps/module/CollectionScreen/productdetails/controller/productdetailscontroller.dart';
-import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
-import 'package:maliaextention/color/colorstheam.dart';
+import 'package:maliaextention/apps/module/cartcontroller.dart';
 import 'package:maliaextention/typo/appsnackbar.dart';
-
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:maliaextention/color/colorstheam.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:maliaextention/animation/animated_button.dart';
+import 'package:maliaextention/utils/malia_product_loader.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnavigationcontroller.dart';
+import 'package:maliaextention/apps/module/CollectionScreen/productdetails/controller/productdetailscontroller.dart';
 class Productdetailsview extends GetView<Productdetailscontroller> {
   const Productdetailsview({super.key});
   void _selectOptionValue(String optionName, String value) {
@@ -31,21 +32,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     for (final variant in controller.variants) {
       final options = variant['selectedOptions'] as List? ?? [];
       var matches = true;
-
       for (final entry in currentOptions.entries) {
-        final found = options.any(
-              (option) =>
-          option is Map &&
-              option['name']?.toString() == entry.key &&
-              option['value']?.toString() == entry.value,
-        );
-
+        final found = options.any((option) => option is Map && option['name']?.toString() == entry.key && option['value']?.toString() == entry.value);
         if (!found) {
           matches = false;
           break;
         }
       }
-
       if (matches) {
         matchingVariant = variant;
         if (variant['availableForSale'] == true) {
@@ -53,19 +46,16 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
         }
       }
     }
-
     if (matchingVariant != null) {
       controller.selectVariant(matchingVariant);
     }
   }
   void _showWishlistPicker() {
     final wishlistController = controller.wishlistController;
-
     if (controller.currentProductId.isEmpty) {
       AppSnackbar.error('Please wait until the product has loaded.',);
       return;
     }
-
     Get.bottomSheet(
       Container(
         padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 28.h),
@@ -76,7 +66,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           top: false,
           child: Obx(() {
             final lists = wishlistController.wishlists.toList();
-
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,48 +110,47 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                       final name = wishlist['name']?.toString() ?? 'Wishlist';
                       final products = wishlist['products'];
                       final count = products is List ? products.length : 0;
-                      final alreadyAdded = wishlistController.isProductInWishlist(
-                        id,
-                        controller.currentProductId,
-                      );
-                      return Material(
-                        color: Colorstheam.white,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            name,
-                            style: TextStyle(
-                              fontFamily: 'DMSans',
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
+                      final alreadyAdded = wishlistController.isProductInWishlist(id,controller.currentProductId);
+                      return Container(
+                        decoration: BoxDecoration(color: Colorstheam.white),
+                        child: Material(
+                          color: Colorstheam.white,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              name,
+                              style: TextStyle(
+                                fontFamily: 'DMSans',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Colorstheam.nobelblack,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '$count ${count == 1 ? 'item' : 'items'}',
+                              style: TextStyle(
+                                fontFamily: 'DMSans',
+                                fontSize: 12.sp,
+                                color: Colorstheam.grey,
+                              ),
+                            ),
+                            trailing: Icon(
+                              alreadyAdded
+                                  ? Icons.check_circle
+                                  : Icons.add_circle_outline,
                               color: Colorstheam.nobelblack,
+                              size: 23.w,
                             ),
-                          ),
-                          subtitle: Text(
-                            '$count ${count == 1 ? 'item' : 'items'}',
-                            style: TextStyle(
-                              fontFamily: 'DMSans',
-                              fontSize: 12.sp,
-                              color: Colorstheam.grey,
-                            ),
-                          ),
-                          trailing: Icon(
-                            alreadyAdded
-                                ? Icons.check_circle
-                                : Icons.add_circle_outline,
-                            color: Colorstheam.nobelblack,
-                            size: 23.w,
-                          ),
-                          onTap: () {
-                            if (alreadyAdded) {
+                            onTap: () {
+                              if (alreadyAdded) {
+                                Get.back();
+                                AppSnackbar.error('This product is already in "$name".',);
+                                return;
+                              }
+                              controller.addCurrentProductToWishlist(id);
                               Get.back();
-                              AppSnackbar.error('This product is already in "$name".',);
-                              return;
-                            }
-
-                            controller.addCurrentProductToWishlist(id);
-                            Get.back();
-                          },
+                            },
+                          ),
                         ),
                       );
                     },
@@ -194,6 +182,14 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           elevation: 0,
           scrolledUnderElevation: 0,
           titleSpacing: 0,
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(1.h),
+            child: Container(
+              height: 1.h,
+              width: double.infinity,
+              color: Colorstheam.clusterwhite,
+            ),
+          ),
           title: Padding(
             padding: EdgeInsets.only(left: screenSize.width * 0.04),
             child: GestureDetector(
@@ -233,26 +229,73 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             ),
             SizedBox(width: 20.w),
             Padding(
-              padding: EdgeInsets.only(right: screenSize.width * 0.04),
-              child: _headerIcon(
-                icon: 'asset/svg/cart.svg',
+              padding: EdgeInsets.only(
+                right: screenSize.width * 0.04,
+              ),
+              child: GestureDetector(
                 onTap: () {
                   HapticFeedback.heavyImpact();
+
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
                 },
+                child: Obx(() {
+                  if (!Get.isRegistered<Cartcontroller>()) {
+                    Get.put(Cartcontroller());
+                  }
+
+                  final cartController = Get.find<Cartcontroller>();
+                  final quantity = cartController.totalQuantity;
+
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SvgPicture.asset(
+                        "asset/svg/cart.svg",
+                        height: 22.h,
+                        width: 22.w,
+                      ),
+
+                      if (quantity > 0)
+                        Positioned(
+                          right: -9.w,
+                          top: -8.h,
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minWidth: 17.w,
+                              minHeight: 17.h,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.w,
+                              vertical: 2.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colorstheam.nobelblack,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              quantity > 99 ? '99+' : quantity.toString(),
+                              style: TextStyle(
+                                fontFamily: "Urbanist",
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colorstheam.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
               ),
             ),
           ],
         ),
         body: Obx(() {
-          if (controller.isLoadingProduct.value) {
-            return Center(
-              child: Image.asset(
-                "asset/video/loading.gif"
-              )
-            );
+          if (!controller.isLoadingProduct.value) {
+            return const MaliaProductLoader();
           }
           if (controller.productError.value.isNotEmpty) {
             return Center(
@@ -312,7 +355,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             onRefresh: controller.fetchProductDetails,
             child: SafeArea(
               child: SingleChildScrollView(
-                physics:  AlwaysScrollableScrollPhysics(),
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -321,9 +364,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                       offset: Offset(0, -24.h),
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.only(top: 24.h, bottom: 30.h,),
+                        padding: EdgeInsets.only(top: 15.h, bottom: 30.h),
                         decoration: BoxDecoration(
                           color: Colorstheam.white,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20.r),
+                            bottom: Radius.circular(20.r),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -561,12 +608,13 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
+
   Widget _buildProductGallery() {
     return SizedBox(
       height: 402.h,
       width: double.infinity,
       child: Stack(
-        children: <Widget>[
+        children: [
           Obx(() {
             final images = controller.productImages.toList();
             if (images.isEmpty) {
@@ -613,74 +661,71 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             );
           }),
           Positioned(
-            bottom: 40.h,
-            left: 0,
-            right: 0,
+            bottom: 35.h,
+            left: 16.w,
+            right: 16.w,
             child: Obx(() {
               final images = controller.productImages.toList();
               final selectedIndex = controller.currentIndex.value;
               if (images.isEmpty) {
                 return const SizedBox.shrink();
               }
-              return Center(
-                child: Container(
-                  height: 60.h,
-                  constraints: BoxConstraints(
-                    maxWidth: Get.width * 0.9,
-                  ),
-                  color: Colorstheam.white,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: images.length,
-                    itemBuilder: (context, index) {
-                      final selected = selectedIndex == index;
-                      return GestureDetector(
-                        onTap: () {
-                          HapticFeedback.heavyImpact();
-                          controller.carouselController.animateToPage(
-                            index,
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOut,
-                          );
-                          controller.currentIndex.value = index;
-                        },
-                        child: Container(
-                          width: 60.w,
-                          height: 60.h,
-                          padding: EdgeInsets.all(2.w),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: selected
-                                  ? Colorstheam.nobelblack
-                                  : Colorstheam.white,
-                              width: selected ? 1.5 : 0,
-                            ),
-                          ),
-                          child: Image.network(
-                            images[index],
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const SizedBox.shrink();
-                            },
+              return SizedBox(
+                height: 60.h,
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    final selected = selectedIndex == index;
+                    return GestureDetector(
+                      onTap: () {
+                        HapticFeedback.heavyImpact();
+                        controller.carouselController.animateToPage(
+                          index,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeInOut,
+                        );
+                        controller.currentIndex.value = index;
+                      },
+                      child: Container(
+                        width: 60.w,
+                        height: 60.h,
+                        padding: EdgeInsets.all(2.w),
+                        decoration: BoxDecoration(
+                          color: Colorstheam.white,
+                          border: Border.all(
+                            color: selected
+                                ? Colorstheam.nobelblack
+                                : Colorstheam.white,
+                            width: selected ? 1.5 : 0,
                           ),
                         ),
-                      );
-                    },
-                  ),
+                        child: Image.network(
+                          images[index],
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.image_not_supported_outlined,
+                              color: Colorstheam.grey,
+                              size: 20.w,
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 ),
               );
             }),
           ),
-
-          // Wishlist.
-          // Wishlist.
           Positioned(
             top: 16.h,
             right: 16.w,
             child: Obx(() {
               final selected = controller.isWishlisted.value;
-
               return GestureDetector(
                 onTap: () {
                   HapticFeedback.heavyImpact();
@@ -717,15 +762,15 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   Widget _buildProductHeading(Size screenSize) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: screenSize.width * 0.04,
+      padding: EdgeInsets.only(
+        left: screenSize.width * 0.04,
+        right: screenSize.width * 0.04,
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           Expanded(
             child: Text(
               controller.productName,
@@ -737,33 +782,46 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               ),
             ),
           ),
-          SvgPicture.asset(
-            'asset/svg/star.svg',
-            width: 13.w,
-            height: 13.h,
-          ),
-          SizedBox(width: 5.w),
-          Text(
-            '4.9',
-            style: TextStyle(
-              fontSize: 13.sp,
-              fontFamily: 'DMSans',
-              fontWeight: FontWeight.w600,
-              color: Colorstheam.grey,
-            ),
-          ),
+          SizedBox(width: 8.w),
+          Obx(() {
+            if (controller.productReviewCount.value == 0) {
+              return const SizedBox.shrink();
+            }
+
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'asset/svg/star.svg',
+                  width: 12.w,
+                  height: 12.w,
+                ),
+                SizedBox(width: 4.w),
+                Text(
+                  controller.formattedRating,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontFamily: 'DMSans',
+                    fontWeight: FontWeight.w600,
+                    color: Colorstheam.grey,
+                    height: 1.0,
+                  ),
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );
   }
-
   Widget _buildPriceAndAvailability(Size screenSize) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 6.h),
+          SizedBox(height: 1.h),
           Text(
             '45 Minutes',
             style: TextStyle(
@@ -773,7 +831,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               color: Colorstheam.burntearth,
             ),
           ),
-          SizedBox(height: 14.h),
+          SizedBox(height: 10.h),
           Row(
             children: <Widget>[
               Expanded(
@@ -811,9 +869,20 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               Container(
                 width: 12.w,
                 height: 12.w,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: controller.isAvailable ? Colorstheam.green : Colorstheam.grey,
+                  color: controller.isAvailable
+                      ? Colorstheam.green
+                      : Colorstheam.grey,
+                ),
+                child: Container(
+                  width: 6.w,
+                  height: 6.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colorstheam.white,
+                  ),
                 ),
               ),
               SizedBox(width: 6.w),
@@ -831,7 +900,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   String _formattedPrice() {
     final amount = double.tryParse(controller.price);
     if (amount == null) {
@@ -843,21 +911,23 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     }
     return '$currency ${amount.toStringAsFixed(2)}';
   }
-
-  Widget _buildVariantOptions(Size screenSize) {
+  Widget  _buildVariantOptions(Size screenSize) {
     return Obx(() {
-      final definitions = controller.optionDefinitions;
+      final definitions = controller.optionDefinitions.where((definition) {
+        final name = definition['name']?.toString().trim().toLowerCase() ?? '';
+        final values = definition['values'] as List? ?? [];
+        if (name == 'title' &&
+            values.length == 1 &&
+            values.first.toString().trim().toLowerCase() == 'default title') {
+          return false;
+        }
+
+        return values.isNotEmpty;
+      }).toList();
       final selectedVariant = controller.selectedVariant.value;
       final selectedOptions = selectedVariant?['selectedOptions'] as List? ?? [];
-      if (definitions.isEmpty) {
-        return const SizedBox.shrink();
-      }
-      return Padding(
-        padding: EdgeInsets.only(
-          left: screenSize.width * 0.04,
-          right: screenSize.width * 0.04,
-          top: 20.h,
-        ),
+      if (definitions.isEmpty) {return const SizedBox.shrink();}
+      return Padding(padding: EdgeInsets.only(left: screenSize.width * 0.04, right: screenSize.width * 0.04, top: 15.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: definitions.map((definition) {
@@ -875,13 +945,16 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    '$name: $selectedValue',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontFamily: 'DMSans',
-                      color: Colorstheam.nobelblack,
-                      fontWeight: FontWeight.w600,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      '$name: $selectedValue',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontFamily: 'DMSans',
+                        color: Colorstheam.nobelblack,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -895,76 +968,75 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                         orElse: () => <String, dynamic>{},
                       );
                       final currentValue = currentOption['value']?.toString() ?? selectedValue;
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.zero,
-                        itemCount: values.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 6,
-                          crossAxisSpacing: 8.w,
-                          mainAxisSpacing: 10.h,
-                          childAspectRatio: 1,
-                        ),
-                        itemBuilder: (context, index) {
-                          final value = values[index];
-                          final shadeIndex = controller.shadeNames.indexWhere(
-                                (shade) =>
-                            shade.trim().toLowerCase() ==
-                                value.trim().toLowerCase(),
-                          );
-                          if (shadeIndex == -1 || shadeIndex >= controller.shades.length) {
+                      return Align(
+                        alignment: Alignment.centerLeft,
+                        child: Wrap(
+                          alignment: WrapAlignment.start,
+                          runAlignment: WrapAlignment.start,
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          spacing: 8.w,
+                          runSpacing: 10.h,
+                          children: values.map((rawValue) {
+                            final value = rawValue.toString();
+                            final selected = value == currentValue;
+
+                            // Get image dynamically from Shopify product media.
+                            final imageUrl = controller.getShadeImage(value);
+
                             return GestureDetector(
                               onTap: () => _selectOptionValue(name, value),
-                              child: Container(
-                                alignment: Alignment.center,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 180),
+                                padding: EdgeInsets.all(selected ? 2.w : 0),
+                                width: 48.w,
+                                height: 48.w,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: value == currentValue
+                                    color: selected
                                         ? Colorstheam.burntearth
                                         : Colors.transparent,
-                                    width: value == currentValue ? 2.w : 0,
+                                    width: selected ? 2.w : 0,
                                   ),
                                 ),
-                                child: Text(
-                                  value,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontFamily: 'DMSans',
+                                child: imageUrl == null
+                                    ? Center(
+                                  child: Text(
+                                    value,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 9.sp,
+                                    ),
+                                  ),
+                                )
+                                    : ClipRRect(
+                                  child: Image.network(
+                                    imageUrl,
+                                    width: 48.w,
+                                    height: 48.w,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Center(
+                                        child: Text(
+                                          value,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 9.sp),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
                             );
-                          }
-                          final selected = value == currentValue;
-                          return GestureDetector(
-                            onTap: () => _selectOptionValue(name, value),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 180),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: selected
-                                      ? Colorstheam.burntearth
-                                      : Colors.transparent,
-                                  width: selected ? 2.w : 0,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.all(selected ? 2.w : 0),
-                                child: Image.asset(
-                                  controller.shades[shadeIndex],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                          }).toList(),
+                        ),
                       );
                     }),
                   ]
                   else ...[
                     Wrap(
+                      alignment: WrapAlignment.start,
+                      runAlignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.start,
                       spacing: 8.w,
                       runSpacing: 8.h,
                       children: values.map((rawValue) {
@@ -1002,8 +1074,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                       }).toList(),
                     ),
                   ]
-
-
                 ],
               ),
             );
@@ -1012,17 +1082,11 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       );
     });
   }
-
   Widget _buildQuantityAndCart(Size screenSize) {
     return Obx(() {
       final quantity = controller.quantity.value;
       final available = controller.isAvailable;
-      return Padding(
-        padding: EdgeInsets.only(
-          left: screenSize.width * 0.04,
-          right: screenSize.width * 0.04,
-          top: 8.h,
-        ),
+      return Padding(padding: EdgeInsets.only(left: screenSize.width * 0.04, right: screenSize.width * 0.04, top: 8.h,),
         child: Row(
           children: <Widget>[
             Container(
@@ -1078,45 +1142,53 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             ),
             SizedBox(width: 12.w),
             Expanded(
-              child: AnimatedButton(
-                onTap: available ? controller.addToCart : () {},
-                child: Container(
-                  height: 40.h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colorstheam.nobelblack,
-                    ),
-                    color: available
-                        ? Colorstheam.white
-                        : Colorstheam.clusterwhite,
-                  ),
-                  child: Center(
-                    child: Text(
-                      available ? 'ADD TO CART' : 'UNAVAILABLE',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontFamily: 'DMSans',
-                        fontWeight: FontWeight.w700,
+              child: Obx(() {
+                final cartController = Get.find<Cartcontroller>();
+                final available = controller.isAvailable;
+                final isAdding = cartController.isUpdating.value;
+
+                return AnimatedButton(
+                  onTap: () {
+                    if (!available || isAdding) return;
+
+                    controller.addCurrentProductToCart();
+                  },
+                  child: Container(
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      border: Border.all(
                         color: Colorstheam.nobelblack,
+                      ),
+                      color: available && !isAdding
+                          ? Colorstheam.white
+                          : Colorstheam.clusterwhite,
+                    ),
+                    child: Center(
+                      child: Text(
+                        !available
+                            ? 'UNAVAILABLE'
+                            : isAdding
+                            ? 'ADDING...'
+                            : 'ADD TO CART',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontFamily: 'DMSans',
+                          fontWeight: FontWeight.w700,
+                          color: Colorstheam.nobelblack,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),
       );
     });
   }
-
   Widget _buildBuyNow(Size screenSize) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: screenSize.width * 0.04,
-        right: screenSize.width * 0.04,
-        top: 9.h,
-      ),
+    return Padding(padding: EdgeInsets.only(left: screenSize.width * 0.04, right: screenSize.width * 0.04, top: 9.h,),
       child: AnimatedButton(
         onTap: () {},
         child: Container(
@@ -1137,68 +1209,49 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   Widget _buildProductDetails(Size screenSize) {
     return _buildInfoTile(
       screenSize: screenSize,
       title: 'Product Details',
-      child: Obx(
-            () => Text(
-          controller.description.isNotEmpty ? controller.description : 'No product description available.',
+      child: Obx(() {
+        final description = controller.description;
+        if (description.trim().isEmpty) {return const SizedBox.shrink();}
+        final formattedDescription = controller.formatProductDescription(description);
+        return Text(
+          formattedDescription,
           style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'DMSans',
+            color: Colorstheam.dimgrey,
+            height: 1.7,
+          ),
+        );
+      }),
+    );
+  }
+  Widget _buildShippingInfo(Size screenSize) {
+    return _buildInfoTile(
+      screenSize: screenSize,
+      title: 'Shipping Info',
+      child: Obx(() {
+        final description = controller.shippingDescription.value;
+        if (description.trim().isEmpty) {
+          return const Text('Shipping information is currently unavailable.');
+        }
+        return HtmlWidget(
+          description,
+          textStyle: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             fontFamily: 'DMSans',
             color: Colorstheam.dimgrey,
             height: 1.5,
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
-
-  Widget _buildShippingInfo(Size screenSize) {
-    return _buildInfoTile(
-      screenSize: screenSize,
-      title: 'Shipping Info',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _infoText(
-            'Packages ordered Monday–Friday before 3 PM are shipped the same day. Weekend orders are shipped on Monday.',
-          ),
-          SizedBox(height: 12.h),
-          _infoText(
-            'United States Shipping:',
-            bold: true,
-            color: Colorstheam.nobelblack,
-          ),
-          _infoText(
-            'Packages are shipped via UPS Ground or Next Day Air. Delivery times depend on your location.',
-          ),
-          SizedBox(height: 8.h),
-          _infoText('•  East Coast - 2–3 Days'),
-          _infoText('•  Midwest - 2–5 Days'),
-          _infoText('•  Rocky Mountains - 5–10 Days'),
-          _infoText('•  West Coast - 5–8 Days'),
-          SizedBox(height: 12.h),
-          _infoText(
-            'International Shipping:',
-            bold: true,
-            color: Colorstheam.nobelblack,
-          ),
-          _infoText(
-            'International packages are shipped via DHL Express Worldwide. Delivery times may vary.',
-          ),
-          SizedBox(height: 12.h),
-          _infoText(
-            'For shipping questions, email info@maliaextensions.com with your order number.',
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildWarrantyInfo(Size screenSize) {
     return _buildInfoTile(
       screenSize: screenSize,
@@ -1235,14 +1288,16 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   Widget _buildInfoTile({
     required Size screenSize,
     required String title,
     required Widget child,
   }) {
     return Padding(
-      padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04,),
+      padding: EdgeInsets.only(
+        left: screenSize.width * 0.04,
+        right: screenSize.width * 0.04,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colorstheam.white,
@@ -1253,50 +1308,51 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             ),
           ),
         ),
-        child: Theme(
-          data: Theme.of(Get.context!).copyWith(
-            dividerColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(horizontal: 0, vertical: 4.h),
-            childrenPadding: EdgeInsets.only(bottom: 16.h),
-            shape:  Border.all(width: 1),
-            collapsedShape: Border(),
-            backgroundColor: Colors.transparent,
-            collapsedBackgroundColor: Colors.transparent,
-            title: Text(
-              title,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontFamily: 'DMSans',
-                fontWeight: FontWeight.w600,
-                color: Colorstheam.nobelblack,
-              ),
+        child: Material(
+          color: Colorstheam.white,
+          child: Theme(
+            data: Theme.of(Get.context!).copyWith(
+              dividerColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
             ),
-            trailing: SvgPicture.asset(
-              'asset/svg/plus.svg',
-              width: 18.w,
-              height: 18.h,
-            ),
-            children: <Widget>[
-              Align(
-                alignment: Alignment.centerLeft,
-                child: child,
+            child: ExpansionTile(
+              tilePadding: EdgeInsets.symmetric(
+                horizontal: 0,
+                vertical: 4.h,
               ),
-            ],
+              childrenPadding: EdgeInsets.only(
+                bottom: 16.h,
+              ),
+              backgroundColor: Colors.transparent,
+              collapsedBackgroundColor: Colors.transparent,
+              title: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: 'DMSans',
+                  fontWeight: FontWeight.w600,
+                  color: Colorstheam.nobelblack,
+                ),
+              ),
+              trailing: SvgPicture.asset(
+                'asset/svg/plus.svg',
+                width: 18.w,
+                height: 18.h,
+              ),
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: child,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
-  Widget _infoText(
-      String text, {
-        bool bold = false,
-        Color? color,
-      }) {
+  Widget _infoText(String text, {bool bold = false,Color? color}) {
     return Padding(
       padding: EdgeInsets.only(bottom: 4.h),
       child: Text(
@@ -1311,11 +1367,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
-  Widget _headerIcon({
-    required String icon,
-    VoidCallback? onTap,
-  }) {
+  Widget _headerIcon({required String icon,VoidCallback? onTap,}) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,

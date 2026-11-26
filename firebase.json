@@ -1,0 +1,44 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "maliamobileapp-bc5e8",
+          "appId": "1:106216011928:android:d9012550a27e8e884ef8ed",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "maliamobileapp-bc5e8",
+          "appId": "1:106216011928:ios:1873dcd7401884c84ef8ed",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "maliamobileapp-bc5e8",
+          "configurations": {
+            "android": "1:106216011928:android:d9012550a27e8e884ef8ed",
+            "ios": "1:106216011928:ios:1873dcd7401884c84ef8ed"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}

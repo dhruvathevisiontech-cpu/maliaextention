@@ -29,6 +29,14 @@ class Searchview extends GetView<Searchdatacontroller> {
             scrolledUnderElevation: 0,
             titleSpacing: 0,
             leadingWidth: 50.w,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(1.h),
+              child: Container(
+                height: 1.h,
+                width: double.infinity,
+                color: Colorstheam.clusterwhite,
+              ),
+            ),
             leading: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
