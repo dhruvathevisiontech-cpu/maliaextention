@@ -48,8 +48,6 @@ class ShopifyCollectionService {
         'variables': variables,
       }),
     );
-    debugPrint('TOKENLESS SHOPIFY STATUS: ${response.statusCode}');
-    debugPrint('TOKENLESS SHOPIFY RESPONSE: ${response.body}');
     if (response.statusCode != 200) {
       throw Exception(
         'Shopify API failed: ${response.statusCode} ${response.body}',
@@ -91,24 +89,17 @@ class ShopifyCollectionService {
         },
       );
       final result = data['customerRecover'];
-      debugPrint('RAW SHOPIFY CUSTOMER RESPONSE: ${jsonEncode(result)}',);
       final errors = result?['customerUserErrors'] as List<dynamic>? ?? [];
       if (errors.isEmpty) {
-        debugPrint('CUSTOMER EXISTS: $email');
-        debugPrint('Shopify accepted the recovery request.');
         return;
       }
       for (final error in errors) {
         final code = error['code']?.toString();
         if (code == 'UNIDENTIFIED_CUSTOMER') {
-          debugPrint('CUSTOMER NOT FOUND: $email');
         } else {
-          debugPrint('SHOPIFY CUSTOMER ERROR: ${error['message']}');
-          debugPrint('ERROR CODE: $code');
         }
       }
     } catch (e) {
-      debugPrint('CUSTOMER CHECK FAILED: $e');
     }
   }
   static Future<List<String>> getGalleryImages() async {

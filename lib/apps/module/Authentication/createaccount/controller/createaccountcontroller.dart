@@ -154,23 +154,13 @@ class Createaccountcontroller extends GetxController {
   }
   void validatePhoneLive(String value) {
     final digits = value.replaceAll(RegExp(r'\D'), '');
-
     if (digits.isEmpty) {
       phoneError.value = '';
       isPhoneValid.value = false;
       return;
     }
-
     if (countryIsoCode == 'US') {
-      debugPrint('US phone digits: $digits');
-      debugPrint('Digit count: ${digits.length}');
-      debugPrint('Starts with valid area code: ${RegExp(r'^[2-9]').hasMatch(digits)}');
-
-      final valid = digits.length == 10 &&
-          RegExp(r'^[2-9][0-9]{2}[2-9][0-9]{6}$').hasMatch(digits);
-
-      debugPrint('US phone validation result: $valid');
-
+      final valid = digits.length == 10 && RegExp(r'^[2-9][0-9]{2}[2-9][0-9]{6}$').hasMatch(digits);
       isPhoneValid.value = valid;
       phoneError.value = valid ? '' : 'Enter a valid phone number';
       return;
@@ -469,21 +459,8 @@ class Createaccountcontroller extends GetxController {
       final firstName = firstNameController.text.trim();
       final lastName = lastNameController.text.trim();
       final phone = getFullPhoneNumber();
-      debugPrint('Selected country: $countryIsoCode');
-      debugPrint('Country dial code: $countryCode');
-      debugPrint('Phone input digits: ${phoneController.text.replaceAll(RegExp(r'\D'), '').length}');
-      debugPrint('Phone sent to Shopify: ${phone.replaceRange(
-        phone.length > 4 ? 3 : 1,
-        phone.length,
-        '****',
-      )}');
       final digits = phoneController.text.replaceAll(RegExp(r'\D'), '');
-
-      debugPrint('Raw phone input: ${phoneController.text}');
-      debugPrint('Clean phone digits: $digits');
-      debugPrint('Final phone: $countryCode$digits');
       final password = generateRandomPassword();
-      // 1. Create Shopify customer.
       await createShopifyCustomer(
         email: email,
         password: password,
@@ -522,12 +499,8 @@ class Createaccountcontroller extends GetxController {
       await Future.delayed(
         const Duration(milliseconds: 500),
       );
-
       Get.offAllNamed(Routes.BOTTOMNAV);
     } catch (e, stackTrace) {
-      debugPrint('Malia registration error: $e');
-      debugPrintStack(stackTrace: stackTrace);
-
       AppSnackbar.error(e.toString());
     } finally {
       isLoading.value = false;

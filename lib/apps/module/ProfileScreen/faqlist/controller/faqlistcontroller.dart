@@ -82,17 +82,9 @@ class Faqlistcontroller extends GetxController {
           'answer': faq['answer'] ?? '',
         }),
       );
-
       expandedIndex.value = -1;
-
-      debugPrint('TOTAL SHOPIFY FAQ ENTRIES: ${nodes.length}');
-      debugPrint('GENERAL FAQ COUNT: ${faqList.length}');
-      debugPrint('FAQ DATA: ${faqList.toList()}');
-
     } catch (e, stackTrace) {
       errorMessage.value = e.toString();
-      debugPrint('FAQ FETCH ERROR: $e');
-      debugPrintStack(stackTrace: stackTrace);
     } finally {
       isLoading.value = false;
     }

@@ -67,25 +67,16 @@ class Collectioncontroller extends GetxController {
         });
       }
       collections.assignAll(result);
-      debugPrint('TOTAL COLLECTIONS: ${collections.length}');
     } catch (e, stackTrace) {
       errorMessage.value = e.toString();
-      debugPrint('COLLECTION FETCH ERROR: $e');
-      debugPrint('COLLECTION STACK TRACE: $stackTrace');
     } finally {
       stopwatch.stop();
       const minimumShimmerDuration = Duration(milliseconds: 1200);
       final remainingTime = minimumShimmerDuration - stopwatch.elapsed;
-      debugPrint('========== SHIMMER DEBUG ==========');
-      debugPrint('API + MAPPING TIME: ${stopwatch.elapsedMilliseconds}ms');
-      debugPrint('REMAINING SHIMMER TIME: ${remainingTime.inMilliseconds}ms');
-      debugPrint('IS LOADING BEFORE DELAY: ${isLoading.value}');
       if (remainingTime > Duration.zero) {
         await Future.delayed(remainingTime);
       }
       isLoading.value = false;
-      debugPrint('IS LOADING AFTER DELAY: ${isLoading.value}');
-      debugPrint('===================================');
     }
   }
 }

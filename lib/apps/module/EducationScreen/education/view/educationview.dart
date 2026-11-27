@@ -62,7 +62,7 @@ class Educationview extends GetView<Educationcontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
@@ -75,7 +75,7 @@ class Educationview extends GetView<Educationcontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -682,7 +682,7 @@ class Educationview extends GetView<Educationcontroller> {
             title: buttonText,
             screensize: screensize,
             onTap: () {
-              HapticFeedback.heavyImpact();
+              HapticFeedback.lightImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 3;
               bottomNav.currentPage.value = PageType.inperson;
@@ -762,7 +762,7 @@ class Educationview extends GetView<Educationcontroller> {
             title: buttonText,
             screensize: screensize,
             onTap: () {
-              HapticFeedback.heavyImpact();
+              HapticFeedback.lightImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 3;
               bottomNav.currentPage.value = PageType.onlinetraing;
@@ -810,7 +810,7 @@ class Educationview extends GetView<Educationcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 1;
         bottomNav.currentPage.value = PageType.collection;

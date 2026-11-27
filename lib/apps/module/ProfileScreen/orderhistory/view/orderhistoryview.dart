@@ -269,7 +269,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
   }
 
   void _openOrderDetails() {
-    HapticFeedback.selectionClick();
+    HapticFeedback.lightImpact();
     final bottomNav = Get.find<Bottomnavigationcontroller>();
     bottomNav.selectedIndex.value = 4;
     bottomNav.currentPage.value = PageType.vieworder;
@@ -279,7 +279,7 @@ class Orderhistoryview extends GetView<Orderhistorycontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.selectionClick();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

@@ -30,7 +30,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
             );
           }
           return Column(
-            children: [
+            children: <Widget>[
               _heroBanner(),
               Expanded(
                 child: LayoutBuilder(
@@ -38,16 +38,14 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                     if (constraints.maxWidth >= 700) {
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
+                        children: <Widget>[
                           SizedBox(
                             width: 350,
                             child: _sidebar(),
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                0, 16, 16, 16,
-                              ),
+                              padding: const EdgeInsets.fromLTRB(0, 16, 16, 16),
                               child: _mapPanel(),
                             ),
                           ),
@@ -82,7 +80,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       title: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Row(
-          children: [
+          children: <Widget>[
             _backButton(),
             SizedBox(width: 13.w),
             Expanded(
@@ -107,7 +105,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       width: double.infinity,
       child: Stack(
         fit: StackFit.expand,
-        children: [
+        children: <Widget>[
           Image.asset(
             'asset/image/salon-locator-banner.png',
             fit: BoxFit.cover,
@@ -132,7 +130,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Text(
                   'THE MALIA EXPERIENCE',
                   style: TextStyle(
@@ -182,12 +180,11 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
   }
   Widget _mobileLayout() {
     return Column(
-      children: [
+      children: <Widget>[
         Padding(
           padding: EdgeInsets.fromLTRB(16.w, 15.h, 16.w, 12.h),
           child: _searchField(),
         ),
-
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: SizedBox(
@@ -195,9 +192,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
             child: _mapPanel(),
           ),
         ),
-
         SizedBox(height: 12.h),
-
         Expanded(
           child: _salonList(),
         ),
@@ -216,12 +211,12 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(18.w, 23.h, 18.w, 18.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   'OUR SALON NETWORK',
                   style: TextStyle(
@@ -268,7 +263,6 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       ),
     );
   }
-
   Widget _searchField() {
     return Container(
       height: 54.h,
@@ -280,7 +274,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
         ),
       ),
       child: Row(
-        children: [
+        children: <Widget>[
           SizedBox(width: 15.w),
           Icon(
             Icons.search,
@@ -314,7 +308,6 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
             if (controller.searchQuery.value.isEmpty) {
               return const SizedBox.shrink();
             }
-
             return GestureDetector(
               onTap: () => controller.searchSalons(''),
               child: Padding(
@@ -348,20 +341,17 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       ),
     );
   }
-
   Widget _salonList() {
     return Obx(() {
       final salons = controller.filteredSalons;
       final selected = controller.selectedSalon.value;
-
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // SECTION HEADER
+        children: <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(18.w, 13.h, 18.w, 12.h),
             child: Row(
-              children: [
+              children: <Widget>[
                 Text(
                   'SALON LOCATIONS',
                   style: TextStyle(
@@ -397,13 +387,12 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
           ),
           if (selected != null) _selectedSalonDetails(selected),
           Expanded(
-            child: salons.isEmpty
-                ? Center(
+            child: salons.isEmpty ? Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     Icon(
                       Icons.location_off_outlined,
                       size: 30.sp,
@@ -433,8 +422,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                   ],
                 ),
               ),
-            )
-                : ListView.separated(
+            ) : ListView.separated(
               padding: EdgeInsets.fromLTRB(18.w, 0, 18.w, 20.h),
               itemCount: salons.length,
               separatorBuilder: (_, __) => Divider(
@@ -444,72 +432,48 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               ),
               itemBuilder: (context, index) {
                 final salon = salons[index];
-                final name =
-                    salon['name']?.toString().trim() ?? 'Salon';
+                final name = salon['name']?.toString().trim() ?? 'Salon';
                 final address = _salonAddress(salon);
-                final phone =
-                    salon['phone']?.toString().trim() ?? '';
-
-                final isSelected =
-                    selected?['stockist_id']?.toString() ==
-                        salon['stockist_id']?.toString();
-
+                final phone = salon['phone']?.toString().trim() ?? '';
+                final isSelected = selected?['stockist_id']?.toString() == salon['stockist_id']?.toString();
                 return Material(
-                  color: isSelected
-                      ? Colorstheam.clusterwhite
-                      : Colorstheam.white,
+                  color: isSelected ? Colorstheam.clusterwhite : Colorstheam.white,
                   child: InkWell(
                     onTap: () => controller.selectSalon(salon),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
-                      padding: EdgeInsets.fromLTRB(
-                        12.w,
-                        15.h,
-                        10.w,
-                        15.h,
-                      ),
+                      padding: EdgeInsets.fromLTRB(12.w, 15.h, 10.w, 15.h,),
                       decoration: BoxDecoration(
                         border: Border(
                           left: BorderSide(
-                            color: isSelected
-                                ? Colorstheam.nobelblack
-                                : Colors.transparent,
+                            color: isSelected ? Colorstheam.nobelblack : Colors.transparent,
                             width: 3,
                           ),
                         ),
                       ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // RESULT NUMBER
+                        children: <Widget>[
                           SizedBox(
                             width: 30.w,
                             child: Padding(
                               padding: EdgeInsets.only(top: 1.h),
                               child: Text(
-                                (index + 1)
-                                    .toString()
-                                    .padLeft(2, '0'),
+                                (index + 1).toString().padLeft(2, '0'),
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   fontFamily: 'Urbanist',
                                   fontWeight: FontWeight.w600,
-                                  color: isSelected
-                                      ? Colorstheam.nobelblack
-                                      : Colorstheam.Silver,
+                                  color: isSelected ? Colorstheam.nobelblack : Colorstheam.Silver,
                                 ),
                               ),
                             ),
                           ),
-
                           SizedBox(width: 8.w),
-
-                          // SALON INFORMATION
                           Expanded(
                             child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
                                 Text(
                                   name,
                                   maxLines: 2,
@@ -522,7 +486,6 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                                     color: Colorstheam.nobelblack,
                                   ),
                                 ),
-
                                 if (address.isNotEmpty) ...[
                                   SizedBox(height: 6.h),
                                   Text(
@@ -537,11 +500,10 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                                     ),
                                   ),
                                 ],
-
                                 if (phone.isNotEmpty) ...[
                                   SizedBox(height: 7.h),
                                   Row(
-                                    children: [
+                                    children: <Widget>[
                                       Icon(
                                         Icons.phone_outlined,
                                         size: 12.sp,
@@ -559,8 +521,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                                             fontFamily: 'DMSans',
                                             fontWeight:
                                             FontWeight.w500,
-                                            color:
-                                            Colorstheam.nobelblack,
+                                            color: Colorstheam.nobelblack,
                                           ),
                                         ),
                                       ),
@@ -570,20 +531,13 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                               ],
                             ),
                           ),
-
                           SizedBox(width: 8.w),
-
-                          // SELECT INDICATOR
                           Padding(
                             padding: EdgeInsets.only(top: 2.h),
                             child: Icon(
-                              isSelected
-                                  ? Icons.check
-                                  : Icons.arrow_outward,
+                              isSelected ? Icons.check : Icons.arrow_outward,
                               size: 16.sp,
-                              color: isSelected
-                                  ? Colorstheam.nobelblack
-                                  : Colorstheam.Silver,
+                              color: isSelected ? Colorstheam.nobelblack : Colorstheam.Silver,
                             ),
                           ),
                         ],
@@ -602,19 +556,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
     final String name = salon['name']?.toString() ?? 'Salon';
     final String address = _salonAddress(salon);
     final String phone = salon['phone']?.toString().trim() ?? '';
-
-    final String website = [
-      salon['website'],
-      salon['website_url'],
-      salon['url'],
-    ]
-        .where(
-          (value) =>
-      value != null && value.toString().trim().isNotEmpty,
-    )
-        .map((value) => value.toString().trim())
-        .firstOrNull ?? '';
-
+    final String website = [salon['website'], salon['website_url'], salon['url'],].where((value) => value != null && value.toString().trim().isNotEmpty,).map((value) => value.toString().trim()).firstOrNull ?? '';
     return Container(
       margin: EdgeInsets.fromLTRB(14.w, 0, 14.w, 12.h),
       padding: EdgeInsets.all(15.w),
@@ -627,9 +569,9 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Row(
-            children: [
+            children: <Widget>[
               Text(
                 'YOUR SELECTED SALON',
                 style: TextStyle(
@@ -640,9 +582,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
                   color: Colorstheam.dimgrey,
                 ),
               ),
-
               const Spacer(),
-
               GestureDetector(
                 onTap: controller.clearSelectedSalon,
                 child: Icon(
@@ -653,9 +593,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               ),
             ],
           ),
-
           SizedBox(height: 10.h),
-
           Text(
             name,
             style: TextStyle(
@@ -665,24 +603,19 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               color: Colorstheam.nobelblack,
             ),
           ),
-
           if (address.isNotEmpty) ...[
             SizedBox(height: 11.h),
             _detailRow(Icons.location_on_outlined, address),
           ],
-
           if (phone.isNotEmpty) ...[
             SizedBox(height: 9.h),
             _detailRow(Icons.phone_outlined, phone),
           ],
-
           if (website.isNotEmpty) ...[
             SizedBox(height: 9.h),
             _detailRow(Icons.language, website),
           ],
-
           SizedBox(height: 14.h),
-
           SizedBox(
             width: double.infinity,
             height: 44.h,
@@ -720,7 +653,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
   Widget _detailRow(IconData icon, String value) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Icon(
           icon,
           size: 15.sp,
@@ -746,9 +679,8 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
     ].where((value) => value != null && value.toString().trim().isNotEmpty,).map((value) => value.toString().trim()).join(', ');
   }
   Widget _mapPanel() {
-    return Obx(
-          () => Stack(
-        children: [
+    return Obx(() => Stack(
+        children: <Widget>[
           GoogleMap(
             key: const ValueKey('salon_locator_map'),
             initialCameraPosition:
@@ -761,15 +693,11 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
             onCameraMove: controller.onCameraMove,
             onCameraIdle: controller.onCameraIdle,
           ),
-
           Positioned(
             top: 13.h,
             left: 13.w,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12.w,
-                vertical: 8.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(
                 color: Colorstheam.white,
                 borderRadius: BorderRadius.circular(5.r),
@@ -783,7 +711,7 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children: <Widget>[
                   Icon(
                     Icons.map_outlined,
                     size: 14.sp,
@@ -804,7 +732,6 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               ),
             ),
           ),
-
           Positioned(
             right: 13.w,
             bottom: 16.h,
@@ -814,23 +741,19 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
               shape: const CircleBorder(),
               child: InkWell(
                 customBorder: const CircleBorder(),
-                onTap: controller.isGettingLocation.value
-                    ? null
-                    : controller.getCurrentLocation,
+                onTap: controller.isGettingLocation.value ? null : controller.getCurrentLocation,
                 child: SizedBox(
                   width: 46.w,
                   height: 46.w,
                   child: Center(
-                    child: controller.isGettingLocation.value
-                        ? SizedBox(
+                    child: controller.isGettingLocation.value ? SizedBox(
                       width: 19.w,
                       height: 19.w,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         color: Colorstheam.nobelblack,
                       ),
-                    )
-                        : Icon(
+                    ): Icon(
                       Icons.my_location,
                       size: 21.sp,
                       color: Colorstheam.nobelblack,
@@ -844,12 +767,11 @@ class Salonlocatorview extends GetView<Salonlocatorcontroller> {
       ),
     );
   }
-
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

@@ -148,7 +148,7 @@ class Editaddressview extends GetView<Editaddresscontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -162,7 +162,7 @@ class Editaddressview extends GetView<Editaddresscontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -1001,7 +1001,7 @@ class Editaddressview extends GetView<Editaddresscontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final Bottomnavigationcontroller bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.addresslist;

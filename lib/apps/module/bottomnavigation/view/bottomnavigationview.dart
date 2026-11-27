@@ -76,7 +76,7 @@ class Bottomnavigationview extends GetView<Bottomnavigationcontroller> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.lightImpact();
           controller.selectedIndex.value = index;
         },
         child: AnimatedContainer(

@@ -40,7 +40,7 @@ class Searchview extends GetView<Searchdatacontroller> {
             leading: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.home;

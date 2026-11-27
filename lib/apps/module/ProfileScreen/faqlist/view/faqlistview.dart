@@ -378,7 +378,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
                 ),
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  HapticFeedback.selectionClick();
+                  HapticFeedback.lightImpact();
 
                   controller.expandedIndex.value =
                   isExpanded ? -1 : index;
@@ -522,7 +522,7 @@ class Faqlistview extends GetView<Faqlistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
 
         final bottomNav =
         Get.find<Bottomnavigationcontroller>();

@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:maliaextention/animation/textselect.dart';
 import 'package:maliaextention/apps/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maliaextention/animation/animated_button.dart';
-import 'package:maliaextention/apps/module/shopify_collection_service.dart';
+import 'package:maliaextention/apps/module/Authentication/googleauthcontroller.dart';
 import 'package:maliaextention/apps/module/Authentication/login/controller/logincontroller.dart';
 
 class Loginview extends GetView<Logincontroller> {
@@ -40,14 +41,6 @@ class Loginview extends GetView<Logincontroller> {
                 statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.light,
               ),
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(1.h),
-                child: Container(
-                  height: 1.h,
-                  width: double.infinity,
-                  color: Colorstheam.clusterwhite,
-                ),
-              ),
               elevation: 0,
               centerTitle:true,
               leading: Padding(
@@ -58,7 +51,7 @@ class Loginview extends GetView<Logincontroller> {
                   hoverColor: Colors.transparent,
                   focusColor: Colors.transparent,
                   onTap: () {
-                    HapticFeedback.heavyImpact();
+                    HapticFeedback.lightImpact();
                     Get.offAllNamed(Routes.ONBOARDING);
                   },
                   child: Container(
@@ -378,7 +371,7 @@ class Loginview extends GetView<Logincontroller> {
                                        child: GestureDetector(
                                          onTap: () async {
                                            HapticFeedback.lightImpact();
-                                           await ShopifyCollectionService.testCustomerEmail(controller.inputController.text);
+                                           Get.find<GoogleAuthController>().signInWithGoogle();
                                          },
                                          child: SvgPicture.asset(
                                            "asset/svg/google.svg",
@@ -388,19 +381,25 @@ class Loginview extends GetView<Logincontroller> {
                                        ),
                                      ),
                                      SizedBox(height: screensize.height * 0.01),
-                                     Padding(
-                                       padding: EdgeInsets.only(left: screensize.width * 0.015,right: 0),
-                                       child: GestureDetector(
-                                         onTap: () {
-                                           HapticFeedback.lightImpact();
-                                         },
-                                         child: SvgPicture.asset(
-                                           "asset/svg/apple.svg",
-                                           height: 48.h,
-                                           width: 48.w,
+                                     if (Platform.isIOS)
+                                       Padding(
+                                         padding: EdgeInsets.only(
+                                           left: screensize.width * 0.015,
+                                           right: 0,
+                                         ),
+                                         child: GestureDetector(
+                                           onTap: () {
+                                             HapticFeedback.lightImpact();
+                                             Get.find<GoogleAuthController>().signInWithApple();
+                                           },
+                                           child: SvgPicture.asset(
+                                             "asset/svg/apple.svg",
+                                             height: 48.h,
+                                             width: 48.w,
+                                           ),
                                          ),
                                        ),
-                                     ),
+
                                    ],
                                  ),
                                ],
@@ -435,7 +434,7 @@ class Loginview extends GetView<Logincontroller> {
                              ),
                              recognizer: TapGestureRecognizer()
                                ..onTap = () {
-                                 HapticFeedback.heavyImpact();
+                                 HapticFeedback.lightImpact();
                                  Get.offAllNamed(Routes.ACCOUNTOPTION);
                                },
                            ),

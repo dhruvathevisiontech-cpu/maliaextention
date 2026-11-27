@@ -62,7 +62,6 @@ class Productdetailscontroller extends GetxController {
   Future<void> addCurrentProductToCart() async {
     // Prevent duplicate Add to Cart calls.
     if (_isAddingToCart) {
-      debugPrint('ADD TO CART BLOCKED: Request already in progress.');
       return;
     }
 
@@ -94,21 +93,7 @@ class Productdetailscontroller extends GetxController {
       final length = _getSelectedOption('Length');
       final texture = _getSelectedOption('Texture');
       final hairType = _getSelectedOption('Hair Type');
-
       final cartController = Get.find<Cartcontroller>();
-
-      debugPrint('========== ADD TO CART DEBUG ==========');
-      debugPrint('Product: $productName');
-      debugPrint('Variant ID: $variantId');
-      debugPrint('Selected Options: $selectedOptions');
-      debugPrint('Shade: $shade');
-      debugPrint('Length: $length');
-      debugPrint('Texture: $texture');
-      debugPrint('Hair Type: $hairType');
-      debugPrint('Quantity: ${quantity.value}');
-      debugPrint('Available: ${variant['availableForSale']}');
-      debugPrint('=======================================');
-
       await cartController.addToCart(
         product: wishlistProductData,
         shade: shade,
@@ -121,8 +106,6 @@ class Productdetailscontroller extends GetxController {
         currencyCode: priceData['currencyCode']?.toString() ?? 'USD',
       );
     } catch (e, stackTrace) {
-      debugPrint('PRODUCT DETAIL ADD TO CART ERROR: $e');
-      debugPrint('$stackTrace');
     } finally {
       _isAddingToCart = false;
     }
@@ -131,7 +114,6 @@ class Productdetailscontroller extends GetxController {
   Future<void> fetchShippingInfo() async {
     try {
       isLoadingShipping.value = true;
-      debugPrint('SHIPPING INFO FETCH STARTED');
       final response = await ShopifyCollectionService.query(shippingPolicyQuery,);
       final shop = response['shop'] ?? response['data']?['shop'];
       final policy = shop?['shippingPolicy'];
@@ -139,20 +121,12 @@ class Productdetailscontroller extends GetxController {
         shippingTitle.value = policy['title']?.toString() ?? '';
         shippingDescription.value = policy['body']?.toString() ?? '';
         shippingUrl.value = policy['url']?.toString() ?? '';
-        debugPrint('========== SHIPPING POLICY ==========');
-        debugPrint('TITLE: ${shippingTitle.value}');
-        debugPrint('BODY: ${shippingDescription.value}');
-        debugPrint('URL: ${shippingUrl.value}');
-        debugPrint('=====================================');
       } else {
         shippingTitle.value = '';
         shippingDescription.value = '';
         shippingUrl.value = '';
-        debugPrint('SHIPPING POLICY NOT FOUND');
       }
     } catch (e, stackTrace) {
-      debugPrint('SHIPPING INFO ERROR: $e');
-      debugPrint('$stackTrace');
     } finally {
       isLoadingShipping.value = false;
     }

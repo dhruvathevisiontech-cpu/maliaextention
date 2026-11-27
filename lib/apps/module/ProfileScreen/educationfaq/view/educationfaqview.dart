@@ -292,7 +292,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
                           height: 48.h,
                           child: AnimatedButton(
                             onTap: () {
-                              HapticFeedback.heavyImpact();
+                              HapticFeedback.lightImpact();
                               final bottomNav = Get.find<Bottomnavigationcontroller>();
                               bottomNav.selectedIndex.value = 4;
                               bottomNav.currentPage.value = PageType.contactus;
@@ -454,7 +454,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
                       ),
                       highlightColor: Colors.transparent,
                       onTap: () {
-                        HapticFeedback.selectionClick();
+                        HapticFeedback.lightImpact();
 
                         if (isInPerson) {
                           controller.inPersonExpandedIndex.value =
@@ -608,7 +608,7 @@ class Educationfaqview extends GetView<Educationfaqcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

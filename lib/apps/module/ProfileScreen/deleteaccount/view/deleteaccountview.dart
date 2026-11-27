@@ -142,7 +142,7 @@ class Deleteaccountview extends GetView<Deleteaccountcontroller> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           controller.openEmail();
                           Text("Hello");
                         },

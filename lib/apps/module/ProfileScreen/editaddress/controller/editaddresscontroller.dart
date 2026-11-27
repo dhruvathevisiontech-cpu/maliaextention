@@ -34,13 +34,8 @@ class Editaddresscontroller extends GetxController {
     apartmentController.text = address['address2'] ?? '';
     cityController.text = address['city'] ?? '';
     phoneController.text = address['phone'] ?? '';
-
-    selectedCountry.value =
-        address['country'] ?? 'United States';
-
+    selectedCountry.value = address['country'] ?? 'United States';
     addressSuggestions.clear();
-
-    debugPrint('EDITING ADDRESS ID: $editingAddressId');
   }
   final RxBool isSaving = false.obs;
 
@@ -163,7 +158,6 @@ class Editaddresscontroller extends GetxController {
 
   Future<bool> saveAddress() async {
     if (!(formKey.currentState?.validate() ?? false)) {
-      debugPrint('Address form validation failed');
       return false;
     }
 
@@ -229,27 +223,13 @@ class Editaddresscontroller extends GetxController {
             ? addresses[existingIndex]['createdAt']
             : DateTime.now().toIso8601String(),
       };
-
       if (wasEditing) {
-        // UPDATE existing address.
         addresses[existingIndex] = addressData;
       } else {
-        // ADD new address.
         addresses.add(addressData);
       }
-
       await storage.write(addressStorageKey, addresses);
-
       editingAddressId = null;
-
-      debugPrint(
-        wasEditing
-            ? 'ADDRESS UPDATED SUCCESSFULLY'
-            : 'ADDRESS SAVED SUCCESSFULLY',
-      );
-
-      debugPrint('UPDATED ADDRESS LIST: $addresses');
-
       Get.snackbar(
         'Success',
         wasEditing
@@ -257,12 +237,8 @@ class Editaddresscontroller extends GetxController {
             : 'Address saved successfully.',
         snackPosition: SnackPosition.BOTTOM,
       );
-
       return true;
     } catch (e, stackTrace) {
-      debugPrint('ADDRESS SAVE/UPDATE ERROR: $e');
-      debugPrint('STACK TRACE: $stackTrace');
-
       Get.snackbar(
         'Error',
         'Unable to save address. Please try again.',

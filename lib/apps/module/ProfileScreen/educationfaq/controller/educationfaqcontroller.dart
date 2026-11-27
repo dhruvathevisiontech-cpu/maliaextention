@@ -121,28 +121,12 @@ class Educationfaqcontroller extends GetxController {
 
         return aOrder.compareTo(bOrder);
       }
-
       onlineList.sort(compareFaq);
       inPersonList.sort(compareFaq);
-
-      // Update observable lists
       faqList.assignAll(onlineList);
       faqList1.assignAll(inPersonList);
-
-      // Debug logs
-      debugPrint('========== EDUCATION FAQ ==========');
-      debugPrint('TOTAL ENTRIES: ${nodes.length}');
-      debugPrint('ONLINE FAQ: ${faqList.length}');
-      debugPrint('IN-PERSON FAQ: ${faqList1.length}');
-      debugPrint('ONLINE DATA: ${faqList.toList()}');
-      debugPrint('IN-PERSON DATA: ${faqList1.toList()}');
-      debugPrint('===================================');
-
     } catch (e, stackTrace) {
       errorMessage.value = e.toString();
-
-      debugPrint('EDUCATION FAQ ERROR: $e');
-      debugPrint('$stackTrace');
     } finally {
       isLoading.value = false;
     }

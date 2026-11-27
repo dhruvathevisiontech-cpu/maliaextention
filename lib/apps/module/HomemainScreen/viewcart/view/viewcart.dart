@@ -15,11 +15,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class Viewcart extends GetView<Viewcartcontroller> {
   const Viewcart({super.key});
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -45,7 +43,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
           title: Padding(
             padding: EdgeInsets.only(left: 16.w),
             child: Row(
-              children: [
+              children: <Widget>[
                 _backButton(),
                 SizedBox(width: 12.w),
                 Text(
@@ -64,7 +62,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -76,7 +74,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               child: _headerIcon(
                 icon: "asset/svg/wishlist.svg",
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 2;
                   bottomNav.currentPage.value = PageType.wishlist;
@@ -95,12 +93,11 @@ class Viewcart extends GetView<Viewcartcontroller> {
       ),
     );
   }
-
   Widget _buildEmptyCartView(BuildContext context) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       child: Column(
-        children: [
+        children: <Widget>[
           Text(
             "Your Cart is empty!",
             style: TextStyle(
@@ -123,7 +120,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
           SizedBox(height: 16.h),
           AnimatedButton(
             onTap: (){
-              HapticFeedback.heavyImpact();
+              HapticFeedback.lightImpact();
               final bottomNav = Get.find<Bottomnavigationcontroller>();
               bottomNav.selectedIndex.value = 1;
               bottomNav.currentPage.value = PageType.collection;
@@ -150,8 +147,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
           Obx(() {
             final cartController = controller.cartController;
             final products = cartController.recommendedProducts;
-            if (cartController.isLoadingRecommendations.value &&
-                products.isEmpty) {
+            if (cartController.isLoadingRecommendations.value && products.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -161,7 +157,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             }
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -275,14 +271,13 @@ class Viewcart extends GetView<Viewcartcontroller> {
   }
   Widget _buildOrderNoteSection(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
-
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screensize.width * 0.04,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             "Order Note",
             style: TextStyle(
@@ -292,9 +287,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               color: Colorstheam.nobelblack,
             ),
           ),
-
           SizedBox(height: 5.h),
-
           Text(
             "Add any special instructions for your order.",
             style: TextStyle(
@@ -304,9 +297,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               color: Colorstheam.dimgrey,
             ),
           ),
-
           SizedBox(height: 12.h),
-
           TextFormField(
             minLines: 3,
             maxLines: 5,
@@ -369,12 +360,11 @@ class Viewcart extends GetView<Viewcartcontroller> {
   }
   Widget _buildDiscountCouponSection(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Text(
             "Discount Coupon",
             style: TextStyle(
@@ -384,9 +374,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               color: Colorstheam.nobelblack,
             ),
           ),
-
           SizedBox(height: 5.h),
-
           Text(
             "Have a promo code? Apply it here.",
             style: TextStyle(
@@ -396,11 +384,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
               color: Colorstheam.dimgrey,
             ),
           ),
-
           SizedBox(height: 12.h),
-
           Row(
-            children: [
+            children: <Widget>[
               Expanded(
                 child: SizedBox(
                   height: 46.h,
@@ -463,9 +449,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               ),
               SizedBox(width: 10.w),
               AnimatedButton(
-                onTap: controller.isApplyingPromoCode.value
-                    ? null
-                    : controller.applyPromoCode,
+                onTap: controller.isApplyingPromoCode.value ? null : controller.applyPromoCode,
                 child: controller.isApplyingPromoCode.value ? Container(
                   height: 46.h,
                   width: 105.w,
@@ -501,6 +485,51 @@ class Viewcart extends GetView<Viewcartcontroller> {
               ),
             ],
           ),
+          Obx(() {
+            if (controller.appliedPromoCode.value.isEmpty) {
+              return const SizedBox.shrink();
+            }
+            return Container(
+              margin: EdgeInsets.only(top: 10.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 13.w,
+                vertical: 10.h,
+              ),
+              color: Colorstheam.nobelblack,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    "asset/svg/offer.svg",
+                    height: 15.h,
+                    width: 15.w,
+                    color: Colorstheam.white,
+                  ),
+                  SizedBox(width: 9.w),
+                  Text(
+                    controller.appliedPromoCode.value,
+                    style: TextStyle(
+                      fontFamily: "DMSans",
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.6,
+                      color: Colorstheam.white,
+                    ),
+                  ),
+                  SizedBox(width: 14.w),
+                  GestureDetector(
+                    onTap: controller.cartController.isApplyingPromoCode.value ? null : controller.removePromoCode,
+                    child: SvgPicture.asset(
+                      "asset/svg/close1.svg",
+                      height: 13.h,
+                      width: 13.w,
+                      color: Colorstheam.white,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -521,12 +550,12 @@ class Viewcart extends GetView<Viewcartcontroller> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Row(
-                  children: [
+                  children: <Widget>[
                     Icon(
                       Icons.location_on_outlined,
                       size: 18.sp,
@@ -558,7 +587,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
             ),
             SizedBox(height: 14.h),
             Row(
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: Text(
                     "Jems",
@@ -572,7 +601,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    HapticFeedback.selectionClick();
+                    HapticFeedback.lightImpact();
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -622,31 +651,27 @@ class Viewcart extends GetView<Viewcartcontroller> {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  HapticFeedback.selectionClick();
+                  HapticFeedback.lightImpact();
                   controller.isAddressSelected.value = !selected;
                 },
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     Container(
                       width: 18.w,
                       height: 18.w,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: selected
-                              ? Colorstheam.nobelblack
-                              : Colorstheam.grey,
+                          color: selected ? Colorstheam.nobelblack : Colorstheam.grey,
                           width: 1.3,
                         ),
                       ),
-                      child: selected
-                          ? Center(
+                      child: selected ? Center(
                         child: Icon(
                           Icons.check,
                           size: 13.sp,
                           color: Colorstheam.nobelblack,
                         ),
-                      )
-                          : null,
+                      ) : null,
                     ),
                     SizedBox(width: 9.w),
                     Expanded(
@@ -670,7 +695,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
               height: 42.h,
               child: AnimatedButton(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                 },
                 child: Container(
                   color: Colorstheam.nobelblack,
@@ -692,60 +717,33 @@ class Viewcart extends GetView<Viewcartcontroller> {
       ),
     );
   }
-
-
-  Widget _buildCartItemCard(
-      Map item,
-      int index,
-      BuildContext context,
-      ) {
-
-    final price = double.tryParse(
-      item["price"]?.toString() ?? "0",
-    ) ?? 0.0;
-
+  Widget _buildCartItemCard(Map item, int index, BuildContext context,) {
+    final price = double.tryParse(item["price"]?.toString() ?? "0",) ?? 0.0;
     final currencyCode = item["currencyCode"]?.toString() ?? "USD";
-
-    final imageUrl = (
-        item["image"] ??
-            item["featuredImage"]?["url"] ??
-            ""
-    ).toString().trim();
-
-    final isValidImage = imageUrl.startsWith("https://") ||
-        imageUrl.startsWith("http://");
-
-    debugPrint("CART ITEM DATA: $item");
-    debugPrint("PRODUCT PRICE: $price");
-    debugPrint("CURRENCY: $currencyCode");
-
+    final imageUrl = (item["image"] ?? item["featuredImage"]?["url"] ?? "").toString().trim();
+    final isValidImage = imageUrl.startsWith("https://") || imageUrl.startsWith("http://");
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Stack(
-            children: [
+            children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.zero,
-                child: isValidImage
-                    ? Image.network(
+                child: isValidImage ? Image.network(
                   imageUrl,
                   width: 112.w,
                   height: 126.h,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) =>
-                      _buildImagePlaceholder(),
-                )
-                    : _buildImagePlaceholder(),
+                  errorBuilder: (_, _, _) => _buildImagePlaceholder()): _buildImagePlaceholder(),
               ),
-
               Positioned(
                 top: 6.h,
                 left: 6.w,
                 child: GestureDetector(
                   onTap: () async {
-                    HapticFeedback.heavyImpact();
+                    HapticFeedback.lightImpact();
                     await controller.removeItem(index);
                   },
                   child: Container(
@@ -761,17 +759,13 @@ class Viewcart extends GetView<Viewcartcontroller> {
               ),
             ],
           ),
-
           SizedBox(width: 13.w),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
-                  item["name"]?.toString() ??
-                      item["title"]?.toString() ??
-                      "Product Name",
+                  item["name"]?.toString() ?? item["title"]?.toString() ?? "Product Name",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -782,9 +776,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                     color: Colorstheam.nobelblack,
                   ),
                 ),
-
                 SizedBox(height: 8.h),
-
                 Text(
                   '$currencyCode ${price.toStringAsFixed(2)}',
                   style: TextStyle(
@@ -816,8 +808,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                         ),
                       ),
                       child: Row(
-                        children: [
-                          // Decrease
+                        children: <Widget>[
                           Expanded(
                             child: _buildQuantityAction(
                               icon: "asset/svg/minimize.svg",
@@ -908,10 +899,8 @@ class Viewcart extends GetView<Viewcartcontroller> {
   Widget _buildHorizontalProductList(BuildContext context) {
     final screensize = MediaQuery.of(context).size;
     final cartController = controller.cartController;
-
     return Obx(() {
       final products = cartController.recommendedProducts;
-
       if (cartController.isLoadingRecommendations.value) {
         return SizedBox(
           height: 250.h,
@@ -920,47 +909,33 @@ class Viewcart extends GetView<Viewcartcontroller> {
           ),
         );
       }
-
       if (products.isEmpty) {
         return const SizedBox.shrink();
       }
-
       return SizedBox(
         height: 250.h,
         child: ListView.separated(
-          padding: EdgeInsets.symmetric(
-            horizontal: screensize.width * 0.04,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: screensize.width * 0.04),
           scrollDirection: Axis.horizontal,
           itemCount: products.length,
           separatorBuilder: (_, _) => SizedBox(width: 14.w),
           itemBuilder: (context, index) {
             final item = products[index];
-
-            final name =
-            (item['name'] ?? item['title'] ?? '').toString();
-
+            final name = (item['name'] ?? item['title'] ?? '').toString();
             final image = (item['image'] ?? '').toString();
-
-            final price = double.tryParse(
-              (item['price'] ?? '0').toString(),
-            ) ??
-                0.0;
-
+            final price = double.tryParse((item['price'] ?? '0').toString(),) ?? 0.0;
             return SizedBox(
               width: 170.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Product Image
+                children: <Widget>[
                   Stack(
-                    children: [
+                    children: <Widget>[
                       Container(
                         height: 155.h,
                         width: 170.w,
                         color: Colorstheam.lightgrey,
-                        child: image.isNotEmpty
-                            ? Image.network(
+                        child: image.isNotEmpty ? Image.network(
                           image,
                           fit: BoxFit.cover,
                           errorBuilder: (_, _, _) {
@@ -972,8 +947,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                               ),
                             );
                           },
-                        )
-                            : Center(
+                        ) : Center(
                           child: Icon(
                             Icons.image_outlined,
                             size: 32.sp,
@@ -981,8 +955,6 @@ class Viewcart extends GetView<Viewcartcontroller> {
                           ),
                         ),
                       ),
-
-                      // Wishlist Icon
                       Positioned(
                         top: 9.h,
                         right: 9.w,
@@ -1003,10 +975,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 9.h),
-
-                  // Product Name
                   Text(
                     name,
                     maxLines: 1,
@@ -1018,12 +987,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
                       color: Colorstheam.nobelblack,
                     ),
                   ),
-
                   SizedBox(height: 7.h),
-
-                  // Price and Add Button
                   Row(
-                    children: [
+                    children: <Widget>[
                       Expanded(
                         child: Text(
                           '\$${price.toStringAsFixed(2)}',
@@ -1037,21 +1003,15 @@ class Viewcart extends GetView<Viewcartcontroller> {
                           ),
                         ),
                       ),
-
                       SizedBox(width: 5.w),
-
                       GestureDetector(
                         onTap: () {
                           cartController.addRecommendedProduct(item);
                         },
                         child: Container(
                           height: 30.h,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 13.w,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colorstheam.nobelblack,
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 13.w),
+                          decoration: BoxDecoration(color: Colorstheam.nobelblack),
                           alignment: Alignment.center,
                           child: Text(
                             "ADD",
@@ -1098,23 +1058,21 @@ class Viewcart extends GetView<Viewcartcontroller> {
               width: 176.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Stack(
-                    children: [
+                    children: <Widget>[
                       Container(
                         height: 176.h,
                         width: 176.w,
                         color: Colorstheam.clusterwhite,
-                        child: imageUrl.isNotEmpty
-                            ? Image.network(
+                        child: imageUrl.isNotEmpty ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
                           errorBuilder: (_, _, _) =>
                           const Center(
                             child: Icon(Icons.image),
                           ),
-                        )
-                            : const Center(
+                        ) : const Center(
                           child: Icon(Icons.image),
                         ),
                       ),
@@ -1189,58 +1147,33 @@ class Viewcart extends GetView<Viewcartcontroller> {
       );
     });
   }
-
-
   Widget _buildPriceDetailsSection(BuildContext context) {
     final cartController = controller.cartController;
-
-    // Your current free-shipping threshold.
     const double freeShippingThreshold = 500.00;
-
     return Obx(() {
       final double subtotal = cartController.subtotal;
       final double total = cartController.total;
       final int quantity = cartController.totalQuantity;
-
-      // Dynamic free-shipping calculation.
-      final double remaining =
-      (freeShippingThreshold - subtotal).clamp(0.0, freeShippingThreshold);
-
-      final double progress =
-      (subtotal / freeShippingThreshold).clamp(0.0, 1.0);
-
-      final bool freeShippingUnlocked =
-          subtotal >= freeShippingThreshold;
-
-      // Read actual Shopify shipping charges from delivery groups.
+      final double remaining = (freeShippingThreshold - subtotal).clamp(0.0, freeShippingThreshold);
+      final double progress = (subtotal / freeShippingThreshold).clamp(0.0, 1.0);
+      final bool freeShippingUnlocked = subtotal >= freeShippingThreshold;
       double shippingCharges = 0.0;
       bool hasShippingOption = false;
-
       for (final group in cartController.deliveryGroups) {
-        final selectedOption =
-        group['selectedDeliveryOption'] as Map?;
-
+        final selectedOption = group['selectedDeliveryOption'] as Map?;
         if (selectedOption != null) {
-          final estimatedCost =
-          selectedOption['estimatedCost'] as Map?;
-
+          final estimatedCost = selectedOption['estimatedCost'] as Map?;
           if (estimatedCost != null) {
-            shippingCharges += double.tryParse(
-              estimatedCost['amount']?.toString() ?? '0',
-            ) ??
-                0.0;
-
+            shippingCharges += double.tryParse(estimatedCost['amount']?.toString() ?? '0',) ?? 0.0;
             hasShippingOption = true;
           }
         }
       }
-
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // FREE SHIPPING MESSAGE - KEEPING YOUR EXPANDED VIEW
+          children: <Widget>[
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(16.w),
@@ -1249,9 +1182,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Row(
-                    children: [
+                    children: <Widget>[
                       Icon(
                         Icons.local_shipping_outlined,
                         size: 20.sp,
@@ -1292,9 +1225,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ],
               ),
             ),
-
             SizedBox(height: 22.h),
-
             Text(
               "Price Details",
               style: TextStyle(
@@ -1304,13 +1235,10 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 color: Colorstheam.nobelblack,
               ),
             ),
-
             SizedBox(height: 14.h),
-
-            // SUBTOTAL
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
                   "Subtotal ($quantity ${quantity == 1 ? 'item' : 'items'})",
                   style: TextStyle(
@@ -1330,13 +1258,10 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ),
               ],
             ),
-
             SizedBox(height: 12.h),
-
-            // SHIPPING CHARGES
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
                   "Shipping Charges",
                   style: TextStyle(
@@ -1360,20 +1285,15 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ),
               ],
             ),
-
             SizedBox(height: 16.h),
-
             Divider(
               height: 1,
               color: Colorstheam.clusterwhite,
             ),
-
             SizedBox(height: 14.h),
-
-            // ESTIMATED TOTAL
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
                   "Estimated total",
                   style: TextStyle(
@@ -1394,13 +1314,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ),
               ],
             ),
-
             SizedBox(height: 7.h),
-
             _buildCheckoutPlusSection(),
-
             SizedBox(height: 12.h),
-
             Text(
               "Taxes and final shipping charges may be confirmed at checkout.",
               style: TextStyle(
@@ -1414,33 +1330,20 @@ class Viewcart extends GetView<Viewcartcontroller> {
       );
     });
   }
-
   Widget _buildCheckoutPlusSection() {
     final cartController = controller.cartController;
-
     return Obx(() {
       final isAdded = cartController.isCheckoutPlusAdded;
       final isUpdating = cartController.isUpdating.value;
-
-      // Show the actual cart-line price after Checkout+ is added.
-      // Before adding, $2.98 is the provisional test price.
       Map? checkoutItem;
-
       for (final item in cartController.cartItems) {
         if (item['variantId'] == Cartcontroller.checkoutPlusVariantId) {
           checkoutItem = item;
           break;
         }
       }
-
-      final price = double.tryParse(
-        checkoutItem?['price']?.toString() ?? '',
-      ) ??
-          2.98;
-
-      final currencyCode =
-          checkoutItem?['currencyCode']?.toString() ?? 'USD';
-
+      final price = double.tryParse(checkoutItem?['price']?.toString() ?? '',) ?? 2.98;
+      final currencyCode = checkoutItem?['currencyCode']?.toString() ?? 'USD';
       return Container(
         width: double.infinity,
         margin: EdgeInsets.only(top: 18.h),
@@ -1454,10 +1357,10 @@ class Viewcart extends GetView<Viewcartcontroller> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
                   "Checkout+",
                   style: TextStyle(
@@ -1478,9 +1381,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 ),
               ],
             ),
-
             SizedBox(height: 7.h),
-
             Text(
               "Unlock free returns",
               style: TextStyle(
@@ -1490,11 +1391,9 @@ class Viewcart extends GetView<Viewcartcontroller> {
                 color: Colorstheam.dimgrey,
               ),
             ),
-
             SizedBox(height: 14.h),
-
             Row(
-              children: [
+              children: <Widget>[
                 Expanded(
                   child: GestureDetector(
                     behavior: HitTestBehavior.opaque,
@@ -1560,7 +1459,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                   onTap: isUpdating
                       ? null
                       : () async {
-                    HapticFeedback.selectionClick();
+                    HapticFeedback.lightImpact();
 
                     if (isAdded) {
                       await cartController.removeCheckoutPlus();
@@ -1627,12 +1526,12 @@ class Viewcart extends GetView<Viewcartcontroller> {
           ),
         ),
         child: Row(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   Text(
                     "TOTAL AMOUNT",
                     style: TextStyle(
@@ -1663,7 +1562,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
 
                 return AnimatedButton(
                   onTap: () async {
-                    HapticFeedback.heavyImpact();
+                    HapticFeedback.lightImpact();
 
                     if (isLoading) return;
 
@@ -1673,9 +1572,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
 
                     try {
                       final checkoutUrl = cartController.checkoutUrl.value.trim();
-
                       if (checkoutUrl.isEmpty) {
-                        debugPrint("CHECKOUT URL IS EMPTY");
                         return;
                       }
 
@@ -1685,7 +1582,6 @@ class Viewcart extends GetView<Viewcartcontroller> {
                           !uri.hasScheme ||
                           !uri.hasAuthority ||
                           uri.scheme != "https") {
-                        debugPrint("INVALID CHECKOUT URL: $checkoutUrl");
                         return;
                       }
 
@@ -1697,7 +1593,6 @@ class Viewcart extends GetView<Viewcartcontroller> {
                         duration: const Duration(milliseconds: 300),
                       );
                     } catch (e) {
-                      debugPrint("CHECKOUT ERROR: $e");
                     } finally {
                       controller.isCheckoutLoading.value = false;
                     }
@@ -1713,7 +1608,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                         key: const ValueKey("loading"),
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
-                        children: [
+                        children: <Widget>[
                           SizedBox(
                             width: 15.w,
                             height: 15.w,
@@ -1743,7 +1638,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
                           : Row(
                         key: const ValueKey("checkout"),
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Proceed to Pay",
                             style: TextStyle(
@@ -1776,7 +1671,7 @@ class Viewcart extends GetView<Viewcartcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;

@@ -45,45 +45,25 @@ class Viewcartcontroller extends GetxController {
     await cartController.loadCart();
   }
   Future<void> incrementQuantity(int index) async {
-    debugPrint('');
-    debugPrint('========== CART UI: INCREMENT ==========');
-    debugPrint('Tapped + button');
-    debugPrint('Index: $index');
-    debugPrint('Cart items count: ${cartController.cartItems.length}');
     if (index < 0 || index >= cartController.cartItems.length) {
-      debugPrint('ERROR: Invalid cart item index');
       return;
     }
     final item = cartController.cartItems[index];
-    debugPrint('Product: ${item['name']}');
-    debugPrint('Line ID: ${item['lineId']}');
-    debugPrint('Quantity before: ${item['quantity']}');
     await _runQuantityAnimation(
       item['lineId'].toString(),
           () => cartController.increaseQuantity(index),
     );
     if (index < cartController.cartItems.length) {
-      debugPrint('Quantity after: ${cartController.cartItems[index]['quantity']}',);
     }
-    debugPrint('========== INCREMENT FINISHED ==========');
   }
   Future<void> decrementQuantity(int index) async {
-    debugPrint('');
-    debugPrint('========== CART UI: DECREMENT ==========');
-    debugPrint('Tapped - button');
-    debugPrint('Index: $index');
-    debugPrint('Cart items count: ${cartController.cartItems.length}');
     if (index < 0 || index >= cartController.cartItems.length) {
-      debugPrint('ERROR: Invalid cart item index');
       return;
     }
     final item = cartController.cartItems[index];
     final productName = item['name']?.toString() ?? '';
     final lineId = item['lineId']?.toString() ?? '';
     final quantity = int.tryParse(item['quantity']?.toString() ?? '1',) ?? 1;
-    debugPrint('Product: $productName');
-    debugPrint('Line ID: $lineId');
-    debugPrint('Quantity before: $quantity');
     if (quantity <= 1) {
       await _runQuantityAnimation(
         lineId,
@@ -95,34 +75,25 @@ class Viewcartcontroller extends GetxController {
             () => cartController.decreaseQuantity(index),
       );
     }
-    debugPrint('Cart items after operation: ${cartController.cartItems.length}');
     for (int i = 0; i < cartController.cartItems.length; i++) {
-      debugPrint('Product: ${cartController.cartItems[i]['name']} | ''Quantity: ${cartController.cartItems[i]['quantity']}',);
     }
-    debugPrint('========== DECREMENT FINISHED ==========');
   }
   Future<void> removeItem(int index) async {
     await cartController.removeFromCart(index);
   }
   Future<void> applyPromoCode() async {
     final code = promoCodeController.text.trim().toUpperCase();
-
     if (code.isEmpty) {
       AppSnackbar.error('Please enter a promo code.');
       return;
     }
-
     if (isApplyingPromoCode.value) return;
-
     try {
       isApplyingPromoCode.value = true;
-
       final success = await cartController.applyPromoCode(code);
-
       if (success) {
         appliedPromoCode.value = code;
         promoCodeController.clear();
-
         Get.snackbar(
           'Success',
           'Promo code applied successfully.',
@@ -137,6 +108,35 @@ class Viewcartcontroller extends GetxController {
       }
     } finally {
       isApplyingPromoCode.value = false;
+    }
+  }
+  Future<void> removePromoCode() async {
+    if (appliedPromoCode.value.isEmpty) return;
+
+    if (cartController.isApplyingPromoCode.value) return;
+
+    try {
+      cartController.isApplyingPromoCode.value = true;
+
+      final success = await cartController.removePromoCode();
+
+      if (success) {
+        appliedPromoCode.value = '';
+
+        Get.snackbar(
+          'Removed',
+          'Promo code removed successfully.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        AppSnackbar.error(
+          cartController.cartError.value.isNotEmpty
+              ? cartController.cartError.value
+              : 'Unable to remove promo code.',
+        );
+      }
+    } finally {
+      cartController.isApplyingPromoCode.value = false;
     }
   }
   @override

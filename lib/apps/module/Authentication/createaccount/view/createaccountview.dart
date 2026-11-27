@@ -14,7 +14,6 @@ import 'package:maliaextention/apps/module/Authentication/createaccount/controll
 
 class Createaccountview extends GetView<Createaccountcontroller> {
   Createaccountview({super.key});
-
   @override
   Widget build(BuildContext context) {
     Size screensize = MediaQuery.of(context).size;
@@ -59,7 +58,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                      focusColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      HapticFeedback.heavyImpact();
+                      HapticFeedback.lightImpact();
                       Get.offAllNamed(Routes.ACCOUNTOPTION);
                     },
                     child: Container(
@@ -579,7 +578,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
-                                    HapticFeedback.heavyImpact();
+                                    HapticFeedback.lightImpact();
                                     controller.isAccepted.toggle();
                                   },
                                   child: Row(
@@ -628,7 +627,7 @@ class Createaccountview extends GetView<Createaccountcontroller> {
                               child: Obx(() {
                                 return GestureDetector(
                                   onTap: () {
-                                    HapticFeedback.heavyImpact();
+                                    HapticFeedback.lightImpact();
                                     controller.isAccepted1.toggle();
                                   },
                                   child: Row(

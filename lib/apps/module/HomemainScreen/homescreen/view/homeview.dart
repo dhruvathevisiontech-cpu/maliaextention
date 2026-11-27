@@ -26,7 +26,7 @@ class Homeview extends GetView<Homecontroller> {
         color: Colorstheam.clusterwhite,
         backgroundColor: Colorstheam.nobelblack,
         onRefresh: () async {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.lightImpact();
           await controller.fetchHomePage();
         },
         child: Scaffold(
@@ -58,7 +58,7 @@ class Homeview extends GetView<Homecontroller> {
             actions: [
               GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.search;
@@ -76,7 +76,7 @@ class Homeview extends GetView<Homecontroller> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    HapticFeedback.heavyImpact();
+                    HapticFeedback.lightImpact();
 
                     final bottomNav = Get.find<Bottomnavigationcontroller>();
                     bottomNav.selectedIndex.value = 0;
@@ -222,7 +222,7 @@ class Homeview extends GetView<Homecontroller> {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
-                                      HapticFeedback.heavyImpact();
+                                      HapticFeedback.lightImpact();
                                       final bottomNav = Get.find<Bottomnavigationcontroller>();
                                       bottomNav.selectedIndex.value = 0;
                                       bottomNav.currentPage.value =
@@ -307,7 +307,7 @@ class Homeview extends GetView<Homecontroller> {
                         final categoryImage = category['image']?.toString() ?? '';
                         return GestureDetector(
                           onTap: () {
-                            HapticFeedback.heavyImpact();
+                            HapticFeedback.lightImpact();
                             final bottomNav = Get.find<Bottomnavigationcontroller>();
                             bottomNav.selectedIndex.value = 0;
                             bottomNav.currentPage.value = PageType.collectionlist;
@@ -421,7 +421,7 @@ class Homeview extends GetView<Homecontroller> {
                       final productRating = product['rating']?.toString() ?? '4.9';
                       return GestureDetector(
                         onTap: () {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -464,7 +464,7 @@ class Homeview extends GetView<Homecontroller> {
 
                                     return GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         controller
                                             .toggleWishlist(index);
                                       },
@@ -615,7 +615,7 @@ class Homeview extends GetView<Homecontroller> {
 
                         return GestureDetector(
                           onTap: () {
-                            HapticFeedback.heavyImpact();
+                            HapticFeedback.lightImpact();
                             controller.selectLength(length);
                           },
                           child: AnimatedContainer(
@@ -751,7 +751,7 @@ class Homeview extends GetView<Homecontroller> {
                                     children: <Widget>[
                                       GestureDetector(
                                         onTap: () {
-                                          HapticFeedback.heavyImpact();
+                                          HapticFeedback.lightImpact();
                                           controller
                                               .selectEducation(0);
                                         },
@@ -803,7 +803,7 @@ class Homeview extends GetView<Homecontroller> {
 
                                       GestureDetector(
                                         onTap: () {
-                                          HapticFeedback.heavyImpact();
+                                          HapticFeedback.lightImpact();
                                           controller
                                               .selectEducation(1);
                                         },

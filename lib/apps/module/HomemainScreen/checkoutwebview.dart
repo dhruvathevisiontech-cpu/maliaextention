@@ -205,7 +205,7 @@ class _CheckoutWebViewState extends State<CheckoutWebView> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         Navigator.of(context, rootNavigator: true).pop();
       },
       child: SizedBox(

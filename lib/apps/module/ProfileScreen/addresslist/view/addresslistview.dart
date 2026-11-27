@@ -79,7 +79,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -222,13 +222,11 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     final Map<String, dynamic> address = controller.addresses[index];
                     return Obx((){
                       final bool selected = controller.selectedAddress.value == index;
-                      debugPrint('CARD $index | SELECTED: $selected');
                       return _addressCard(
                         address: address,
                         isSelected:
                         controller.selectedAddress.value == index,
                         onSelect: () {
-                          debugPrint('ADDRESS TAPPED: $index');
                           controller.selectAddress(index);
                         },
                         onEdit: () {
@@ -274,7 +272,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
 
                 final bottomNav =
                 Get.find<Bottomnavigationcontroller>();
@@ -348,7 +346,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.selectionClick();
+        HapticFeedback.lightImpact();
         onSelect();
       },
       child: AnimatedContainer(
@@ -502,7 +500,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                         inactiveTrackColor: Colorstheam.lightgrey,
                         onChanged: (value) {
                           if (value) {
-                            HapticFeedback.selectionClick();
+                            HapticFeedback.lightImpact();
 
                             final index = controller.addresses.indexWhere(
                                   (item) => item["id"] == address["id"],
@@ -756,7 +754,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           Get.back();
                         },
                         child: Container(
@@ -784,7 +782,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () async {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           Get.back();
                           await controller.deleteAddress(index);
                         },
@@ -822,7 +820,7 @@ class Addresslistview extends GetView<Addresslistcontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
 
         final Bottomnavigationcontroller bottomNav =
         Get.find<Bottomnavigationcontroller>();

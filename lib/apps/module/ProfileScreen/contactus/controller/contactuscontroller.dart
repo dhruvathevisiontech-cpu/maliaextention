@@ -62,15 +62,6 @@ class Contactuscontroller extends GetxController {
           'contact[body]': message,
         },
       );
-
-      debugPrint(
-        'Contact API Status: ${response.statusCode}',
-      );
-
-      debugPrint(
-        'Contact API Response: ${response.body}',
-      );
-
       if (response.statusCode >= 200 &&
           response.statusCode < 300) {
         showMessage(
@@ -90,8 +81,6 @@ class Contactuscontroller extends GetxController {
         );
       }
     } catch (e) {
-      debugPrint('Contact API Error: $e');
-
       showMessage(
         'Something went wrong. Please try again.',
       );

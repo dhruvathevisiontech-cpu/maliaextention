@@ -48,7 +48,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.search;
@@ -62,7 +62,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -958,7 +958,7 @@ class Viewclass extends GetView<Viewclasscontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.inperson;

@@ -14,11 +14,8 @@ class Profileview extends GetView<Profilecontroller> {
   const Profileview({super.key});
   @override
   Widget build(BuildContext context) {
-    final Bottomnavigationcontroller bottomController =
-    Get.find<Bottomnavigationcontroller>();
-
+    final Bottomnavigationcontroller bottomController = Get.find<Bottomnavigationcontroller>();
     final Size screensize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colorstheam.white,
       appBar: AppBar(
@@ -56,7 +53,7 @@ class Profileview extends GetView<Profilecontroller> {
           _headerAction(
             icon: 'asset/svg/search.svg',
             onTap: () {
-              HapticFeedback.heavyImpact();
+              HapticFeedback.lightImpact();
               bottomController.selectedIndex.value = 0;
               bottomController.currentPage.value = PageType.search;
             },
@@ -77,19 +74,12 @@ class Profileview extends GetView<Profilecontroller> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 27.h),
-
               _buildWelcomeSection(),
-
               SizedBox(height: 25.h),
-
               _buildProfileButton(),
-
               SizedBox(height: 35.h),
-
               _sectionLabel('MY ACCOUNT'),
-
               SizedBox(height: 10.h),
-
               _menuItem(
                 title: 'Salon Locator',
                 subtitle: 'Discover a salon near you',
@@ -99,9 +89,7 @@ class Profileview extends GetView<Profilecontroller> {
                   PageType.salonlocator,
                 ),
               ),
-
               _divider(),
-
               _menuItem(
                 title: 'Profile Details',
                 subtitle: 'Manage your personal information',
@@ -111,18 +99,14 @@ class Profileview extends GetView<Profilecontroller> {
                   PageType.profiledetails,
                 ),
               ),
-
               _divider(),
-
               _menuItem(
                 title: 'My Courses',
                 subtitle: 'Explore your education and courses',
                 asset: 'asset/svg/cource.svg',
                 onTap: () {},
               ),
-
               _divider(),
-
               _menuItem(
                 title: 'Address Book',
                 subtitle: 'Manage your saved addresses',
@@ -132,9 +116,7 @@ class Profileview extends GetView<Profilecontroller> {
                   PageType.addresslist,
                 ),
               ),
-
               _divider(),
-
               _menuItem(
                 title: 'Order History',
                 subtitle: 'View your previous purchases',
@@ -144,23 +126,14 @@ class Profileview extends GetView<Profilecontroller> {
                   PageType.orderhistory,
                 ),
               ),
-
               SizedBox(height: 28.h),
-
               _sectionLabel('DISCOVER MORE'),
-
               SizedBox(height: 5.h),
-
               _buildInformationSection(bottomController),
-
               _divider(),
-
               SizedBox(height: 29.h),
-
               _sectionLabel('ACCOUNT SETTINGS'),
-
               SizedBox(height: 10.h),
-
               _accountAction(
                 title: 'Delete Account',
                 onTap: () => _navigate(
@@ -168,17 +141,14 @@ class Profileview extends GetView<Profilecontroller> {
                   PageType.deleteaccount,
                 ),
               ),
-
               _divider(),
-
               _accountAction(
                 title: 'Log Out',
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   controller.showLogoutBottomSheet();
                 },
               ),
-
               SizedBox(height: 35.h),
             ],
           ),
@@ -190,7 +160,7 @@ class Profileview extends GetView<Profilecontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;
@@ -226,9 +196,7 @@ class Profileview extends GetView<Profilecontroller> {
             color: Colorstheam.nobelblack,
           ),
         ),
-
         SizedBox(height: 10.h),
-
         SizedBox(
           width: 290.w,
           child: Text(
@@ -250,7 +218,7 @@ class Profileview extends GetView<Profilecontroller> {
       color: Colorstheam.nobelblack,
       child: InkWell(
         onTap: () {
-          HapticFeedback.heavyImpact();
+          HapticFeedback.lightImpact();
           Get.offAllNamed(Routes.ONBOARDING);
         },
         child: Container(
@@ -313,9 +281,7 @@ class Profileview extends GetView<Profilecontroller> {
                   ),
                 ),
               ),
-
               SizedBox(width: 14.w),
-
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -330,9 +296,7 @@ class Profileview extends GetView<Profilecontroller> {
                         color: Colorstheam.nobelblack,
                       ),
                     ),
-
                     SizedBox(height: 4.h),
-
                     Text(
                       subtitle,
                       maxLines: 1,
@@ -347,7 +311,6 @@ class Profileview extends GetView<Profilecontroller> {
                   ],
                 ),
               ),
-
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 13.sp,
@@ -417,12 +380,8 @@ class Profileview extends GetView<Profilecontroller> {
           AnimatedSize(
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
-            child: controller.isProfileExpanded.value
-                ? Padding(
-              padding: EdgeInsets.only(
-                left: 52.w,
-                bottom: 12.h,
-              ),
+            child: controller.isProfileExpanded.value ? Padding(
+              padding: EdgeInsets.only(left: 52.w, bottom: 12.h),
               child: Column(
                 children: <Widget>[
                   _informationLink(
@@ -476,8 +435,7 @@ class Profileview extends GetView<Profilecontroller> {
                   ),
                 ],
               ),
-            )
-                : const SizedBox.shrink(),
+            ) : const SizedBox.shrink(),
           ),
         ],
       ),
@@ -495,7 +453,6 @@ class Profileview extends GetView<Profilecontroller> {
       ),
     );
   }
-
   Widget _headerAction({
     required String icon,
     required VoidCallback onTap,
@@ -516,12 +473,11 @@ class Profileview extends GetView<Profilecontroller> {
       ),
     );
   }
-
   Widget _cartAction(Bottomnavigationcontroller bottomNav) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.viewcart;
       },
@@ -539,7 +495,6 @@ class Profileview extends GetView<Profilecontroller> {
               height: 22.h,
               width: 22.w,
             ),
-
             if (quantity > 0)
               Positioned(
                 right: -8.w,
@@ -613,7 +568,6 @@ class Profileview extends GetView<Profilecontroller> {
       ),
     );
   }
-
   Widget _accountAction({required String title, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
@@ -635,17 +589,11 @@ class Profileview extends GetView<Profilecontroller> {
       ),
     );
   }
-
   Widget _divider() {
     return Divider(height: 1, thickness: 0.6, color: Colorstheam.clusterwhite);
   }
-
-  void _navigate(
-    Bottomnavigationcontroller bottomController,
-    PageType page, {
-    int index = 4,
-  }) {
-    HapticFeedback.heavyImpact();
+  void _navigate(Bottomnavigationcontroller bottomController, PageType page, {int index = 4}) {
+    HapticFeedback.lightImpact();
     bottomController.selectedIndex.value = index;
     bottomController.currentPage.value = page;
   }

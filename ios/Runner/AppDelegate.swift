@@ -19,7 +19,15 @@ import GoogleMaps
     )
   }
 
-  func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
-    GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+  func didInitializeImplicitFlutterEngine(
+    _ engineBridge: FlutterImplicitEngineBridge
+  ) {
+    print("DEBUG: Flutter implicit engine initialized")
+
+    GeneratedPluginRegistrant.register(
+      with: engineBridge.pluginRegistry
+    )
+
+    print("DEBUG: Flutter plugins registered")
   }
 }

@@ -28,8 +28,6 @@ class Deleteaccountcontroller extends GetxController {
         );
       }
     } catch (e) {
-      debugPrint('Email launch error: $e');
-
       Get.snackbar(
         'Error',
         'Could not open your email application.',

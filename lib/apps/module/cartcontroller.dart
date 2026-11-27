@@ -173,6 +173,7 @@ mutation CartDiscountCodesUpdate(
   }
 }
 ''';
+    final RxBool isApplyingPromoCode = false.obs;
     Future<bool> applyPromoCode(String code) async {
       final promoCode = code.trim();
 
@@ -187,7 +188,7 @@ mutation CartDiscountCodesUpdate(
       }
 
       try {
-        isUpdating.value = true;
+        isApplyingPromoCode.value = true;
         cartError.value = '';
 
         final response = await ShopifyCollectionService.queryTokenless(
@@ -233,10 +234,58 @@ mutation CartDiscountCodesUpdate(
         return true;
       } catch (e) {
         cartError.value = _errorMessage(e);
-        debugPrint('PROMO CODE ERROR: $e');
         return false;
       } finally {
-        isUpdating.value = false;
+        isApplyingPromoCode.value = false;
+      }
+    }
+    Future<bool> removePromoCode() async {
+      try {
+        cartError.value = '';
+
+        const mutation = r'''
+      mutation RemovePromoCode($cartId: ID!, $discountCodes: [String!]!) {
+        cartDiscountCodesUpdate(
+          cartId: $cartId,
+          discountCodes: $discountCodes
+        ) {
+          cart {
+            id
+            discountCodes {
+              code
+              applicable
+            }
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    ''';
+
+        final response = await ShopifyCollectionService.queryTokenless(
+          mutation,
+          variables: {
+            'cartId': _cartId,
+            'discountCodes': <String>[],
+          },
+        );
+
+        final result = response['cartDiscountCodesUpdate'];
+
+        if (result == null) {
+          throw Exception('Shopify did not return a discount update.');
+        }
+
+        _checkUserErrors(result, 'Remove promo code');
+
+        await loadCart();
+
+        return true;
+      } catch (e) {
+        cartError.value = _errorMessage(e);
+        return false;
       }
     }
     static const String _cartQuery = r'''
@@ -800,39 +849,15 @@ mutation CartDiscountCodesUpdate(
   ''';
 
       try {
-        final response =
-        await ShopifyCollectionService.queryTokenless(query);
-
-        debugPrint('========== CHECKOUT+ VARIANTS ==========');
-
+        final response = await ShopifyCollectionService.queryTokenless(query);
         final product = response['product'];
-
         if (product == null) {
-          debugPrint('CHECKOUT+ PRODUCT NOT FOUND');
           return;
         }
-
-        debugPrint('PRODUCT: ${product['title']}');
-
-        final variants =
-        product['variants']['nodes'] as List<dynamic>;
-
-        debugPrint('TOTAL VARIANTS: ${variants.length}');
-
+        final variants = product['variants']['nodes'] as List<dynamic>;
         for (final variant in variants) {
-          debugPrint(
-            'VARIANT: ${variant['id']} | '
-                'TITLE: ${variant['title']} | '
-                'PRICE: ${variant['price']['amount']} '
-                '${variant['price']['currencyCode']} | '
-                'AVAILABLE: ${variant['availableForSale']}',
-          );
         }
-
-        debugPrint('========================================');
       } catch (e, stackTrace) {
-        debugPrint('CHECKOUT+ VARIANT ERROR: $e');
-        debugPrint('$stackTrace');
       }
     }
 
@@ -1012,7 +1037,6 @@ mutation CartDiscountCodesUpdate(
       if (isUpdating.value) return;
 
       if (isCheckoutPlusAdded) {
-        debugPrint('CHECKOUT+: Already added to cart');
         return;
       }
 
@@ -1043,11 +1067,6 @@ mutation CartDiscountCodesUpdate(
 
       try {
         isUpdating.value = true;
-
-        debugPrint('========== CHECKOUT+ ADD START ==========');
-        debugPrint('CART ID: $_cartId');
-        debugPrint('VARIANT ID: $checkoutPlusVariantId');
-
         final response = await ShopifyCollectionService.queryTokenless(
           mutation,
           variables: {
@@ -1060,36 +1079,21 @@ mutation CartDiscountCodesUpdate(
             ],
           },
         );
-
-        debugPrint('CHECKOUT+ TOKENLESS RESPONSE: $response');
-
         final result = response['cartLinesAdd'];
-
         if (result == null) {
           throw Exception('Shopify returned an empty response.');
         }
-
         _checkUserErrors(result, 'Add Checkout+');
-
         if (result['cart'] == null) {
           throw Exception('Shopify did not confirm the cart update.');
         }
-
         await loadCart(showLoader: false);
-
         if (isCheckoutPlusAdded) {
-          debugPrint('CHECKOUT+: ADDED SUCCESSFULLY');
           AppSnackbar.success('Checkout+ added successfully.');
         } else {
-          debugPrint('CHECKOUT+: Mutation succeeded, but the item was not found after reloading.');
           AppSnackbar.error('Checkout+ was not found in the refreshed cart.');
         }
-
-        debugPrint('========== CHECKOUT+ ADD END ==========');
       } catch (e, stackTrace) {
-        debugPrint('CHECKOUT+ ADD ERROR: $e');
-        debugPrint('CHECKOUT+ STACKTRACE: $stackTrace');
-
         AppSnackbar.error(
           'Unable to add Checkout+: ${_errorMessage(e)}',
         );
@@ -1113,16 +1117,9 @@ mutation CartDiscountCodesUpdate(
       }
     }
   ''';
-
       try {
-        final response =
-        await ShopifyCollectionService.queryTokenless(query);
-
-        debugPrint('========== TOKENLESS PRODUCT TEST ==========');
-        debugPrint('TOKENLESS RESULT: $response');
-        debugPrint('============================================');
+        final response = await ShopifyCollectionService.queryTokenless(query);
       } catch (e) {
-        debugPrint('TOKENLESS TEST ERROR: $e');
       }
     }
     Future<void> debugCheckoutPlusProduct() async {
@@ -1151,16 +1148,9 @@ mutation CartDiscountCodesUpdate(
       }
     }
   ''';
-
       try {
-        final response =
-        await ShopifyCollectionService.query(query);
-
-        debugPrint('========== CHECKOUT+ VISIBILITY ==========');
-        debugPrint('VISIBILITY RESULT: $response');
-        debugPrint('==========================================');
+        final response = await ShopifyCollectionService.query(query);
       } catch (e) {
-        debugPrint('VISIBILITY TEST ERROR: $e');
       }
     }
     Future<void> removeCheckoutPlus() async {
@@ -1211,14 +1201,8 @@ mutation CartDiscountCodesUpdate(
       }
     }
   ''';
-
       try {
         isUpdating.value = true;
-
-        debugPrint('========== CHECKOUT+ REMOVE START ==========');
-        debugPrint('CART ID: $_cartId');
-        debugPrint('LINE ID: $lineId');
-
         final response = await ShopifyCollectionService.queryTokenless(
           mutation,
           variables: {
@@ -1226,32 +1210,18 @@ mutation CartDiscountCodesUpdate(
             'lineIds': [lineId],
           },
         );
-
-        debugPrint('CHECKOUT+ REMOVE RESPONSE: $response');
-
         final result = response['cartLinesRemove'];
-
         if (result == null) {
           throw Exception('Shopify returned an empty remove response.');
         }
-
         _checkUserErrors(result, 'Remove Checkout+');
-
         await loadCart(showLoader: false);
-
         if (!isCheckoutPlusAdded) {
-          debugPrint('CHECKOUT+: REMOVED SUCCESSFULLY');
           AppSnackbar.success('Checkout+ removed successfully.');
         } else {
-          debugPrint('CHECKOUT+: Still present after cart refresh.');
           AppSnackbar.error('Checkout+ could not be removed.');
         }
-
-        debugPrint('========== CHECKOUT+ REMOVE END ==========');
       } catch (e, stackTrace) {
-        debugPrint('CHECKOUT+ REMOVE ERROR: $e');
-        debugPrint('CHECKOUT+ REMOVE STACKTRACE: $stackTrace');
-
         AppSnackbar.error(
           'Unable to remove Checkout+: ${_errorMessage(e)}',
         );

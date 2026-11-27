@@ -25,7 +25,7 @@ class _AnimatedButtonState extends State<AnimatedButton> {
     setState(() {
       _isPressed = false;
     });
-    HapticFeedback.heavyImpact();
+    HapticFeedback.lightImpact();
     widget.onTap?.call();
   }
 

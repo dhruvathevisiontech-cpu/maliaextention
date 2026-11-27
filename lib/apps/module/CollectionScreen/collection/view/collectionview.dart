@@ -61,7 +61,7 @@ class Collectionview extends GetView<Collectioncontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -75,8 +75,7 @@ class Collectionview extends GetView<Collectioncontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
-
+                  HapticFeedback.lightImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -288,7 +287,7 @@ class Collectionview extends GetView<Collectioncontroller> {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            HapticFeedback.heavyImpact();
+            HapticFeedback.lightImpact();
 
             final collectionTitle =
                 category['title']?.toString().trim() ?? '';
@@ -413,7 +412,7 @@ class Collectionview extends GetView<Collectioncontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 0;
         bottomNav.currentPage.value = PageType.home;

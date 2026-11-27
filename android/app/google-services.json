@@ -12,7 +12,28 @@
           "package_name": "com.malia.maliaextensions.maliaextention"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "106216011928-e93f2ir5a21ss10snsna9nvsg74j46vg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malia.maliaextensions.maliaextention",
+            "certificate_hash": "4bf9b50a3d1ceec4772cb1d4380aa7a3fbbcf152"
+          }
+        },
+        {
+          "client_id": "106216011928-jna8mkb3kfe39f7fv559efa9po44c772.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malia.maliaextensions.maliaextention",
+            "certificate_hash": "6a0d8f0239860be59dfcd419f2f51caae5b29c45"
+          }
+        },
+        {
+          "client_id": "106216011928-0j2tne0r08893dmesg6546q98j54r7bf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC7lWlkc3zxCxb_Pp5TvaaPClKVfYsHm9Y"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106216011928-0j2tne0r08893dmesg6546q98j54r7bf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "106216011928-uav7cq5dpb3o2qbj0vscuejudsfb40e2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.malia.maliaextensions.maliaextention"
+              }
+            }
+          ]
         }
       }
     }

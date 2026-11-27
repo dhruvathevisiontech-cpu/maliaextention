@@ -86,24 +86,14 @@ class Bottomnavigationcontroller extends GetxController {
   var selectedCollectionName = ''.obs;
   final Rxn<Map<String, String>> selectedProduct = Rxn<Map<String, String>>();
   void openProductDetails(Map<String, String> product) {
-    debugPrint('Tapped product: ${product['name']}');
-    debugPrint('Tapped product ID: ${product['id']}');
-    debugPrint('Tapped product handle: ${product['handle']}');
-
     selectedProduct.value = product;
 
     if (!Get.isRegistered<Productdetailscontroller>()) {
       Get.put(Productdetailscontroller());
     }
-
-    final productDetailsController =
-    Get.find<Productdetailscontroller>();
-
+    final productDetailsController = Get.find<Productdetailscontroller>();
     productDetailsController.setProduct(product);
-
     currentPage.value = PageType.productdetails;
-
-    debugPrint('Current page: ${currentPage.value}');
   }
 
   void changeIndex(int index) {

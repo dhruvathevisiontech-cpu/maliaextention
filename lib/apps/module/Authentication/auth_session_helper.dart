@@ -106,6 +106,52 @@ class AuthSessionHelper {
     }
     return null;
   }
+
+  static Future<void> saveFirebaseSession({
+    required String email,
+    required String firebaseUid,
+    required String firebaseIdToken,
+    required String loginType,
+    String? phone,
+  }) async {
+    await _secureStorage.write(
+      key: 'firebase_id_token',
+      value: firebaseIdToken,
+    );
+
+    final data = {
+      'email': email,
+      'customerId': firebaseUid,
+      'loginType': loginType,
+      'phone': phone,
+      'firebaseUid': firebaseUid,
+      'isLoggedIn': true,
+      'createdAt': DateTime.now().toIso8601String(),
+    };
+
+    await _storage.write('session', data);
+    await _storage.write('isLoggedIn', true);
+    await _storage.write('userEmail', email);
+    await _storage.write('customerId', firebaseUid);
+    await _storage.write('loginType', loginType);
+  }
+
+// Keep this method so existing Google code continues working.
+  static Future<void> saveGoogleSession({
+    required String email,
+    required String firebaseUid,
+    required String firebaseIdToken,
+    String? phone,
+  }) async {
+    await saveFirebaseSession(
+      email: email,
+      firebaseUid: firebaseUid,
+      firebaseIdToken: firebaseIdToken,
+      loginType: 'google',
+      phone: phone,
+    );
+  }
+
   static Future<void> clearSession() async {
     await _storage.remove('session');
     await _storage.remove('isLoggedIn');

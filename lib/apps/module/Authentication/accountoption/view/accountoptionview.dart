@@ -62,7 +62,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                       hoverColor: Colors.transparent,
                       focusColor: Colors.transparent,
                       onTap: () {
-                        HapticFeedback.heavyImpact();
+                        HapticFeedback.lightImpact();
                         Get.offAllNamed(Routes.ONBOARDING);
                       },
                       child: Container(
@@ -140,7 +140,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                         child: Obx((){
                           return GestureDetector(
                             onTap: () {
-                              HapticFeedback.heavyImpact();
+                              HapticFeedback.lightImpact();
                               controller.selectOption(0);
                               Get.offAllNamed(Routes.PROSTYLISTREGISTRATION);
                             },
@@ -222,7 +222,7 @@ class Accountoptionview extends GetView<Accountoptioncontroller> {
                         child: Obx((){
                           return GestureDetector(
                             onTap: () {
-                              HapticFeedback.heavyImpact();
+                              HapticFeedback.lightImpact();
                               controller.selectOption(1);
                               Get.offAllNamed(Routes.CREATEACCOUNT);
                             },

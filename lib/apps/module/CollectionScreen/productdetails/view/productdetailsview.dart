@@ -195,7 +195,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 1;
                 bottomNav.currentPage.value = PageType.collectionlist;
@@ -221,7 +221,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
             _headerIcon(
               icon: 'asset/svg/search.svg',
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -234,7 +234,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -294,7 +294,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
           ],
         ),
         body: Obx(() {
-          if (!controller.isLoadingProduct.value) {
+          if (controller.isLoadingProduct.value) {
             return const MaliaProductLoader();
           }
           if (controller.productError.value.isNotEmpty) {
@@ -422,7 +422,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                         SizedBox(height: screenSize.height * 0.01),
                                         AnimatedButton(
                                           onTap: (){
-                                            HapticFeedback.heavyImpact();
+                                            HapticFeedback.lightImpact();
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
@@ -447,7 +447,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                         SizedBox(height: screenSize.height * 0.01),
                                         AnimatedButton(
                                           onTap: (){
-                                            HapticFeedback.heavyImpact();
+                                            HapticFeedback.lightImpact();
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.only(left: screenSize.width * 0.04,right: screenSize.width * 0.04),
@@ -608,7 +608,6 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
       ),
     );
   }
-
   Widget _buildProductGallery() {
     return SizedBox(
       height: 402.h,
@@ -682,7 +681,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                     final selected = selectedIndex == index;
                     return GestureDetector(
                       onTap: () {
-                        HapticFeedback.heavyImpact();
+                        HapticFeedback.lightImpact();
                         controller.carouselController.animateToPage(
                           index,
                           duration: const Duration(milliseconds: 400),
@@ -728,7 +727,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
               final selected = controller.isWishlisted.value;
               return GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   _showWishlistPicker();
                 },
                 child: AnimatedContainer(
@@ -979,10 +978,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                           children: values.map((rawValue) {
                             final value = rawValue.toString();
                             final selected = value == currentValue;
-
-                            // Get image dynamically from Shopify product media.
                             final imageUrl = controller.getShadeImage(value);
-
                             return GestureDetector(
                               onTap: () => _selectOptionValue(name, value),
                               child: AnimatedContainer(
@@ -1007,8 +1003,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                       fontSize: 9.sp,
                                     ),
                                   ),
-                                )
-                                    : ClipRRect(
+                                ) : ClipRRect(
                                   child: Image.network(
                                     imageUrl,
                                     width: 48.w,
@@ -1051,9 +1046,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                               vertical: 10.h,
                             ),
                             decoration: BoxDecoration(
-                              color: selected
-                                  ? Colorstheam.nobelblack
-                                  : Colorstheam.white,
+                              color: selected ? Colorstheam.nobelblack : Colorstheam.white,
                               border: Border.all(
                                 color: Colorstheam.nobelblack,
                               ),
@@ -1064,9 +1057,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
                                 fontFamily: 'DMSans',
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w500,
-                                color: selected
-                                    ? Colorstheam.clusterwhite
-                                    : Colorstheam.nobelblack,
+                                color: selected ? Colorstheam.clusterwhite : Colorstheam.nobelblack,
                               ),
                             ),
                           ),
@@ -1294,10 +1285,7 @@ class Productdetailsview extends GetView<Productdetailscontroller> {
     required Widget child,
   }) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: screenSize.width * 0.04,
-        right: screenSize.width * 0.04,
-      ),
+      padding: EdgeInsets.only(left: screenSize.width * 0.04, right: screenSize.width * 0.04),
       child: Container(
         decoration: BoxDecoration(
           color: Colorstheam.white,

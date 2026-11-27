@@ -50,7 +50,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
@@ -64,7 +64,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
 
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
@@ -338,7 +338,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                   ),
                   child: AnimatedButton(
                     onTap: (){
-                      HapticFeedback.heavyImpact();
+                      HapticFeedback.lightImpact();
                       final bottomNav = Get.find<Bottomnavigationcontroller>();
                       bottomNav.selectedIndex.value = 3;
                       bottomNav.currentPage.value = PageType.hostclass;
@@ -527,7 +527,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.education;
@@ -622,7 +622,7 @@ class Inpersonview extends GetView<Inpersoncontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: (){
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           final bottomNav = Get.find<Bottomnavigationcontroller>();
                           bottomNav.selectedIndex.value = 3;
                           bottomNav.currentPage.value = PageType.viewclass;

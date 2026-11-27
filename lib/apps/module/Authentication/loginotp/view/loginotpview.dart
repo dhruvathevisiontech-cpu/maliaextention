@@ -50,7 +50,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                   focusColor: Colors.transparent,
                   borderRadius: BorderRadius.circular(100),
                   onTap: () {
-                    HapticFeedback.heavyImpact();
+                    HapticFeedback.lightImpact();
                     Get.offAllNamed(Routes.LOGIN);
                   },
                   child: Container(
@@ -206,7 +206,7 @@ class Loginotpview extends GetView<Loginotpcontroller> {
                                   alignment: PlaceholderAlignment.middle,
                                   child: GestureDetector(
                                     onTap: () {
-                                      HapticFeedback.heavyImpact();
+                                      HapticFeedback.lightImpact();
                                     },
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,

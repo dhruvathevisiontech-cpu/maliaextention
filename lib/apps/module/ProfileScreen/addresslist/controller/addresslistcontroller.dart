@@ -66,11 +66,7 @@ class Addresslistcontroller extends GetxController {
         colorText: Colorstheam.white,
         margin: const EdgeInsets.all(12),
       );
-
-      debugPrint('DEFAULT ADDRESS PINNED TO TOP');
-      debugPrint('UPDATED ADDRESSES: ${addresses.toList()}');
     } catch (e) {
-      debugPrint('SET DEFAULT ADDRESS ERROR: $e');
       await loadAddresses();
     }
   }
@@ -104,23 +100,15 @@ class Addresslistcontroller extends GetxController {
         colorText: Colorstheam.white,
         margin: const EdgeInsets.all(12),
       );
-
-      debugPrint("ADDRESS REMOVED SUCCESSFULLY");
-      debugPrint("REMAINING ADDRESSES: ${addresses.length}");
     } catch (e) {
-      debugPrint("DELETE ADDRESS ERROR: $e");
-
       Get.snackbar(
         "Error",
         "Unable to remove address. Please try again.",
         snackPosition: SnackPosition.BOTTOM,
       );
-
-      // Reload the saved list if storage update fails.
       await loadAddresses();
     }
   }
-  // LOAD ADDRESSES FROM GETSTORAGE
   Future<void> loadAddresses() async {
     try {
       isLoading.value = true;
@@ -137,12 +125,8 @@ class Addresslistcontroller extends GetxController {
       selectedAddress.value = defaultIndex != -1
           ? defaultIndex
           : (addresses.isNotEmpty ? 0 : -1);
-      debugPrint('LOCAL ADDRESSES LOADED: ${addresses.length}');
-      debugPrint('ADDRESS DATA: ${addresses.toList()}');
     } catch (e, stackTrace) {
       errorMessage.value = 'Unable to load saved addresses.';
-      debugPrint('LOAD ADDRESS ERROR: $e');
-      debugPrint('STACK TRACE: $stackTrace');
     } finally {
       isLoading.value = false;
     }
@@ -152,9 +136,6 @@ class Addresslistcontroller extends GetxController {
   }
   void selectAddress(int index) {
     if (index < 0 || index >= addresses.length) return;
-
     selectedAddress.value = index;
-
-    debugPrint('SELECTED ADDRESS INDEX: ${selectedAddress.value}');
   }
 }

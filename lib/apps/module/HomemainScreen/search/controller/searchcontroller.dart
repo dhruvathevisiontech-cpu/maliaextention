@@ -198,25 +198,13 @@ class Searchdatacontroller extends GetxController {
           suggestionResults.add(text);
         }
       }
-
       products.assignAll(productResults.take(6));
       collections.assignAll(collectionResults.take(4));
       suggestions.assignAll(suggestionResults.take(6));
-
       _addRecentSearch(term);
-
-      debugPrint('Search term: $term');
-      debugPrint('Products: ${products.length}');
-      debugPrint('Collections: ${collections.length}');
-      debugPrint('Suggestions: ${suggestions.length}');
     } catch (e, stackTrace) {
       if (requestId != _requestId) return;
-
-      errorMessage.value =
-      'Unable to search right now. Please try again.';
-
-      debugPrint('searchProducts error: $e');
-      debugPrintStack(stackTrace: stackTrace);
+      errorMessage.value = 'Unable to search right now. Please try again.';
     } finally {
       if (requestId == _requestId) {
         isLoading.value = false;

@@ -32,7 +32,7 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
           canPop: false,
           onPopInvokedWithResult: (didPop, result) {
             if (didPop) return;
-            HapticFeedback.heavyImpact();
+            HapticFeedback.lightImpact();
             final forgotPasswordController = Get.find<Forgotpasswordcontroller>();
             forgotPasswordController.inputController.clear();
             forgotPasswordController.emailError.value = "";
@@ -67,7 +67,7 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                     hoverColor: Colors.transparent,
                     focusColor: Colors.transparent,
                     onTap: () {
-                      HapticFeedback.heavyImpact();
+                      HapticFeedback.lightImpact();
                       final forgotPasswordController = Get.find<Forgotpasswordcontroller>();
                       forgotPasswordController.inputController.clear();
                       forgotPasswordController.emailError.value = "";
@@ -226,7 +226,7 @@ class Forgotpasscodeview extends GetView<Forgotpasscodecontroller> {
                                       alignment: PlaceholderAlignment.middle,
                                       child: GestureDetector(
                                         onTap: () {
-                                          HapticFeedback.heavyImpact();
+                                          HapticFeedback.lightImpact();
                                         },
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,

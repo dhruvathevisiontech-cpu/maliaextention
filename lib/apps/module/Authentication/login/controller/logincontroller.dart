@@ -63,15 +63,9 @@ class Logincontroller extends GetxController {
         loginType: 'shopify_customer_account',
         accessTokenExpiresAt: result.accessTokenExpirationDateTime,
       );
-      debugPrint('Shopify login successful.');
-      debugPrint('Customer ID: $customerId');
-      debugPrint('Customer Email: $customerEmail');
       Get.offAllNamed(Routes.BOTTOMNAV);
     } on FlutterAppAuthUserCancelledException {
-      debugPrint('Customer cancelled Shopify login.');
     } catch (e, stackTrace) {
-      debugPrint('Shopify login error: $e');
-      debugPrintStack(stackTrace: stackTrace);
       AppSnackbar.error(
         'Unable to sign in. Please try again.',
       );

@@ -67,7 +67,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                     focusColor: Colors.transparent,
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      HapticFeedback.heavyImpact();
+                      HapticFeedback.lightImpact();
                       Get.offAllNamed(Routes.LOGIN);
                     },
                     child: Container(
@@ -517,7 +517,7 @@ class Resetpasswordview extends GetView<Resetpasswordcontroller> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       HapticFeedback
-                                                          .heavyImpact();
+                                                          .lightImpact();
                                                       Get.offAllNamed(
                                                           Routes.LOGIN);
                                                     },

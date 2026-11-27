@@ -750,7 +750,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selectedSalonRoles.remove(role);
                                         } else {
@@ -869,7 +869,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selecthowmanystylist.remove(role);
                                         } else {
@@ -989,7 +989,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selecthowmanystylist1.remove(role);
                                         } else {
@@ -1110,7 +1110,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selectextentionmethod.remove(role);
                                         } else {
@@ -1229,7 +1229,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selecteducation.remove(role);
                                         } else {
@@ -1441,7 +1441,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () {
-                                        HapticFeedback.heavyImpact();
+                                        HapticFeedback.lightImpact();
                                         if (isSelected) {
                                           controller.selectpreviously.remove(role);
                                         } else {
@@ -1750,7 +1750,7 @@ class Hostclassview extends GetView<Hostclasscontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 3;
         bottomNav.currentPage.value = PageType.inperson;

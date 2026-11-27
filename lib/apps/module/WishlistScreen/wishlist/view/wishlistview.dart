@@ -15,7 +15,6 @@ import 'package:maliaextention/apps/module/bottomnavigation/controller/bottomnav
 
 class Wishlistview extends GetView<Wishlistcontroller> {
   const Wishlistview({super.key});
-
   void _showCreateWishlistSheet() {
     Get.bottomSheet(
       _CreateWishlistSheet(
@@ -54,9 +53,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                   color: Colorstheam.grey,
                 ),
               ),
-
               SizedBox(height: 14.h),
-
               Text(
                 'Delete "$name"?',
                 style: TextStyle(
@@ -66,9 +63,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                   color: Colorstheam.nobelblack,
                 ),
               ),
-
               SizedBox(height: 10.h),
-
               Text(
                 'This wishlist will be permanently removed. '
                     'Products in this collection will no longer be saved here.',
@@ -79,16 +74,12 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                   color: Colorstheam.grey,
                 ),
               ),
-
               SizedBox(height: 24.h),
-
               Container(
                 height: 1.h,
                 color: Colorstheam.clusterwhite,
               ),
-
               SizedBox(height: 16.h),
-
               Row(
                 children: <Widget>[
                   Expanded(
@@ -116,9 +107,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                       ),
                     ),
                   ),
-
                   SizedBox(width: 12.w),
-
                   Expanded(
                     child: SizedBox(
                       height: 44.h,
@@ -165,7 +154,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       barrierDismissible: true,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -215,22 +203,20 @@ class Wishlistview extends GetView<Wishlistcontroller> {
             _headerIcon(
               icon: "asset/svg/search.svg",
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
                 final bottomNav = Get.find<Bottomnavigationcontroller>();
                 bottomNav.selectedIndex.value = 0;
                 bottomNav.currentPage.value = PageType.search;
               },
             ),
             SizedBox(width: 16.w),
-
             Padding(
               padding: EdgeInsets.only(
                 right: screensize.width * 0.04,
               ),
               child: GestureDetector(
                 onTap: () {
-                  HapticFeedback.heavyImpact();
-
+                  HapticFeedback.lightImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 0;
                   bottomNav.currentPage.value = PageType.viewcart;
@@ -363,7 +349,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                       onSelected: (value) {
                         final id = activeWishlist?['id']?.toString();
                         if (id == null) return;
-
                         switch (value) {
                           case 'rename':
                             _showRenameWishlistDialog(id, wishlistName);
@@ -439,9 +424,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       ),
     );
   }
-  Widget _buildWishlistCollections(
-      List<Map<String, dynamic>> wishlists,
-      ) {
+  Widget _buildWishlistCollections(List<Map<String, dynamic>> wishlists) {
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
         horizontal: 20.w,
@@ -603,8 +586,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                         ),
                                       );
                                     },
-                                  )
-                                      : Container(
+                                  ) : Container(
                                     color: Colorstheam.alabastergrey,
                                     alignment: Alignment.center,
                                     child: Icon(
@@ -656,7 +638,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                               ),
                             ),
                           ),
-
                           PopupMenuButton<String>(
                             tooltip: 'Wishlist options',
                             padding: EdgeInsets.zero,
@@ -750,7 +731,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                   ],
                                 ),
                               ),
-
                               PopupMenuItem<String>(
                                 value: 'share',
                                 height: 64.h,
@@ -764,7 +744,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                   showArrow: true,
                                 ),
                               ),
-
                               PopupMenuItem<String>(
                                 value: 'rename',
                                 height: 64.h,
@@ -778,7 +757,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                   showArrow: true,
                                 ),
                               ),
-
                               PopupMenuItem<String>(
                                 enabled: false,
                                 height: 9.h,
@@ -789,7 +767,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                                   color: Colorstheam.clusterwhite,
                                 ),
                               ),
-
                               PopupMenuItem<String>(
                                 value: 'delete',
                                 height: 64.h,
@@ -828,8 +805,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       ),
     );
   }
-
-
   Widget _wishlistActionTile({
     required IconData icon,
     required String title,
@@ -898,8 +873,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       ],
     );
   }
-
-
   Widget _wishlistProductCard({
     required Map product,
   }) {
@@ -935,8 +908,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                       color: Colorstheam.grey,
                       size: 24.sp,
                     ),
-                  )
-                      : Image.network(
+                  ) : Image.network(
                     image,
                     width: double.infinity,
                     height: double.infinity,
@@ -947,7 +919,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
                       if (loadingProgress == null) {
                         return child;
                       }
-              
                       return Container(
                         color: Colorstheam.clusterwhite,
                         alignment: Alignment.center,
@@ -986,7 +957,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   final productId = product["id"]?.toString();
                   if (productId == null || productId.isEmpty) {
                     return;
@@ -1077,7 +1048,7 @@ class Wishlistview extends GetView<Wishlistcontroller> {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                HapticFeedback.heavyImpact();
+                HapticFeedback.lightImpact();
               },
               child: IntrinsicWidth(
                 child: Column(
@@ -1107,12 +1078,11 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       ],
     );
   }
-
   Widget _backButton() {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         if (controller.wishlistProducts.isNotEmpty) {
           controller.activeWishlistId.value = '';
           controller.wishlistProducts.clear();
@@ -1139,7 +1109,6 @@ class Wishlistview extends GetView<Wishlistcontroller> {
       ),
     );
   }
-
   Widget _headerIcon({
     required String icon,
     VoidCallback? onTap,
@@ -1159,65 +1128,45 @@ class Wishlistview extends GetView<Wishlistcontroller> {
     );
   }
 }
-
-
 class _CreateWishlistSheet extends StatefulWidget {
   final ValueChanged<String> onCreate;
-
   const _CreateWishlistSheet({
     required this.onCreate,
   });
-
   @override
-  State<_CreateWishlistSheet> createState() =>
-      _CreateWishlistSheetState();
+  State<_CreateWishlistSheet> createState() => _CreateWishlistSheetState();
 }
-
-class _CreateWishlistSheetState
-    extends State<_CreateWishlistSheet> {
+class _CreateWishlistSheetState extends State<_CreateWishlistSheet> {
   late final TextEditingController _nameController;
-
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController();
   }
-
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
   }
-
   void _createWishlist() {
     final name = _nameController.text.trim();
-
     if (name.isEmpty) {
       AppSnackbar.error('Please enter a wishlist name.',);
       return;
     }
-
     widget.onCreate(name);
     Get.back();
   }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedPadding(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeOut,
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.fromLTRB(
-            20.w,
-            12.h,
-            20.w,
-            24.h,
-          ),
+          padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h,),
           decoration: BoxDecoration(
             color: Colorstheam.white,
           ),
@@ -1314,29 +1263,21 @@ class _CreateWishlistSheetState
     );
   }
 }
-
-
 class RenameWishlistDialog extends StatefulWidget {
   final String id;
   final String currentName;
   final dynamic controller;
-
   const RenameWishlistDialog({
     super.key,
     required this.id,
     required this.currentName,
     required this.controller,
   });
-
   @override
-  State<RenameWishlistDialog> createState() =>
-      _RenameWishlistDialogState();
+  State<RenameWishlistDialog> createState() => _RenameWishlistDialogState();
 }
-
-class _RenameWishlistDialogState
-    extends State<RenameWishlistDialog> {
+class _RenameWishlistDialogState extends State<RenameWishlistDialog> {
   late final TextEditingController nameController;
-
   @override
   void initState() {
     super.initState();
@@ -1344,30 +1285,24 @@ class _RenameWishlistDialogState
       text: widget.currentName,
     );
   }
-
   @override
   void dispose() {
     nameController.dispose();
     super.dispose();
   }
-
   void _save() {
     final newName = nameController.text.trim();
-
     if (newName.isEmpty) {
       AppSnackbar.error('Please enter a wishlist name.');
       return;
     }
-
     if (newName == widget.currentName.trim()) {
       Get.back<void>();
       return;
     }
-
     widget.controller.renameWishlist(widget.id, newName);
     Get.back<void>();
   }
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -1410,9 +1345,7 @@ class _RenameWishlistDialogState
                 ),
               ],
             ),
-
             SizedBox(height: 18.h),
-
             Text(
               'Rename wishlist',
               style: TextStyle(
@@ -1422,9 +1355,7 @@ class _RenameWishlistDialogState
                 color: Colorstheam.nobelblack,
               ),
             ),
-
             SizedBox(height: 6.h),
-
             Text(
               'Give your wishlist a new name.',
               style: TextStyle(
@@ -1433,9 +1364,7 @@ class _RenameWishlistDialogState
                 color: Colorstheam.grey,
               ),
             ),
-
             SizedBox(height: 22.h),
-
             TextField(
               controller: nameController,
               autofocus: true,
@@ -1524,4 +1453,3 @@ class _RenameWishlistDialogState
     );
   }
 }
-

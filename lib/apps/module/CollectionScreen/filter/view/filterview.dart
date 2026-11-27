@@ -55,7 +55,7 @@ class Filterview extends GetView<Filtercontroller> {
               child: _headerIcon(
                 icon: "asset/svg/close.svg",
                 onTap: () {
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   final bottomNav = Get.find<Bottomnavigationcontroller>();
                   bottomNav.selectedIndex.value = 1;
                   bottomNav.currentPage.value = PageType.collectionlist;
@@ -94,7 +94,7 @@ class Filterview extends GetView<Filtercontroller> {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                HapticFeedback.heavyImpact();
+                                HapticFeedback.lightImpact();
                                 controller.selectedCategoryIndex.value = index;
                               },
                               child: AnimatedContainer(
@@ -159,7 +159,7 @@ class Filterview extends GetView<Filtercontroller> {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                HapticFeedback.heavyImpact();
+                                HapticFeedback.lightImpact();
                                 controller.toggleOption(selectedCategory.type,option.id,);
                               },
                               child: AnimatedContainer(
@@ -287,7 +287,7 @@ class Filterview extends GetView<Filtercontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           controller.selectedButton.value = 0;
                           controller.resetFilters();
                         },
@@ -347,7 +347,7 @@ class Filterview extends GetView<Filtercontroller> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          HapticFeedback.heavyImpact();
+                          HapticFeedback.lightImpact();
                           controller.selectedButton.value = 1;
                           controller.applyFilters();
                         },

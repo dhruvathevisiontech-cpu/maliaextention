@@ -142,7 +142,7 @@ class Onboardingview extends GetView<Onboardingcontroller> {
               SizedBox(height: screensize.height * 0.03,),
               GestureDetector(
                 onTap: (){
-                  HapticFeedback.heavyImpact();
+                  HapticFeedback.lightImpact();
                   Get.offAllNamed(Routes.BOTTOMNAV);
                 },
                 child: RichText(

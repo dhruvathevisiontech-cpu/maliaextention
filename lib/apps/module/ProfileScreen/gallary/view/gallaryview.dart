@@ -199,7 +199,7 @@ class Gallaryview extends GetView<Gallarycontroller> {
   }) {
     return GestureDetector(
       onTap: () {
-        HapticFeedback.mediumImpact();
+        HapticFeedback.lightImpact();
 
         Get.to(
               () => _GalleryPreview(
@@ -279,7 +279,7 @@ class Gallaryview extends GetView<Gallarycontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.profile;

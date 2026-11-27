@@ -27,8 +27,7 @@ class Salonlocatorcontroller extends GetxController {
   final RxBool hasLocationPermission = false.obs;
   final RxBool isGettingLocation = false.obs;
   final Rxn<Position> currentPosition = Rxn<Position>();
-  final Rxn<Map<String, dynamic>> selectedSalon =
-  Rxn<Map<String, dynamic>>();
+  final Rxn<Map<String, dynamic>> selectedSalon = Rxn<Map<String, dynamic>>();
   final RxBool isLoading = true.obs;
   final RxString searchQuery = ''.obs;
   GoogleMapController? mapController;
@@ -40,15 +39,9 @@ class Salonlocatorcontroller extends GetxController {
     loadSalons();
   }
   bool isSalonVisible(Map<String, dynamic> salon) {
-    return salon['visible']
-        ?.toString()
-        .trim()
-        .toLowerCase() ==
-        'yes';
+    return salon['visible']?.toString().trim().toLowerCase() == 'yes';
   }
-  Future<void> openSalonDirections(
-      Map<String, dynamic> salon,
-      ) async {
+  Future<void> openSalonDirections(Map<String, dynamic> salon) async {
     try {
       final dynamic latitude = salon['latitude'] ?? salon['lat'];
       final dynamic longitude = salon['longitude'] ?? salon['lng'];
@@ -84,7 +77,6 @@ class Salonlocatorcontroller extends GetxController {
         );
       }
     } catch (e) {
-      debugPrint('DIRECTIONS ERROR: $e');
       Get.snackbar(
         'Directions Error',
         'Unable to open directions for this salon.',
@@ -145,9 +137,7 @@ class Salonlocatorcontroller extends GetxController {
           ),
         );
       }
-      debugPrint('CUSTOMER LOCATION: ${position.latitude}, ${position.longitude}',);
     } catch (e) {
-      debugPrint('CURRENT LOCATION ERROR: $e');
       Get.snackbar(
         'Location Error',
         'Unable to get your current location. Please try again.',
@@ -173,20 +163,10 @@ class Salonlocatorcontroller extends GetxController {
       final response = await rootBundle.loadString('asset/data/stockist-locations-geocoded.json',);
       final Map<String, dynamic> jsonData = jsonDecode(response);
       final List<dynamic> locations = jsonData['locations'] ?? [];
-      salons.assignAll(locations
-            .map((item) => Map<String, dynamic>.from(item))
-            .toList(),
-      );
-      filteredSalons.assignAll(
-        salons.where(isSalonVisible).toList(),
-      );
+      salons.assignAll(locations.map((item) => Map<String, dynamic>.from(item)).toList());
+      filteredSalons.assignAll(salons.where(isSalonVisible).toList(),);
       initializeClusterManager();
-      debugPrint('TOTAL STOCKIST SALONS: ${salons.length}');
-      debugPrint('VISIBLE STOCKIST SALONS: ${filteredSalons.length}');
-      debugPrint('GEOCODING SUMMARY: ${jsonData['geocoding_summary']}');
     } catch (e, stackTrace) {
-      debugPrint('SALON DATA ERROR: $e');
-      debugPrint('$stackTrace');
     } finally {
       isLoading.value = false;
     }
@@ -219,14 +199,12 @@ class Salonlocatorcontroller extends GetxController {
       extraPercent: 0.2,
       stopClusteringZoom: 17,
     );
-    debugPrint('CLUSTER ITEMS: ${items.length}');
     if (mapController != null) {
       clusterManager?.updateMap();
     }
   }
   void updateClusterMarkers(Set<Marker> newMarkers) {
     markers.assignAll(newMarkers);
-    debugPrint('CUSTOM CLUSTER MARKERS: ${markers.length}');
   }
   Future<Marker> buildClusterMarker(custom_cluster.Cluster<SalonClusterItem> cluster) async {
     final bool isMultiple = cluster.isMultiple;
@@ -346,7 +324,6 @@ class Salonlocatorcontroller extends GetxController {
   }
   Future<void> onMapCreated(GoogleMapController map) async {
     mapController = map;
-    debugPrint('SALON MAP CREATED');
     await clusterManager?.setMapId(map.mapId);
     final salon = selectedSalon.value;
     if (salon != null) {
@@ -363,7 +340,6 @@ class Salonlocatorcontroller extends GetxController {
     selectedSalon.value = salon;
     clusterManager?.updateMap();
     focusSalon(salon);
-    debugPrint('SELECTED SALON: ${salon['name']}');
   }
   Future<void> focusSalon(Map<String, dynamic> salon) async {
     if (!hasValidCoordinates(salon)) return;
@@ -434,9 +410,6 @@ class Salonlocatorcontroller extends GetxController {
     if (matchingSalon != null) {
       focusSalon(matchingSalon);
     }
-    debugPrint('SALON SEARCH: $query');
-    debugPrint('MATCHING SALONS: ${results.length}');
-    debugPrint('FIRST MATCH: ${matchingSalon?['name']}');
   }
   @override
   void onClose() {

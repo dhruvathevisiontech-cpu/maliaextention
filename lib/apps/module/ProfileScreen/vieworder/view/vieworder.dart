@@ -97,8 +97,7 @@ class Vieworder extends GetView<Viewordercontroller> {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Obx(
-                      () => Text(
+                Obx(() => Text(
                     controller.trackingNumber.value,
                     style: TextStyle(
                       fontSize: 14.sp,
@@ -113,18 +112,14 @@ class Vieworder extends GetView<Viewordercontroller> {
                 SizedBox(height: 24.h),
                 _buildDashedLine(),
                 SizedBox(height: 20.h),
-                Obx(
-                      () => Column(
-                    children: controller.orderItems
-                        .map((item) => _buildOrderItemRow(item))
-                        .toList(),
+                Obx(() => Column(
+                    children: controller.orderItems.map((item) => _buildOrderItemRow(item)).toList(),
                   ),
                 ),
                 SizedBox(height: 12.h),
                 Divider(color: Colorstheam.nobelblack, thickness: 1.h),
                 SizedBox(height: 12.h),
-                Obx(
-                      () => Row(
+                Obx(() => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
@@ -159,7 +154,7 @@ class Vieworder extends GetView<Viewordercontroller> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        HapticFeedback.heavyImpact();
+        HapticFeedback.lightImpact();
         final bottomNav = Get.find<Bottomnavigationcontroller>();
         bottomNav.selectedIndex.value = 4;
         bottomNav.currentPage.value = PageType.orderhistory;
@@ -181,7 +176,6 @@ class Vieworder extends GetView<Viewordercontroller> {
       ),
     );
   }
-  // Horizontal Timeline
   Widget _buildTimelineStepper() {
     return Obx(() {
       final steps = controller.statusSteps;
@@ -204,7 +198,6 @@ class Vieworder extends GetView<Viewordercontroller> {
                             : Colors.grey.shade300,
                       ),
                     ),
-                    // Step Dot Indicator
                     Container(
                       width: 15.w,
                       height: 15.h,
@@ -229,7 +222,6 @@ class Vieworder extends GetView<Viewordercontroller> {
                       )
                           : null,
                     ),
-                    // Right connecting line
                     Expanded(
                       child: Container(
                         height: 1.h,
@@ -254,7 +246,6 @@ class Vieworder extends GetView<Viewordercontroller> {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                // Date Label
                 Text(
                   step.date,
                   textAlign: TextAlign.center,
@@ -272,8 +263,6 @@ class Vieworder extends GetView<Viewordercontroller> {
       );
     });
   }
-
-  // Single Order Item Row
   Widget _buildOrderItemRow(OrderItem item) {
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
